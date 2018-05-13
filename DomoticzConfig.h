@@ -1,5 +1,3 @@
-const char* ssid     = "Livebox-B760";
-const char* password = "64544255CFE69EDE9F23E624F3";
 const char* host = "192.168.1.100";
 const String ipaddress = "192.168.1.100";
 const int  port = 8080;
