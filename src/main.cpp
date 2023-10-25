@@ -28,8 +28,6 @@
 #include <DallasTemperature.h>
 #include <Ticker.h>
 
-#define DEBUG
-
 /**
  *  PIN SETTINGS
  **/
@@ -48,7 +46,7 @@ variable gestion de boucle
 */
 const int watchdog = 300000;             // Fréquence d'envoi des données à Domoticz 5min
 unsigned long previousMillis = millis(); // mémoire pour envoi des données
-boolean firstLoop = LOW;
+boolean firstLoop = false;
 
 long i = 0;
 
@@ -84,8 +82,7 @@ bool shouldSaveConfig = false;
 
 void callback(char *topic, byte *payload, unsigned int length);
 void saveConfigCallback();
-void reconnect(const char *id, const char *topic);
-// void reconnect();
+void reconnect(const char *id, const char *topic); // void reconnect();
 void askMqttToDomoticz(int idx, String svalue, const char *topic);
 void sendMqttToDomoticz(int idx, String svalue, const char *topic);
 void updateFilpilote(int pinP, int pinM, int svalue, int idx);
@@ -171,7 +168,7 @@ void setup()
 
     // set static ip
     // wifiManager.setSTAStaticIPConfig(ipLocalIP.fromString(LOCAL_IP), ipLocalGATEWAY.fromString(LOCAL_GATEWAY), ipLocalSUBNET.fromString(LOCAL_SUBNET));
-    wifiManager.setSTAStaticIPConfig(IPAddress(192, 168, 1, 53), IPAddress(192, 168, 1, 254), IPAddress(255, 255, 255, 0));
+    wifiManager.setSTAStaticIPConfig(IPAddress(LOCAL_IP), IPAddress(LOCAL_GATEWAY), IPAddress(LOCAL_SUBNET));
 
     // add all your parameters here
     wifiManager.addParameter(&custom_mqtt_server);
@@ -180,7 +177,7 @@ void setup()
     // reset settings - for testing
     // wifiManager.resetSettings();
 
-    // set minimu quality of signal so it ignores AP's under that quality
+    // set minimum quality of signal so it ignores AP's under that quality
     // defaults to 8%
     // wifiManager.setMinimumSignalQuality();
 
@@ -237,7 +234,7 @@ void setup()
     Serial.print("local IP: ");
     Serial.println(WiFi.localIP());
 
-    // clientMQTT.setServer("192.168.1.100", 1883);
+    // clientMQTT.setBufferSize(MQTT_MAX_SIZE_PACKET);
     clientMQTT.setServer(mqtt_server, String(mqtt_port).toInt());
     clientMQTT.setCallback(callback);
 
@@ -258,7 +255,7 @@ void loop()
     server.handleClient();
     delay(500);
 #endif
-
+    // Ne pas oublié de mettre MQTT_MAX_PACKET_SIZE = 1024 dans PubSubClient.h
     if (!clientMQTT.connected())
     {
         Serial.println("reconnection domoticz/out");
@@ -368,13 +365,13 @@ void reconnect(const char *id, const char *topic)
             // suscribe to MQTT topics
             Serial.print("Subscribe to domoticz/out topic. Status= ");
             if (clientMQTT.subscribe(topic, 0))
-                // if (clientMQTT.subscribe("#"))
-                Serial.println("OK");
-            else
-            {
-                Serial.print("KO, erreur: ");
-                Serial.println(clientMQTT.state());
-            };
+                if (clientMQTT.subscribe("#"))
+                    Serial.println("OK");
+                else
+                {
+                    Serial.print("KO, erreur: ");
+                    Serial.println(clientMQTT.state());
+                };
         }
         else
         {

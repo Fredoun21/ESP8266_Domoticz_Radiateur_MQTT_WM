@@ -8,18 +8,18 @@ DEBUG
 // #undef DEBUG // Désactive l'affichage du debugage sur la console
 #define MQTT // Active les fonctions MQTT
 // #undef MQTT // Desactive les fonctions MQTT
-#define OTA // Active Elegant OTA
-// #undef OTA  // Deséctive OTA
+// #define OTA // Active Elegant OTA
+#undef OTA  // Deséctive OTA
 
 /*
 CONFIGURATION RESEAU WIFI
 */
-#define LOCAL_SSID "Bbox-39156D4C"
-#define LOCAL_PASSWORD "16D2DD9977F12A97AAAD2C11ED59E2"
-#define LOCAL_HOST 192, 168, 1, 100
+#define LOCAL_SSID "SSID"
+#define LOCAL_PASSWORD "PASSWORD"
+#define LOCAL_HOST "192.168.1.100"
 #define LOCAL_PORT 8080
-#define LOCAL_GATEWAY 192, 168, 1, 254
-#define LOCAL_SUBNET 255, 255, 255, 0
+#define LOCAL_GATEWAY "192.168.1.254"
+#define LOCAL_SUBNET "255.255.255.0"
 
 /*
 CONFIGURATION WifiManager
@@ -35,6 +35,10 @@ CONFIGURATION MQTT
 #define MQTT_PASSWORD ""                  // idem
 #define TOPIC_DOMOTICZ_IN "domoticz/in"   // topic d'écriture  MQTT -> Domoticz
 #define TOPIC_DOMOTICZ_OUT "domoticz/out" // topic de lecture Domoticz -> MQTT
-#define MQTT_MAX_SIZE_PACKET 2048 //  Maximum packet size. Override with setBufferSize().
+// MQTT_MAX_PACKET_SIZE : Maximum packet size. Override with setBufferSize().
+#ifdef MQTT_MAX_PACKET_SIZE
+#undef MQTT_MAX_PACKET_SIZE
+#define MQTT_MAX_PACKET_SIZE 1024
+#endif
 
 #endif
