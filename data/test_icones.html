@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link href="./css/style_Test_Icones.css" rel="stylesheet" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- our project just needs Font Awesome Solid + Brands -->
+		<link
+			href="./assets/fontawesome-free-6.5.1-web/css/all.css"
+			rel="stylesheet"
+		/>
+		<script
+			src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+			integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+			crossorigin="anonymous"
+			defer
+		></script>
+		<script src="./script/script.js" defer></script>
+	</head>
+	<body>
+		<header></header>
+		<main>
+			<h1>Sélection mode chauffage</h1>
+			<div id="buttons">
+				<button
+					id="btnPower"
+					type="button"
+					class="button neumorphic activate"
+					etat="activate"
+				>
+					<i class="fa-solid fa-power-off"></i>
+					<span id="txtPower" class="txtBtn">OFF</span>
+				</button>
+				<button
+					id="btnHorsGel"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-snowflake"></i>
+					<span id="txtHorsGel" class="txtBtn">HORS-GEL</span>
+				</button>
+				<button
+					id="btnEco"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-leaf"></i>
+					<span id="txtEco" class="txtBtn">ECO</span>
+				</button>
+				<button
+					id="btnConfort2"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-temperature-quarter"></i>
+					<span id="txtConfort2" class="txtBtn">CONFORT -2°C</span>
+				</button>
+				<button
+					id="btnConfort1"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-temperature-half"></i>
+					<span id="txtConfort1" class="txtBtn">CONFORT -1°C</span>
+				</button>
+				<button
+					id="btnConfort"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-temperature-full"></i>
+					<span id="txtConfort" class="txtBtn">CONFORT</span>
+				</button>
+			</div>
+		</main>
+		<footer></footer>
+	</body>
+</html>

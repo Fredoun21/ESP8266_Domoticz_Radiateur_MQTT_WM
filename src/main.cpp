@@ -1,3 +1,4 @@
+
 /**
  *   Projet d'apprentissage d'un objet connecté (IoT)  pour réaliser une sonde de température
  *   ESP8266 + DS12B20 + LED + MQTT + Home-Assistant
@@ -6,7 +7,7 @@
  **/
 
 // Include the libraries we need
-#include <Arduino.h>
+// #include <Arduino.h>
 
 #include "../lib/config.h"
 #include "../lib/DomoticzConfig.h"
@@ -15,14 +16,16 @@
 #include <ESP8266WiFi.h> //https://github.com/esp8266/Arduino
 // needed for library
 #include <DNSServer.h>
+#include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
 
 #include <ArduinoJson.h>  //https://github.com/bblanchon/ArduinoJson
 #include <PubSubClient.h> //https://github.com/knolleary/pubsubclient
-#ifdef OTA
-#include <ElegantOTA.h> //https://github.com/ayushsharma82/ElegantOTA
-#endif
+#include <ElegantOTA.h>   //https://github.com/ayushsharma82/ElegantOTA
+
+#include <ESP8266TimerInterrupt.h>
+#include <ESP8266_ISR_Timer.h>
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
@@ -47,14 +50,18 @@ variable gestion de boucle
 const int watchdog = 300000;             // Fréquence d'envoi des données à Domoticz 5min
 unsigned long previousMillis = millis(); // mémoire pour envoi des données
 boolean firstLoop = false;
-
-long i = 0;
+unsigned long ota_progress_millis = 0;
+unsigned long i = 0;
+volatile uint32_t startMillis = 0; // mesure du temps des interruption timerISR
 
 OneWire oneWire(PIN_ONE_WIRE_BUS);
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature DS18B20(&oneWire);
 
-// Création tache tempo pour mode confort 1 et 21
+// Création tache tempo pour mode confort 1 et 2
+ESP8266Timer ITimer;// Init ESP8266 timer 1
+ESP8266_ISR_Timer ISR_Timer;// Init ESP8266_ISR_Timer
+
 Ticker tickerSetHigh;
 Ticker tickerSetLow;
 
@@ -73,24 +80,10 @@ WiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
 WiFiManager wifiManager;
 
 // Elegant OTA
-#ifdef OTA
 ESP8266WebServer server(80);
-#endif
 
 // flag for saving data
 bool shouldSaveConfig = false;
-
-void callback(char *topic, byte *payload, unsigned int length);
-void saveConfigCallback();
-void reconnect(const char *id, const char *topic); // void reconnect();
-void askMqttToDomoticz(int idx, String svalue, const char *topic);
-void sendMqttToDomoticz(int idx, String svalue, const char *topic);
-void updateFilpilote(int pinP, int pinM, int svalue, int idx);
-void confortSetPin(int aPinHigh, int aPinLow, float aTempoHigh, float aTempoLow);
-void setPinConfort(int state);
-void confortStopTask();
-float retourSensor(DallasTemperature sensor);
-float valeurACS712(int pin);
 
 // MQTT
 WiFiClient espClient;
@@ -101,9 +94,26 @@ unsigned long lastMsg = 0;
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
 
+void callback(char *topic, byte *payload, unsigned int length);
+void saveConfigCallback();
+void reconnect(const char *id, const char *topic); // void reconnect();
+void askMqttToDomoticz(int idx, String svalue, const char *topic);
+void sendMqttToDomoticz(int idx, String svalue, const char *topic);
+void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx);
+void confortSetPin(int aPinHigh, int aPinLow, float aTempoHigh, float aTempoLow);
+void setPinConfort(int state);
+void confortStopTask();
+float retourSensor(DallasTemperature sensor);
+float valeurACS712(int pin);
+void onOTAStart();
+void onOTAProgress(size_t current, size_t final);
+void onOTAEnd(bool success);
+void IRAM_ATTR TimerHandler();
+void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis);
+void doingSomethingSec();
+
 void setup()
 {
-    // put your setup code here, to run once:
     Serial.begin(115200);
     Serial.println();
 
@@ -114,28 +124,28 @@ void setup()
     digitalWrite(PIN_FILPILOTE_PLUS, HIGH);
     digitalWrite(PIN_FILPILOTE_MOINS, HIGH);
 
-    // Start LE DS18b20
+    // Start DS18b20
     DS18B20.begin();
 
     // clean FS, for testing
     // LittleFS.format();
 
-    // read configuration from FS json
-    Serial.println("mounting FS...");
+    // Lire la configuration JSON detuis LittleFS
+    Serial.println("montage LittleFS...");
 
     if (LittleFS.begin())
     {
-        Serial.println("mounted file system");
+        Serial.println("Système de fichiers monté");
         if (LittleFS.exists("/config.json"))
         {
-            // file exists, reading and loading
-            Serial.println("reading config file");
+            // le fichier existe, lecture et chargement
+            Serial.println("Lecture du fichier de configuration");
             File configFile = LittleFS.open("/config.json", "r");
             if (configFile)
             {
-                Serial.println("opened config file");
+                Serial.println("Ouverture fichier de configuration");
                 size_t size = configFile.size();
-                // Allocate a buffer to store contents of the file.
+                // Allouer un tampon pour stocker le contenu du fichier.
                 std::unique_ptr<char[]> buf(new char[size]);
 
                 configFile.readBytes(buf.get(), size);
@@ -151,7 +161,7 @@ void setup()
                 }
                 else
                 {
-                    Serial.println("failed to load json config");
+                    Serial.println("Échec du chargement de la configuration JSON");
                 }
                 configFile.close();
             }
@@ -159,18 +169,18 @@ void setup()
     }
     else
     {
-        Serial.println("failed to mount FS");
+        Serial.println("Échec du montonge de LittleFS");
     }
-    // end read
+    // Fin de lecture
 
-    // set config save notify callback
+    // Définir le rappel de notif
     wifiManager.setSaveConfigCallback(saveConfigCallback);
 
-    // set static ip
+    // Définir IP statique
     // wifiManager.setSTAStaticIPConfig(ipLocalIP.fromString(LOCAL_IP), ipLocalGATEWAY.fromString(LOCAL_GATEWAY), ipLocalSUBNET.fromString(LOCAL_SUBNET));
     wifiManager.setSTAStaticIPConfig(IPAddress(LOCAL_IP), IPAddress(LOCAL_GATEWAY), IPAddress(LOCAL_SUBNET));
 
-    // add all your parameters here
+    // Ajoutez tous vos paramètres ici
     wifiManager.addParameter(&custom_mqtt_server);
     wifiManager.addParameter(&custom_mqtt_port);
 
@@ -212,7 +222,7 @@ void setup()
     // save the custom parameters to FS
     if (shouldSaveConfig)
     {
-        Serial.println("saving config");
+        Serial.println("Sauvegarde configuration");
         DynamicJsonDocument json(1024);
 
         json["mqtt_server"] = mqtt_server;
@@ -221,7 +231,7 @@ void setup()
         File configFile = LittleFS.open("/config.json", "w");
         if (!configFile)
         {
-            Serial.println("failed to open config file for writing");
+            Serial.println("Impossible d'ouvrir le fichier de configuration pour l'écriture");
         }
 
         serializeJson(json, Serial);
@@ -238,24 +248,32 @@ void setup()
     clientMQTT.setServer(mqtt_server, String(mqtt_port).toInt());
     clientMQTT.setCallback(callback);
 
-// Elegant OTA
-#ifdef OTA
+    // Elegant OTA
     server.on("/", []()
               { server.send(200, "text/plain", "Hi! I am ESP8266."); });
 
     ElegantOTA.begin(&server); // Start ElegantOTA
+    // ElegantOTA callbacks
+    ElegantOTA.onStart(onOTAStart);
+    ElegantOTA.onProgress(onOTAProgress);
+    ElegantOTA.onEnd(onOTAEnd);
+
+    Serial.println("HTTP server setup");
     server.begin();
-    Serial.println("HTTP serveur start");
-#endif
+    Serial.println("HTTP server started.");
+
+    Serial.println("ready!");
 }
 
 void loop()
 {
 #ifdef OTA
     server.handleClient();
+    ElegantOTA.loop();
     delay(500);
 #endif
-    // Ne pas oublié de mettre MQTT_MAX_PACKET_SIZE = 1024 dans PubSubClient.h
+
+    // Ne pas oublié de mettre MQTT_MAX_PACKET_SIZE = 2048 dans PubSubClient.h
     if (!clientMQTT.connected())
     {
         Serial.println("reconnection domoticz/out");
@@ -496,7 +514,7 @@ float valeurACS712(int pin)
  *  MAJ des sorties fil pilote en fonction du message Domoticz
  *
  **/
-void updateFilpilote(int pinP, int pinM, int svalue, int idx)
+void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 {
     String message;
 
@@ -511,67 +529,67 @@ void updateFilpilote(int pinP, int pinM, int svalue, int idx)
 
     if (0 <= svalue && svalue < 10)
     {
-        digitalWrite(pinP, HIGH);
-        digitalWrite(pinM, LOW);
+        digitalWrite(pinPlus, HIGH);
+        digitalWrite(pinMoins, LOW);
         confortStopTask();
         Serial.println(F("Radiateur sur Arret"));
         message = "Pin ";
-        message += String(pinP);
+        message += String(pinPlus);
         message += " = HIGH / Pin  ";
-        message += String(pinM);
+        message += String(pinMoins);
         message += " = LOW";
         Serial.println(message);
     }
     else if (10 <= svalue && svalue < 20)
     {
-        digitalWrite(pinP, LOW);
-        digitalWrite(pinM, HIGH);
+        digitalWrite(pinPlus, LOW);
+        digitalWrite(pinMoins, HIGH);
         confortStopTask();
         Serial.println(F("Radiateur sur Hors gel"));
         message = "Pin ";
-        message += String(pinP);
+        message += String(pinPlus);
         message += " = LOW / Pin ";
-        message += String(pinM);
+        message += String(pinMoins);
         message += " = HIGH";
         Serial.println(message);
     }
     else if (20 <= svalue && svalue < 30)
     {
-        digitalWrite(pinP, HIGH);
-        digitalWrite(pinM, HIGH);
+        digitalWrite(pinPlus, HIGH);
+        digitalWrite(pinMoins, HIGH);
         confortStopTask();
         Serial.println(F("Radiateur sur ECO"));
         message = "Pin ";
-        message += String(pinP);
+        message += String(pinPlus);
         message += " = HIGH / Pin ";
-        message += String(pinM);
+        message += String(pinMoins);
         message += " = HIGH";
         Serial.println(message);
     }
     else if (30 <= svalue && svalue < 40)
     {
         confortStopTask();
-        confortSetPin(pinP, pinM, 7, 293);
+        confortSetPin(pinPlus, pinMoins, 7, 293);
         Serial.println(F("Radiateur sur Confort 2"));
         // Absence de courant pendant 293s, puis présence pendant 7s
     }
     else if (40 <= svalue && svalue < 50)
     {
         confortStopTask();
-        confortSetPin(pinP, pinM, 3, 297);
+        confortSetPin(pinPlus, pinMoins, 3, 297);
         Serial.println(F("Radiateur sur Confort 1"));
         // Absence de courant pendant 297s, puis présence pendant 3s
     }
     else if (50 <= svalue && svalue <= 100)
     {
-        digitalWrite(pinP, LOW);
-        digitalWrite(pinM, LOW);
+        digitalWrite(pinPlus, LOW);
+        digitalWrite(pinMoins, LOW);
         confortStopTask();
         Serial.println(F("Radiateur sur Confort"));
         message = "Pin ";
-        message += String(pinP);
+        message += String(pinPlus);
         message += " = LOW / Pin ";
-        message += String(pinM);
+        message += String(pinMoins);
         message += " = LOW";
         Serial.println(message);
     }
@@ -589,7 +607,7 @@ void setPinConfort(int state)
 {
     digitalWrite(PIN_FILPILOTE_PLUS, state);
     digitalWrite(PIN_FILPILOTE_MOINS, state);
-    i++;
+    // i++;
     //  Serial.print(F("Compteur: ")); Serial.println(i);
     //  Serial.print(F("STATE: ")); Serial.println(state);
 
@@ -621,4 +639,110 @@ void confortStopTask()
 {
     tickerSetHigh.detach();
     tickerSetLow.detach();
+}
+
+void onOTAStart()
+{
+    // Log when OTA has started
+    Serial.println("OTA update started!");
+    // <Add your own code here>
+}
+
+void onOTAProgress(size_t current, size_t final)
+{
+    // Log every 1 second
+    if (millis() - ota_progress_millis > 1000)
+    {
+        ota_progress_millis = millis();
+        Serial.printf("OTA Progress Current: %u bytes, Final: %u bytes\n", current, final);
+    }
+}
+
+void onOTAEnd(bool success)
+{
+    // Log when OTA has finished
+    if (success)
+    {
+        Serial.println("OTA update finished successfully!");
+    }
+    else
+    {
+        Serial.println("There was an error during OTA update!");
+    }
+    // <Add your own code here>
+}
+
+/**
+ * Déclenchement des timer
+ *
+ **/
+void IRAM_ATTR TimerHandler()
+{
+    static bool toggle = false;
+    static bool started = false;
+    static int timeRun = 0;
+
+    ISR_Timer.run();
+
+    // Toggle LED every LED_TOGGLE_INTERVAL_MS = 2000ms = 2s
+    if (++timeRun == (LED_TOGGLE_INTERVAL_MS / HW_TIMER_INTERVAL_MS))
+    {
+        timeRun = 0;
+
+        if (!started)
+        {
+            started = true;
+            pinMode(LED_BUILTIN, OUTPUT);
+        }
+
+        // timer interrupt toggles pin LED_BUILTIN
+        digitalWrite(LED_BUILTIN, toggle);
+        toggle = !toggle;
+    }
+}
+
+#if (TIMER_INTERRUPT_DEBUG > 0)
+/**
+ * affiche la valeur des timer pour mode confort 1 & 2
+ *
+ **/
+void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis)
+{
+    Serial.print(timerDelay / 1000);
+    Serial.print("s: Delta ms = ");
+    Serial.print(deltaMillis);
+    Serial.print(", ms = ");
+    Serial.println(currentMillis);
+}
+#endif
+
+/*
+*Sous programme d'interruption du timer 1
+*
+*/
+void doingSomethingSec()
+{
+#if (TIMER_INTERRUPT_DEBUG > 0)
+    static unsigned long previousMillis = startMillis;
+
+    unsigned long currentMillis = millis();
+    unsigned long deltaMillis = currentMillis - previousMillis;
+
+    printStatus(0, TIMER_INTERVAL_3S, deltaMillis, currentMillis);
+
+    previousMillis = currentMillis;
+#endif
+
+    static bool toggle = false;
+
+    if (toggle)
+    {
+        ISR_Timer.changeInterval(0, TIMER_INTERVAL_3S);
+    }
+    else
+    {
+        ISR_Timer.changeInterval(0, (TIMER_INTERVAL_300S - TIMER_INTERVAL_3S));
+    }
+
+    toggle = !toggle;
 }
