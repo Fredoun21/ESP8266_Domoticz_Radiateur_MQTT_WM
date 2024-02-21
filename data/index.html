@@ -1,113 +1,109 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Test icônes</title>
-        <link href="./css/style.css" rel="stylesheet" />
-        <script src="./script/script.js"></script>
-        <!--référence google FONT -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <!--référence google FONT -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap"
-            rel="stylesheet"
-        />
-        <!-- our project just needs Font Awesome Solid + Brands -->
-        <link
-            href="./assets/fontawesome-free-6.5.1-web/css/all.css"
-            rel="stylesheet"
-        />
-        <!-- <link
-            href="./assets/fontawesome-free-6.5.1-web/css/brands.css"
-            rel="stylesheet"
-        />
-        <link
-            href="./assets/fontawesome-free-6.5.1-web/css/solid.css"
-            rel="stylesheet"
-        /> -->
-        <!--référence google ICON -->
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-        />
-    </head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Programmation radiateur</title>
+		<!--Librairie W3.CSS de mise en page-->
+		<link
+			href="https://www.w3schools.com/w3css/4/w3.css"
+			rel="stylesheet"
+		/>
+		<!--Fichier de mise en page principal-->
+		<link href="./css/style.css" rel="stylesheet" />
+		<!--référence google FONT -->
+		<link href="https://fonts.googleapis.com" rel="preconnect" />
+		<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+		<!--référence google FONT -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap"
+			rel="stylesheet"
+		/>
+		<!--référence google ICON -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+			rel="stylesheet"
+		/>
+		<!-- our project just needs Font Awesome Solid + Brands -->
+		<link
+			href="./assets/fontawesome-free-6.5.1-web/css/all.css"
+			rel="stylesheet"
+		/>
+		<script
+			src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+			integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+			crossorigin="anonymous"
+			defer
+		></script>
+		<script src="./script/script.js" defer></script>
+		<script src="./script/gpio.js" defer></script>
+	</head>
 
-    <body>
-        <header>programmation du radiateur *******</header>
-        <main>
-            <h1>mode radiateur en cours</h1>
-            <!-- <p>
-                <button type="button" class="b_mode_select_radiateur">
-                    <span class="material-symbols-outlined"> home </span>
-                    <br />
-                    <span class="s_descrition_mode_select"> ACCUEIL </span>
-                </button>
-            </p> -->
-            <p class="buttons_1">
-                <button type="button" class="b_mode_select_radiateur">
-                    <span class="material-symbols-outlined">
-                        power_settings_new </span
-                    ><br />
-                    <span class="s_descrition_mode_select"> ON </span>
-                </button>
-                <button type="button" class="b_mode_select_radiateur">
-                    <span class="material-symbols-outlined">
-                        nest_eco_leaf </span
-                    ><br />
-                    <span class="s_descrition_mode_select"> ECO </span>
-                </button>
-                <button type="button" class="b_mode_select_radiateur">
-                    <span class="material-symbols-outlined"> mode_dual </span
-                    ><br />
-                    <span class="s_descrition_mode_select"> Hors gel </span>
-                </button>
-                <button type="button" class="b_mode_select_radiateur">
-                    <span class="material-symbols-outlined"> heat </span>-2°C
-                    <br />
-                    <span class="s_descrition_mode_select"> CONFORT </span>
-                </button>
-                <button type="button" class="b_mode_select_radiateur">
-                    <span class="material-symbols-outlined"> heat </span> -1°C
-                    <br />
-                    <span class="s_descrition_mode_select"> CONFORT </span>
-                </button>
-                <button type="button" class="b_mode_select_radiateur">
-                    <span class="material-symbols-outlined"> heat </span><br />
-                    <span class="s_descrition_mode_select"> CONFORT </span>
-                </button>
-            </p>
-            <p class="buttons_2">
-                <button class="neumorphic">
-                    <i class="fa-light fa-fire"></i>
-					<!-- <i class="fa-solid fa-temperature-quarter"></i> -->
-                    <span>Button 1</span>
-                </button>
-                <button class="neumorphic">
-                    <i class="fa-regular fa-temperature-quarter"></i>
-                    <span>Button 2</span>
-                </button>
-                <button class="neumorphic">
-                    <i class="fa-solid fa-temperature-quarter"></i>
-                    <span>Button 3</span>
-                </button>
-            </p>
-            <p>
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-                _<br />
-            </p>
-        </main>
-        <footer>@Copyright : Fred W</footer>
-    </body>
+	<body>
+		<header>programmation radiateur</header>
+		<main>
+			<h1>sélection mode chauffage</h1>
+			<div id="buttons">
+				<button
+					id="btnPower"
+					type="button"
+					class="button neumorphic activate"
+					etat="activate"
+				>
+					<i class="fa-solid fa-power-off"></i>
+					<span id="txtPower" class="txtBtn">OFF</span>
+				</button>
+				<button
+					id="btnHorsGel"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-snowflake"></i>
+					<span id="txtHorsGel" class="txtBtn">HORS-GEL</span>
+				</button>
+				<button
+					id="btnEco"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-leaf"></i>
+					<span id="txtEco" class="txtBtn">ECO</span>
+				</button>
+				<button
+					id="btnConfort2"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-temperature-quarter"></i>
+					<span id="txtConfort2" class="txtBtn">CONFORT -2°C</span>
+				</button>
+				<button
+					id="btnConfort1"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-temperature-half"></i>
+					<span id="txtConfort1" class="txtBtn">CONFORT -1°C</span>
+				</button>
+				<button
+					id="btnConfort"
+					type="button"
+					class="button neumorphic"
+					etat="non_activate"
+				>
+					<i class="fa-solid fa-temperature-full"></i>
+					<span id="txtConfort" class="txtBtn">CONFORT</span>
+				</button>
+			</div>
+		</main>
+		<footer>@Copyright : Fred W</footer>
+	</body>
 </html>

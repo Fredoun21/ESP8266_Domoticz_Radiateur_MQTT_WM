@@ -8,8 +8,8 @@ DEBUG
 // #undef DEBUG // Désactive l'affichage du debugage sur la console
 #define MQTT // Active les fonctions MQTT
 // #undef MQTT // Desactive les fonctions MQTT
-#define OTA // Active Elegant OTA
-// #undef OTA  // Deséctive OTA
+// #define OTA // Active Elegant OTA
+#undef OTA  // Deséctive OTA
 
 /*
 CONFIGURATION RESEAU WIFI
