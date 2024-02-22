@@ -1,6 +1,6 @@
 
 /**
- *   Projet d'apprentissage d'un objet connecté (IoT)  pour réaliser une sonde de température
+ *   Projet pilotge de radiateur par fil pilote avec interface web, domoticz, MQTT
  *   ESP8266 + DS12B20 + LED + MQTT + Home-Assistant
  *   Projets DIY (https://www.projetsdiy.fr) - Mai 2016
  *   Licence : MIT
@@ -12,33 +12,34 @@
 #include "../lib/config.h"
 #include "../lib/DomoticzConfig.h"
 
-#include <ESP8266WiFi.h> //https://github.com/esp8266/Arduino
-#include <ESPAsyncTCP.h>
-#include <ESP8266mDNS.h>
+#include <ESP8266WiFi.h> //https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
+#include <ESP8266mDNS.h> // https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266mDNS
+// #include <ESPAsyncTCP.h> // Dependance avec ESPAsyncWebServer.h
 
-// needed for library
-#include <ESPAsyncWebServer.h>
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
+#warning						 // #define WEBSERVER_H Indispensable pour valider la compilation entre WiFiManager.h et ESPAsyncWebServer.h
+#define WEBSERVER_H
+#include <ESPAsyncWebServer.h> // https://github.com/me-no-dev/ESPAsyncWebServer
 // #include <ESP8266WebServer.h>
 // #include <WiFiClient.h>
 // #include <DNSServer.h>
 
-#include <LittleFS.h>	  //this needs to be first, or it all crashes and burns...
+// this needs to be first, or it all crashes and burns...
+#include <LittleFS.h>	  // https://github.com/esp8266/Arduino/tree/master/libraries/LittleFS
 #include <ArduinoJson.h>  //https://github.com/bblanchon/ArduinoJson
 #include <PubSubClient.h> //https://github.com/knolleary/pubsubclient
-#include <ElegantOTA.h>	  //https://github.com/ayushsharma82/ElegantOTA
+#ifdef OTA
+#include <ElegantOTA.h> //https://github.com/ayushsharma82/ElegantOTA
+#endif
 
-#include <ESP8266TimerInterrupt.h>
-#include <ESP8266_ISR_Timer.h>
+#include <ESP8266TimerInterrupt.h> //https://github.com/khoih-prog/ESP8266TimerInterrupt
+#include <ESP8266_ISR_Timer.h>	  // https://github.com/khoih-prog/ESP8266TimerInterrupt
 
-#include <OneWire.h>
+// #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <Ticker.h>
 
-/**
- *  PIN SETTINGS
- **/
-
+//----------------------------------------------------------------- PIN SETTINGS
 #ifdef LED_BUILTIN
 #undef LED_BUILTIN
 #define LED_BUILTIN 2
@@ -54,12 +55,14 @@ variable gestion de boucle
 const int watchdog = 300000;				  // Fréquence d'envoi des données à Domoticz 5min
 unsigned long previousMillis = millis(); // mémoire pour envoi des données
 boolean firstLoop = false;
-unsigned long ota_progress_millis = 0;
 unsigned long i = 0;
 volatile uint32_t startMillis = 0; // mesure du temps des interruption timerISR
+#ifdef OTA
+long ota_progress_millis = 0;
+#endif
 
+// Définition PIN DATA du bus oneWire
 OneWire oneWire(PIN_ONE_WIRE_BUS);
-// Pass our oneWire reference to Dallas Temperature.
 DallasTemperature DS18B20(&oneWire);
 
 // Création tache tempo pour mode confort 1 et 2
@@ -80,10 +83,10 @@ WiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40
 WiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
 
 // Création objet WiFiManager
-// Local intialization. Once its business is done, there is no need to keep it around
+// Intialisation locale.Une fois son entreprise terminée, il n'est pas nécessaire de le garder
 WiFiManager wifiManager;
 
-// Elegant OTA
+// Création server pour webServer et Elegant OTA
 AsyncWebServer server(80);
 
 // flag for saving data
@@ -109,9 +112,11 @@ void setPinConfort(int state);
 void confortStopTask();
 float retourSensor(DallasTemperature sensor);
 float valeurACS712(int pin);
+#ifdef OTA
 void onOTAStart();
 void onOTAProgress(size_t current, size_t final);
 void onOTAEnd(bool success);
+#endif
 void IRAM_ATTR TimerHandler();
 void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis);
 void doingSomethingSec();
@@ -175,20 +180,23 @@ void setup()
 
 			configFile.readBytes(buf.get(), size);
 
-			DynamicJsonDocument json(1024);
-			auto deserializeError = deserializeJson(json, buf.get());
-			serializeJson(json, Serial);
+			// Allocate the JSON document
+			JsonDocument jsonDoc;
 
-			if (!deserializeError)
+			// Parse JSON object
+			DeserializationError error = deserializeJson(jsonDoc, configFile);
+
+			if (error)
 			{
-				Serial.println("\nparsed json");
-				strcpy(mqtt_server, json["mqtt_server"]);
-				strcpy(mqtt_port, json["mqtt_port"]);
+				Serial.print(F("deserializeJson() failed: "));
+				Serial.println(error.f_str());
+				return;
 			}
-			else
-			{
-				Serial.println("Échec du chargement de la configuration JSON");
-			}
+
+			Serial.println("\nparsed jsonDoc");
+			strcpy(mqtt_server, jsonDoc["mqtt_server"]);
+			strcpy(mqtt_port, jsonDoc["mqtt_port"]);
+
 			configFile.close();
 		}
 	}
@@ -234,7 +242,7 @@ void setup()
 	Serial.print("local IP: ");
 	Serial.println(WiFi.localIP());
 
-	//----------------------------------------------------------------- Save Parametres
+	//----------------------------------------------------------------- Save Parametres dans CONFIG.JSON
 	// read updated parameters
 	strcpy(mqtt_server, custom_mqtt_server.getValue());
 	strcpy(mqtt_port, custom_mqtt_port.getValue());
@@ -246,10 +254,10 @@ void setup()
 	if (shouldSaveConfig)
 	{
 		Serial.println("Sauvegarde configuration");
-		DynamicJsonDocument json(1024);
+		JsonDocument jsonDoc;
 
-		json["mqtt_server"] = mqtt_server;
-		json["mqtt_port"] = mqtt_port;
+		jsonDoc["mqtt_server"] = mqtt_server;
+		jsonDoc["mqtt_port"] = mqtt_port;
 
 		File configFile = LittleFS.open("/config.json", "w");
 		if (!configFile)
@@ -257,15 +265,14 @@ void setup()
 			Serial.println("Impossible d'ouvrir le fichier de configuration pour l'écriture");
 		}
 
-		serializeJson(json, Serial);
-		serializeJson(json, configFile);
+		serializeJson(jsonDoc, Serial);
+		serializeJson(jsonDoc, configFile);
 
 		configFile.close();
 		// end save
 	}
 
 	//----------------------------------------------------------------- MQTT
-	// clientMQTT.setBufferSize(MQTT_MAX_SIZE_PACKET);
 	clientMQTT.setServer(mqtt_server, String(mqtt_port).toInt());
 	clientMQTT.setCallback(callback);
 
@@ -297,7 +304,6 @@ void setup()
 				 request->send(200); });
 
 	//----------------------------------------------------------------- Elegant OTA
-
 #ifdef OTA
 	ElegantOTA.begin(&server); // Start ElegantOTA
 	// ElegantOTA callbacks
@@ -368,7 +374,7 @@ void saveConfigCallback()
  **/
 void callback(char *topic, byte *payload, unsigned int length)
 {
-	DynamicJsonDocument jsonBuffer(MQTT_MAX_PACKET_SIZE);
+	JsonDocument jsonBuffer;
 	String messageReceived = "";
 
 	Serial.print("Message arrive [");
@@ -376,7 +382,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 	Serial.print("] ");
 
 	// decode payload message
-	for (int i = 0; i < length; i++)
+	for (unsigned int i = 0; i < length; i++)
 	{
 		messageReceived += ((char)payload[i]);
 	}
@@ -431,13 +437,17 @@ void reconnect(const char *id, const char *topic)
 			// suscribe to MQTT topics
 			Serial.print("Subscribe to domoticz/out topic. Status= ");
 			if (clientMQTT.subscribe(topic, 0))
+			{
 				if (clientMQTT.subscribe("#"))
+				{
 					Serial.println("OK");
+				}
 				else
 				{
 					Serial.print("KO, erreur: ");
 					Serial.println(clientMQTT.state());
 				};
+			}
 		}
 		else
 		{
@@ -461,11 +471,11 @@ void sendMqttToDomoticz(int idx, String svalue, const char *topic)
 {
 	char msgToPublish[MQTT_MAX_PACKET_SIZE];
 
-	StaticJsonDocument<1024> doc;
-	doc["idx"] = idx;
-	doc["nvalue"] = 0;
-	doc["svalue"] = svalue;
-	serializeJson(doc, msgToPublish);
+	JsonDocument jsonDoc;
+	jsonDoc["idx"] = idx;
+	jsonDoc["nvalue"] = 0;
+	jsonDoc["svalue"] = svalue;
+	serializeJson(jsonDoc, msgToPublish);
 	Serial.print(msgToPublish);
 	Serial.print(" Published to ");
 	Serial.print(topic);
@@ -488,10 +498,10 @@ void askMqttToDomoticz(int idx, String svalue, const char *topic)
 {
 	char msgToPublish[MQTT_MAX_PACKET_SIZE];
 
-	StaticJsonDocument<1024> doc;
-	doc["idx"] = idx;
-	doc["command"] = svalue;
-	serializeJson(doc, msgToPublish);
+	JsonDocument jsonDoc;
+	jsonDoc["idx"] = idx;
+	jsonDoc["command"] = svalue;
+	serializeJson(jsonDoc, msgToPublish);
 	Serial.print(msgToPublish);
 	Serial.print(" Published to ");
 	Serial.print(topic);
@@ -689,6 +699,11 @@ void confortStopTask()
 	tickerSetLow.detach();
 }
 
+#ifdef OTA
+/**
+ *
+ *
+ **/
 void onOTAStart()
 {
 	// Log when OTA has started
@@ -696,6 +711,10 @@ void onOTAStart()
 	// <Add your own code here>
 }
 
+/**
+ *
+ *
+ **/
 void onOTAProgress(size_t current, size_t final)
 {
 	// Log every 1 second
@@ -706,6 +725,10 @@ void onOTAProgress(size_t current, size_t final)
 	}
 }
 
+/**
+ *
+ *
+ **/
 void onOTAEnd(bool success)
 {
 	// Log when OTA has finished
@@ -719,6 +742,7 @@ void onOTAEnd(bool success)
 	}
 	// <Add your own code here>
 }
+#endif
 
 /**
  * Déclenchement des timer
@@ -750,6 +774,7 @@ void IRAM_ATTR TimerHandler()
 }
 
 #if (TIMER_INTERRUPT_DEBUG > 0)
+
 /**
  * affiche la valeur des timer pour mode confort 1 & 2
  *
