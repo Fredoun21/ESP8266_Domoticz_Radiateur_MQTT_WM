@@ -25,6 +25,7 @@
 // #include <DNSServer.h>
 
 // this needs to be first, or it all crashes and burns...
+#include "FS.h"
 #include <LittleFS.h>	  // https://github.com/esp8266/Arduino/tree/master/libraries/LittleFS
 #include <ArduinoJson.h>  //https://github.com/bblanchon/ArduinoJson
 #include <PubSubClient.h> //https://github.com/knolleary/pubsubclient
@@ -32,8 +33,10 @@
 #include <ElegantOTA.h> //https://github.com/ayushsharma82/ElegantOTA
 #endif
 
+#ifdef ISR_TIMER
 #include <ESP8266TimerInterrupt.h> //https://github.com/khoih-prog/ESP8266TimerInterrupt
 #include <ESP8266_ISR_Timer.h>	  // https://github.com/khoih-prog/ESP8266TimerInterrupt
+#endif
 
 // #include <OneWire.h>
 #include <DallasTemperature.h>
@@ -65,13 +68,16 @@ long ota_progress_millis = 0;
 OneWire oneWire(PIN_ONE_WIRE_BUS);
 DallasTemperature DS18B20(&oneWire);
 
+#ifdef ISR_TIMER
 // Création tache tempo pour mode confort 1 et 2
 ESP8266Timer ITimer;			  // Init ESP8266 timer 1
 ESP8266_ISR_Timer ISR_Timer; // Init ESP8266_ISR_Timer
+#endif
 
 Ticker tickerSetHigh;
 Ticker tickerSetLow;
 
+#ifdef MQTT
 // define your default values here, if there are different values in config.json, they are overwritten.
 char mqtt_server[40] = MQTT_SERVER;
 char mqtt_port[6] = MQTT_PORT;
@@ -81,6 +87,7 @@ char mqtt_port[6] = MQTT_PORT;
 // id/name placeholder/prompt default length
 WiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
 WiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
+#endif
 
 // Création objet WiFiManager
 // Intialisation locale.Une fois son entreprise terminée, il n'est pas nécessaire de le garder
@@ -89,12 +96,14 @@ WiFiManager wifiManager;
 // Création server pour webServer et Elegant OTA
 AsyncWebServer server(80);
 
-// flag for saving data
-bool shouldSaveConfig = false;
+WiFiClient espClient;
 
 // MQTT
-WiFiClient espClient;
+#ifdef MQTT
+// flag for saving data
+bool shouldSaveConfigMQTT = true;
 PubSubClient clientMQTT(espClient);
+#endif
 
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
@@ -104,8 +113,10 @@ int value = 0;
 void callback(char *topic, byte *payload, unsigned int length);
 void saveConfigCallback();
 void reconnect(const char *id, const char *topic); // void reconnect();
+#ifdef MQTT
 void askMqttToDomoticz(int idx, String svalue, const char *topic);
 void sendMqttToDomoticz(int idx, String svalue, const char *topic);
+#endif
 void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx);
 void confortSetPin(int aPinHigh, int aPinLow, float aTempoHigh, float aTempoLow);
 void setPinConfort(int state);
@@ -117,7 +128,9 @@ void onOTAStart();
 void onOTAProgress(size_t current, size_t final);
 void onOTAEnd(bool success);
 #endif
+#ifdef ISR_TIMER
 void IRAM_ATTR TimerHandler();
+#endif
 void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis);
 void doingSomethingSec();
 
@@ -128,7 +141,10 @@ void setup()
 	while (!Serial)
 	{
 	};
+	Serial.println("Port Série OK");
 	Serial.println("\n");
+	Serial.print("ESP Board MAC Address: ");
+	Serial.println(WiFi.macAddress());
 
 	//----------------------------------------------------------------- GPIO
 	pinMode(PIN_FILPILOTE_PLUS, OUTPUT);
@@ -142,61 +158,151 @@ void setup()
 	DS18B20.begin();
 
 	//----------------------------------------------------------------- SPIFFS
-	// clean FS, for testing
-	// LittleFS.format();
 
-	// Lire la configuration JSON detuis LittleFS
-	Serial.println("montage LittleFS...");
+	// LittleFS.format(); // clean FS, for testing
+
+	// Lire la configuration JSON avec LittleFS
+	Serial.println("\nmontage LittleFS...\n");
 
 	if (!LittleFS.begin())
 	{
-		Serial.println("Erreur SPIFFS....");
+		Serial.println("Erreur SPIFFS....\n");
 		return;
 	}
+
+	FSInfo fs_info; // création structure d’information du système de fichiers LittleFS
+
+	// Lecture et afficage des infos du système de fichiers LittleFS
+	LittleFS.info(fs_info);
+	Serial.printf("totalBytes: %i octets\n", fs_info.totalBytes);
+	Serial.printf("usedBytes: %i octets\n", fs_info.usedBytes);
+	Serial.printf("blockSize: %i octets\n", fs_info.blockSize);
+	Serial.printf("pageSize: %i octets\n", fs_info.pageSize);
+	Serial.printf("maxOpenFiles: %i octets\n", fs_info.maxOpenFiles);
+	Serial.printf("maxPathLength: %i octets\n\n", fs_info.maxPathLength);
+
 	// Affiche les fichiers présent en SPIFFS
 	File root = LittleFS.open("/", "r");
 	File file = root.openNextFile();
+
+	unsigned long totalSize = 0;
 
 	while (file)
 	{
 		Serial.print("File: ");
 		Serial.print(file.name());
+		Serial.print(" ");
+		Serial.println(file.size());
+		totalSize += file.size();
 		file.close();
 		file = root.openNextFile();
 	}
+
+	root.close();
+	file.close();
+	root = LittleFS.open("/css/", "r");
+	file = root.openNextFile();
+
+	while (file)
+	{
+		Serial.print("File: ");
+		Serial.print(file.name());
+		Serial.print(" ");
+		Serial.println(file.size());
+		totalSize += file.size();
+		file.close();
+		file = root.openNextFile();
+	}
+
+	root.close();
+	file.close();
+	root = LittleFS.open("/script/", "r");
+	file = root.openNextFile();
+
+	while (file)
+	{
+		Serial.print("File: ");
+		Serial.print(file.name());
+		Serial.print(" ");
+		Serial.println(file.size());
+		totalSize += file.size();
+		file.close();
+		file = root.openNextFile();
+	}
+
+	Serial.print("\nTotal taille fichiers: ");
+	Serial.print(totalSize);
+	Serial.println(" octets\n");
 
 	//----------------------------------------------------------------- JSON
 	if (LittleFS.exists("/config.json"))
 	{
 		// le fichier existe, lecture et chargement
-		Serial.println("Lecture du fichier de configuration");
+		Serial.println("\nLecture du fichier de configuration");
 		File configFile = LittleFS.open("/config.json", "r");
-		if (configFile)
+
+		if (configFile.isFile())
 		{
-			Serial.println("Ouverture fichier de configuration");
-			size_t size = configFile.size();
-			// Allouer un tampon pour stocker le contenu du fichier.
-			std::unique_ptr<char[]> buf(new char[size]);
-
-			configFile.readBytes(buf.get(), size);
-
-			// Allocate the JSON document
-			JsonDocument jsonDoc;
-
-			// Parse JSON object
-			DeserializationError error = deserializeJson(jsonDoc, configFile);
-
-			if (error)
+			Serial.println("\nContenu du fichier: ");
+			while (configFile.available())
 			{
-				Serial.print(F("deserializeJson() failed: "));
-				Serial.println(error.f_str());
+				Serial.write(configFile.read());
+			}
+			Serial.println("\nOuverture fichier de configuration");
+			// Serial.println(configFile.position());
+			configFile.seek(0, SeekSet); // Positionne le pointeur dans le fichier à 0
+			// Serial.println(configFile.position());
+			size_t size = configFile.size();
+			Serial.print("Taille du fichier :");
+			Serial.print(size);
+			Serial.println(" octets");
+
+			if (size > 1024)
+			{
+				Serial.println("Taille de fichier trop grande\n");
 				return;
 			}
 
-			Serial.println("\nparsed jsonDoc");
-			strcpy(mqtt_server, jsonDoc["mqtt_server"]);
-			strcpy(mqtt_port, jsonDoc["mqtt_port"]);
+			std::unique_ptr<char[]> buf(new char[size]);
 
+			// int tmp = configFile.readBytes(buf.get(), size);
+			// Serial.println(tmp);
+			// Serial.println(buf.get());
+
+			// Allocate the JSON document
+			StaticJsonDocument<1024> doc;
+
+			// Parse JSON object
+			auto error = deserializeJson(doc, buf.get());
+			if (error)
+			{
+				Serial.printf("\ndeserializeJson() failed: ");
+				Serial.println(error.f_str());
+				Serial.println(error.code());
+				// return;
+			}
+#ifdef MQTT
+			else
+			{
+				// Faire une boucle à travers tous les éléments du tableau
+				JsonArray repos = doc["mqtt_server"]["mqtt_port"];
+
+				for (JsonObject repo : repos)
+				{
+					// Imprimez le nom, le nombre d'étoiles et le nombre de problèmes
+					Serial.println(repo["mqtt_server"].as<const char *>());
+					Serial.println(repo["mqtt_port"].as<const char *>());
+					Serial.println(repo["local_host"].as<const char *>());
+					Serial.println(repo["mqtt_local_portport"].as<const char *>());
+					Serial.println(repo["local_gateway"].as<const char *>());
+					Serial.println(repo["local_subnet"].as<const char *>());
+				}
+
+				Serial.println("\nparsed doc");
+				strcpy(mqtt_server, doc["mqtt_server"]);
+				strcpy(mqtt_port, doc["mqtt_port"]);
+			}
+#endif
 			configFile.close();
 		}
 	}
@@ -209,9 +315,11 @@ void setup()
 	// Définir IP statique
 	wifiManager.setSTAStaticIPConfig(IPAddress(LOCAL_IP), IPAddress(LOCAL_GATEWAY), IPAddress(LOCAL_SUBNET));
 
+#ifdef MQTT
 	// Ajoutez tous vos paramètres ici
 	wifiManager.addParameter(&custom_mqtt_server);
 	wifiManager.addParameter(&custom_mqtt_port);
+#endif
 
 	// reset settings - for testing
 	// wifiManager.resetSettings();
@@ -227,7 +335,7 @@ void setup()
 	// if it does not connect it starts an access point with the specified name
 	// here  "AutoConnectAP"
 	// and goes into a blocking loop awaiting configuration
-	if (!wifiManager.autoConnect(NameID, WM_PASSWORD))
+	if (!wifiManager.autoConnect(NAMEID, WM_PASSWORD))
 	{
 		Serial.println("failed to connect and hit timeout");
 		delay(3000);
@@ -237,12 +345,13 @@ void setup()
 	}
 
 	// if you get here you have connected to the WiFi
-	Serial.println("connected...yeey :)");
+	Serial.println("\tconnected...yeey :)\n");
 
-	Serial.print("local IP: ");
+	Serial.println("local IP: ");
 	Serial.println(WiFi.localIP());
 
-	//----------------------------------------------------------------- Save Parametres dans CONFIG.JSON
+//----------------------------------------------------------------- Save Parametres dans CONFIG.JSON
+#ifdef MQTT
 	// read updated parameters
 	strcpy(mqtt_server, custom_mqtt_server.getValue());
 	strcpy(mqtt_port, custom_mqtt_port.getValue());
@@ -250,14 +359,14 @@ void setup()
 	Serial.println("\tmqtt_server : " + String(mqtt_server));
 	Serial.println("\tmqtt_port : " + String(mqtt_port));
 
-	// save the custom parameters to FS
-	if (shouldSaveConfig)
+	// save the custom parameters to LittleFS
+	if (shouldSaveConfigMQTT)
 	{
 		Serial.println("Sauvegarde configuration");
-		JsonDocument jsonDoc;
+		DynamicJsonDocument doc(1024);
 
-		jsonDoc["mqtt_server"] = mqtt_server;
-		jsonDoc["mqtt_port"] = mqtt_port;
+		doc["mqtt_server"] = mqtt_server;
+		doc["mqtt_port"] = mqtt_port;
 
 		File configFile = LittleFS.open("/config.json", "w");
 		if (!configFile)
@@ -265,8 +374,8 @@ void setup()
 			Serial.println("Impossible d'ouvrir le fichier de configuration pour l'écriture");
 		}
 
-		serializeJson(jsonDoc, Serial);
-		serializeJson(jsonDoc, configFile);
+		serializeJson(doc, Serial);
+		serializeJson(doc, configFile);
 
 		configFile.close();
 		// end save
@@ -275,6 +384,7 @@ void setup()
 	//----------------------------------------------------------------- MQTT
 	clientMQTT.setServer(mqtt_server, String(mqtt_port).toInt());
 	clientMQTT.setCallback(callback);
+#endif
 
 	//----------------------------------------------------------------- Server
 	// Envoi la page HTML
@@ -312,10 +422,8 @@ void setup()
 	ElegantOTA.onEnd(onOTAEnd);
 #endif
 
-	Serial.println("HTTP server setup");
+	Serial.println("\nHTTP server setup.\nHTTP server started.\nServer ready!\n");
 	server.begin();
-	Serial.println("HTTP server started.");
-	Serial.println("Server ready!");
 }
 
 void loop()
@@ -327,7 +435,8 @@ void loop()
 	delay(500);
 #endif
 
-	//----------------------------------------------------------------- MQTT
+//----------------------------------------------------------------- MQTT
+#ifdef MQTT
 	// Ne pas oublié de mettre MQTT_MAX_PACKET_SIZE = 2048 dans PubSubClient.h
 	if (!clientMQTT.connected())
 	{
@@ -356,6 +465,7 @@ void loop()
 		// Envoi MQTT mesure de courant du AC712
 		sendMqttToDomoticz(IDXACS712, String(valeurACS712(PIN_ACS712)), TOPIC_DOMOTICZ_IN);
 	}
+#endif
 }
 
 /**
@@ -365,7 +475,7 @@ void loop()
 void saveConfigCallback()
 {
 	Serial.println("Should save config");
-	shouldSaveConfig = true;
+	shouldSaveConfigMQTT = true;
 }
 
 /**
@@ -374,7 +484,7 @@ void saveConfigCallback()
  **/
 void callback(char *topic, byte *payload, unsigned int length)
 {
-	JsonDocument jsonBuffer;
+	DynamicJsonDocument jsonBuffer(1024);
 	String messageReceived = "";
 
 	Serial.print("Message arrive [");
@@ -422,6 +532,7 @@ void callback(char *topic, byte *payload, unsigned int length)
  * MQTT reconnect
  *
  **/
+#ifdef MQTT
 void reconnect(const char *id, const char *topic)
 // void reconnect()
 {
@@ -471,11 +582,11 @@ void sendMqttToDomoticz(int idx, String svalue, const char *topic)
 {
 	char msgToPublish[MQTT_MAX_PACKET_SIZE];
 
-	JsonDocument jsonDoc;
-	jsonDoc["idx"] = idx;
-	jsonDoc["nvalue"] = 0;
-	jsonDoc["svalue"] = svalue;
-	serializeJson(jsonDoc, msgToPublish);
+	DynamicJsonDocument doc(1024);
+	doc["idx"] = idx;
+	doc["nvalue"] = 0;
+	doc["svalue"] = svalue;
+	serializeJson(doc, msgToPublish);
 	Serial.print(msgToPublish);
 	Serial.print(" Published to ");
 	Serial.print(topic);
@@ -498,10 +609,10 @@ void askMqttToDomoticz(int idx, String svalue, const char *topic)
 {
 	char msgToPublish[MQTT_MAX_PACKET_SIZE];
 
-	JsonDocument jsonDoc;
-	jsonDoc["idx"] = idx;
-	jsonDoc["command"] = svalue;
-	serializeJson(jsonDoc, msgToPublish);
+	DynamicJsonDocument doc(1024);
+	doc["idx"] = idx;
+	doc["command"] = svalue;
+	serializeJson(doc, msgToPublish);
 	Serial.print(msgToPublish);
 	Serial.print(" Published to ");
 	Serial.print(topic);
@@ -511,7 +622,7 @@ void askMqttToDomoticz(int idx, String svalue, const char *topic)
 	else
 		Serial.println("KO");
 }
-
+#endif
 /**
  * retourSensor
  * Renvoie la température du DS18B20 en float
@@ -699,11 +810,11 @@ void confortStopTask()
 	tickerSetLow.detach();
 }
 
-#ifdef OTA
 /**
  *
  *
  **/
+#ifdef OTA
 void onOTAStart()
 {
 	// Log when OTA has started
@@ -745,9 +856,10 @@ void onOTAEnd(bool success)
 #endif
 
 /**
- * Déclenchement des timer
+ * Déclenchement des timers
  *
  **/
+#ifdef ISR_TIMER
 void IRAM_ATTR TimerHandler()
 {
 	static bool toggle = false;
@@ -772,13 +884,13 @@ void IRAM_ATTR TimerHandler()
 		toggle = !toggle;
 	}
 }
-
-#if (TIMER_INTERRUPT_DEBUG > 0)
+#endif
 
 /**
  * affiche la valeur des timer pour mode confort 1 & 2
  *
  **/
+#if (TIMER_INTERRUPT_DEBUG > 0)
 void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis)
 {
 	Serial.print(timerDelay / 1000);
@@ -793,6 +905,7 @@ void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMi
  *Sous programme d'interruption du timer 1
  *
  */
+#ifdef ISR_TIMER
 void doingSomethingSec()
 {
 #if (TIMER_INTERRUPT_DEBUG > 0)
@@ -819,3 +932,4 @@ void doingSomethingSec()
 
 	toggle = !toggle;
 }
+#endif
