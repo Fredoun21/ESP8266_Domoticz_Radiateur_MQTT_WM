@@ -74,17 +74,19 @@ ESP8266Timer ITimer;			  // Init ESP8266 timer 1
 ESP8266_ISR_Timer ISR_Timer; // Init ESP8266_ISR_Timer
 #endif
 
+#ifndef ISR_TIMER
 Ticker tickerSetHigh;
 Ticker tickerSetLow;
+#endif
 
 #ifdef MQTT
-// define your default values here, if there are different values in config.json, they are overwritten.
+// Définissez vos valeurs par défaut ici, s'il existe différentes valeurs dans config.json, elles sont écrasées.
 char mqtt_server[40] = MQTT_SERVER;
 char mqtt_port[6] = MQTT_PORT;
 
-// The extra parameters to be configured (can be either global or just in the setup)
-// After connecting, parameter.getValue() will get you the configured value
-// id/name placeholder/prompt default length
+// Les paramètres supplémentaires à configurer (peuvent être globaux ou simplement dans la configuration)
+// Après la connexion, Parameter.GetValue () vous obtiendra la valeur configurée
+// ID / nom Principal / longueur de défaut invite
 WiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
 WiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
 #endif
@@ -96,10 +98,11 @@ WiFiManager wifiManager;
 // Création server pour webServer et Elegant OTA
 AsyncWebServer server(80);
 
+//----------------------------------------------------------------- MQTT
+#ifdef MQTT
+
 WiFiClient espClient;
 
-// MQTT
-#ifdef MQTT
 // flag for saving data
 bool shouldSaveConfigMQTT = true;
 PubSubClient clientMQTT(espClient);
@@ -111,16 +114,18 @@ char msg[MSG_BUFFER_SIZE];
 int value = 0;
 
 void callback(char *topic, byte *payload, unsigned int length);
-void saveConfigCallback();
 void reconnect(const char *id, const char *topic); // void reconnect();
 #ifdef MQTT
+void saveConfigCallback();
 void askMqttToDomoticz(int idx, String svalue, const char *topic);
 void sendMqttToDomoticz(int idx, String svalue, const char *topic);
 #endif
 void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx);
 void confortSetPin(int aPinHigh, int aPinLow, float aTempoHigh, float aTempoLow);
 void setPinConfort(int state);
+#ifndef ISR_TIMER
 void confortStopTask();
+#endif
 float retourSensor(DallasTemperature sensor);
 float valeurACS712(int pin);
 #ifdef OTA
@@ -130,9 +135,10 @@ void onOTAEnd(bool success);
 #endif
 #ifdef ISR_TIMER
 void IRAM_ATTR TimerHandler();
+void doingSomethingConfort1();
+void doingSomethingConfort2();
 #endif
 void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis);
-void doingSomethingSec();
 
 void setup()
 {
@@ -141,10 +147,14 @@ void setup()
 	while (!Serial)
 	{
 	};
-	Serial.println("Port Série OK");
-	Serial.println("\n");
-	Serial.print("ESP Board MAC Address: ");
-	Serial.println(WiFi.macAddress());
+	Serial.println("Port Série OK\n");
+
+	Serial.print(F("\nType de carte: "));
+	Serial.println(ARDUINO_BOARD);
+	Serial.println(ESP8266_TIMER_INTERRUPT_VERSION);
+	Serial.print(F("CPU Frequency = "));
+	Serial.print(F_CPU / 1000000);
+	Serial.println(F(" MHz"));
 
 	//----------------------------------------------------------------- GPIO
 	pinMode(PIN_FILPILOTE_PLUS, OUTPUT);
@@ -235,6 +245,7 @@ void setup()
 	Serial.println(" octets\n");
 
 	//----------------------------------------------------------------- JSON
+#ifdef MQTT
 	if (LittleFS.exists("/config.json"))
 	{
 		// le fichier existe, lecture et chargement
@@ -259,7 +270,7 @@ void setup()
 
 			if (size > 1024)
 			{
-				Serial.println("Taille de fichier trop grande\n");
+				Serial.println("Taille de fichier de configuration trop grande\n");
 				return;
 			}
 
@@ -276,12 +287,13 @@ void setup()
 			auto error = deserializeJson(doc, buf.get());
 			if (error)
 			{
-				Serial.printf("\ndeserializeJson() failed: ");
-				Serial.println(error.f_str());
+				Serial.print("\ndeserializeJson() en échec: ");
+				Serial.print(error.f_str());
+				Serial.print(", ");
 				Serial.println(error.code());
+				Serial.print("\n");
 				// return;
 			}
-#ifdef MQTT
 			else
 			{
 				// Faire une boucle à travers tous les éléments du tableau
@@ -302,42 +314,41 @@ void setup()
 				strcpy(mqtt_server, doc["mqtt_server"]);
 				strcpy(mqtt_port, doc["mqtt_port"]);
 			}
-#endif
 			configFile.close();
 		}
 	}
-	// Fin de lecture
+#endif
+	// Fin de lecture SPIFFS
 
 	//----------------------------------------------------------------- WIFI
+#ifdef MQTT
 	// Définir le rappel de notif
 	wifiManager.setSaveConfigCallback(saveConfigCallback);
 
-	// Définir IP statique
-	wifiManager.setSTAStaticIPConfig(IPAddress(LOCAL_IP), IPAddress(LOCAL_GATEWAY), IPAddress(LOCAL_SUBNET));
-
-#ifdef MQTT
 	// Ajoutez tous vos paramètres ici
 	wifiManager.addParameter(&custom_mqtt_server);
 	wifiManager.addParameter(&custom_mqtt_port);
 #endif
 
+	// Définir IP statique
+	wifiManager.setSTAStaticIPConfig(IPAddress(LOCAL_IP), IPAddress(LOCAL_GATEWAY), IPAddress(LOCAL_SUBNET));
 	// reset settings - for testing
 	// wifiManager.resetSettings();
 
-	// set minimum quality of signal so it ignores AP's under that quality defaults to 8%
+	// définir la qualité minimale du signal afin qu'il ignore les AP sous cette qualité par défaut à 8%
 	// wifiManager.setMinimumSignalQuality();
 
-	// sets timeout until configuration portal gets turned off
-	// useful to make it all retry or go to sleep in seconds
+	// Définit le délai d'attente jusqu'à ce que le portail de configuration soit désactivé
+	// utile pour que tout se réessaye ou s'endorme en quelques secondes
 	wifiManager.setTimeout(120);
 
-	// fetches SSID and PASS and tries to connect
-	// if it does not connect it starts an access point with the specified name
-	// here  "AutoConnectAP"
-	// and goes into a blocking loop awaiting configuration
+	// Rechet SSID et passe et essaie de se connecter
+	// s'il ne le connecte pas, il démarre un point d'accès avec le nom spécifié
+	// ici "autoconnectap"
+	// et entre dans une boucle de blocage en attente de configuration
 	if (!wifiManager.autoConnect(NAMEID, WM_PASSWORD))
 	{
-		Serial.println("failed to connect and hit timeout");
+		Serial.println("wifiManager: problème de connection -> ESP reset");
 		delay(3000);
 		// reset and try again, or maybe put it to deep sleep
 		ESP.reset();
@@ -345,9 +356,10 @@ void setup()
 	}
 
 	// if you get here you have connected to the WiFi
-	Serial.println("\tconnected...yeey :)\n");
-
-	Serial.println("local IP: ");
+	Serial.println("\twifiManager: connection...yeey :)\n");
+	Serial.print("Carte ESP Address MAC: ");
+	Serial.println(WiFi.macAddress());
+	Serial.print("Carte ESP Adresse IP: ");
 	Serial.println(WiFi.localIP());
 
 //----------------------------------------------------------------- Save Parametres dans CONFIG.JSON
@@ -382,7 +394,8 @@ void setup()
 	}
 
 	//----------------------------------------------------------------- MQTT
-	clientMQTT.setServer(mqtt_server, String(mqtt_port).toInt());
+	clientMQTT.setServer(MQTT_SERVER, String(MQTT_PORT).toInt());
+	// clientMQTT.setServer(mqtt_server, String(mqtt_port).toInt());
 	clientMQTT.setCallback(callback);
 #endif
 
@@ -391,27 +404,99 @@ void setup()
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
 				 { request->send(LittleFS, "/index.html", "text/html"); });
 
-	// Envoi la page HTML
-	server.on("/config.json", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/config.json", "text/json"); });
+	// Envoi du fichier CSS
+	server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
+				 { request->send(LittleFS, "/css/style.css", "text/json"); });
+
+	// Envoi du script JS
+	server.on("/script/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
+				 { request->send(LittleFS, "/script/script.js", "text/json"); });
+
+	// Envoi du script JS
+	server.on("/script/gpio.js", HTTP_GET, [](AsyncWebServerRequest *request)
+				 { request->send(LittleFS, "/script/gpio.js", "text/json"); });
 
 	// Envoi la page HTML
 	server.on("/data.json", HTTP_GET, [](AsyncWebServerRequest *request)
 				 { request->send(LittleFS, "/data.json", "text/json"); });
 
-	// Envoi la page HTML
-	server.on("/lireTemperature", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(200, "test/plain"); });
+	// // Envoi la page HTML
+	// server.on("/lireTemperature", HTTP_GET, [](AsyncWebServerRequest *request)
+	// 			 { request->send(200, "test/plain"); });
 
-	// Envoi la page HTML
-	server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { digitalWrite(PIN_FILPILOTE_PLUS,HIGH);
-				 request->send(200); });
+	server.on("/GET", HTTP_GET, [](AsyncWebServerRequest *request)
+				 // List all parameters
+				 {
+		int params = request->params();
+		Serial.println(params);
+		for (int i = 0; i < params; i++)
+		{
+			AsyncWebParameter *p = request->getParam(i);
+			if (p->isFile())
+			{ // p->isPost() is also true
+				Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
+			}
+			else if (p->isPost())
+			{
+				Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
+			}
+			else
+				Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
+		};
+		String inputMessage;
+		String inputParam;
+		// GET input1 value on <ESP_IP>/get?input1=<inputMessage>
+		if (request->hasParam("SVALUE1"))
+		{
+			inputMessage = request->getParam("SVALUE1")->value();
+			inputParam = "SVALUE1";
+		}
 
-	// Envoi la page HTML
-	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { digitalWrite(PIN_FILPILOTE_PLUS,LOW);
-				 request->send(200); });
+			// Check if GET parameter exists
+			if (request->hasParam("SVALUE1"))
+			{
+				AsyncWebParameter *p2 = request->getParam("SVALUE1");
+				Serial.printf("GET[%s]: %s\n", p2->name().c_str(), p2->value().c_str());
+			};
+
+			// updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
+			request->send(200); });
+
+	// Execute la mise à jour du fil pilote
+	// server.on("/SVALUE1=0", HTTP_GET, [](AsyncWebServerRequest *request)
+	// 			 {
+	// 	updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
+	// 	request->send(200); });
+
+	// Execute la mise à jour du fil pilote
+	server.on("/SVALUE1=10", HTTP_GET, [](AsyncWebServerRequest *request)
+				 {
+		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(10), 8);
+		request->send(200); });
+
+	// Execute la mise à jour du fil pilote
+	server.on("/SVALUE1=20", HTTP_GET, [](AsyncWebServerRequest *request)
+				 {
+		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(20), 8);
+		request->send(200); });
+
+	// Execute la mise à jour du fil pilote
+	server.on("/SVALUE1=30", HTTP_GET, [](AsyncWebServerRequest *request)
+				 {
+		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(30), 8);
+		request->send(200); });
+
+	// Execute la mise à jour du fil pilote
+	server.on("/SVALUE1=40", HTTP_GET, [](AsyncWebServerRequest *request)
+				 {
+		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(40), 8);
+		request->send(200); });
+
+	// Execute la mise à jour du fil pilote
+	server.on("/SVALUE1=100", HTTP_GET, [](AsyncWebServerRequest *request)
+				 {
+		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(100), 8);
+		request->send(200); });
 
 	//----------------------------------------------------------------- Elegant OTA
 #ifdef OTA
@@ -424,6 +509,17 @@ void setup()
 
 	Serial.println("\nHTTP server setup.\nHTTP server started.\nServer ready!\n");
 	server.begin();
+
+	//----------------------------------------------------------------- INTERRUPT
+	// Interval in microsecs
+	if (ITimer.attachInterruptInterval(HW_TIMER_INTERVAL_MS * 1000, TimerHandler))
+	{
+		startMillis = millis();
+		Serial.print(F("Starting ITimer OK, millis() = "));
+		Serial.println(startMillis);
+	}
+	else
+		Serial.println(F("Can't set ITimer. Select another freq. or timer"));
 }
 
 void loop()
@@ -442,7 +538,6 @@ void loop()
 	{
 		Serial.println("reconnection domoticz/out");
 		reconnect(MQTT_ID, TOPIC_DOMOTICZ_OUT);
-		// reconnect();
 	}
 	clientMQTT.loop();
 
@@ -472,9 +567,10 @@ void loop()
  * callback notifying us of the need to save config
  *
  **/
+#ifdef MQTT
 void saveConfigCallback()
 {
-	Serial.println("Should save config");
+	Serial.println("Devrait enregistrer la configuration");
 	shouldSaveConfigMQTT = true;
 }
 
@@ -530,19 +626,24 @@ void callback(char *topic, byte *payload, unsigned int length)
 
 /**
  * MQTT reconnect
- *
+ *void reconnect()
  **/
-#ifdef MQTT
 void reconnect(const char *id, const char *topic)
-// void reconnect()
 {
+	Serial.println(id);
+	Serial.println(topic);
+	Serial.println(MQTT_USER);
+	Serial.println(MQTT_PASSWORD);
+	Serial.println("");
+
 	// Loop until we're reconnected
 	while (!clientMQTT.connected())
 	{
 		Serial.print("Connexion au serveur MQTT... Status= ");
 		// Attempt to connect
 		// if (clientMQTT.connect("ESP53_client", "_LOGIN_", "_PASSWORD_"))
-		if (clientMQTT.connect(id, "_LOGIN_", "_PASSWORD_"))
+		if (clientMQTT.connect(MQTT_ID, MQTT_USER, MQTT_PASSWORD))
+		// if (clientMQTT.connect(id, MQTT_USER, MQTT_PASSWORD))
 		{
 			Serial.println("OK");
 			// suscribe to MQTT topics
@@ -623,6 +724,7 @@ void askMqttToDomoticz(int idx, String svalue, const char *topic)
 		Serial.println("KO");
 }
 #endif
+
 /**
  * retourSensor
  * Renvoie la température du DS18B20 en float
@@ -688,6 +790,27 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	String message;
 
 	Serial.println(F("Mise a jour fil Pilote depuis DOMOTICZ: "));
+	Serial.print("Nombre de Timer disponibles: ");
+	Serial.println(ISR_Timer.getNumAvailableTimers());
+	ISR_Timer.disableAll();
+
+	for (size_t i = 0; i < ISR_Timer.getNumAvailableTimers(); i++)
+	{
+		Serial.println(i);
+		Serial.print("Numéro Timer: ");
+		Serial.println(ISR_Timer.getNumTimers());
+		if (ISR_Timer.getNumTimers() != -1)
+		{
+			ISR_Timer.deleteTimer(i);
+		}
+	}
+
+	// Serial.print("Numéro Timer disponible: ");
+	// Serial.println(ISR_Timer.);
+	// Serial.print("Numéro Timer disponible: ");
+	// Serial.println(ISR_Timer.getNumAvailableTimers());
+	// Serial.print("Numéro Timer disponible: ");
+	// Serial.println(ISR_Timer.getNumAvailableTimers());
 
 	// Etat de 00 à 10: Radiateur sur Arrêt
 	// Etat de 11 à 20: Radiateur sur Hors Gel
@@ -700,7 +823,9 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	{
 		digitalWrite(pinPlus, HIGH);
 		digitalWrite(pinMoins, LOW);
+#ifndef ISR_TIMER
 		confortStopTask();
+#endif
 		Serial.println(F("Radiateur sur Arret"));
 		message = "Pin ";
 		message += String(pinPlus);
@@ -713,7 +838,9 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	{
 		digitalWrite(pinPlus, LOW);
 		digitalWrite(pinMoins, HIGH);
+#ifndef ISR_TIMER
 		confortStopTask();
+#endif
 		Serial.println(F("Radiateur sur Hors gel"));
 		message = "Pin ";
 		message += String(pinPlus);
@@ -726,7 +853,9 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	{
 		digitalWrite(pinPlus, HIGH);
 		digitalWrite(pinMoins, HIGH);
+#ifndef ISR_TIMER
 		confortStopTask();
+#endif
 		Serial.println(F("Radiateur sur ECO"));
 		message = "Pin ";
 		message += String(pinPlus);
@@ -737,15 +866,24 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	}
 	else if (30 <= svalue && svalue < 40)
 	{
-		confortStopTask();
+#ifndef ISR_TIMER
 		confortSetPin(pinPlus, pinMoins, 7, 293);
+#endif
+#ifdef ISR_TIMER
+		ISR_Timer.setInterval(7000L, doingSomethingConfort2);
+#endif
 		Serial.println(F("Radiateur sur Confort 2"));
 		// Absence de courant pendant 293s, puis présence pendant 7s
 	}
 	else if (40 <= svalue && svalue < 50)
 	{
+#ifndef ISR_TIMER
 		confortStopTask();
 		confortSetPin(pinPlus, pinMoins, 3, 297);
+#endif
+#ifdef ISR_TIMER
+		ISR_Timer.setInterval(3000L, doingSomethingConfort1);
+#endif
 		Serial.println(F("Radiateur sur Confort 1"));
 		// Absence de courant pendant 297s, puis présence pendant 3s
 	}
@@ -753,7 +891,9 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	{
 		digitalWrite(pinPlus, LOW);
 		digitalWrite(pinMoins, LOW);
+#ifndef ISR_TIMER
 		confortStopTask();
+#endif
 		Serial.println(F("Radiateur sur Confort"));
 		message = "Pin ";
 		message += String(pinPlus);
@@ -764,7 +904,7 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	}
 	else
 	{
-		Serial.println(F("Bad Led Value !"));
+		Serial.println(F("Fil pilote: Mauvaise valeur!"));
 	}
 }
 
@@ -794,21 +934,138 @@ void setPinConfort(int state)
  *  Lancement tempo pour mode confort 1 & 2
  *
  **/
+
 void confortSetPin(int aPinHigh, int aPinLow, float aTempoHigh, float aTempoLow)
 {
+#ifndef ISR_TIMER
 	tickerSetHigh.attach(aTempoHigh, setPinConfort, 1);
 	tickerSetLow.attach(aTempoLow, setPinConfort, 0);
+#endif
+
+#ifdef ISR_TIMER
+	ISR_Timer.changeInterval(0, aTempoHigh);
+	ISR_Timer.changeInterval(0, aTempoLow - aTempoHigh);
+#endif
 }
 
 /**
  * Arrêt tempo pour mode confort 1 & 2
  *
  **/
+#ifndef ISR_TIMER
 void confortStopTask()
 {
 	tickerSetHigh.detach();
 	tickerSetLow.detach();
 }
+#endif
+
+/**
+ * Déclenchement des timers
+ *
+ **/
+#ifdef ISR_TIMER
+void IRAM_ATTR TimerHandler()
+{
+	static bool toggle = false;
+	static bool started = false;
+	static int timeRun = 0;
+
+	ISR_Timer.run();
+
+	// Toggle LED every LED_TOGGLE_INTERVAL_MS = 2000ms = 2s
+	if (++timeRun == (LED_TOGGLE_INTERVAL_MS / HW_TIMER_INTERVAL_MS))
+	{
+		timeRun = 0;
+
+		if (!started)
+		{
+			started = true;
+			pinMode(LED_BUILTIN, OUTPUT);
+		}
+
+		// timer interrupt toggles pin LED_BUILTIN
+		digitalWrite(LED_BUILTIN, toggle);
+		toggle = !toggle;
+	}
+}
+#endif
+
+/**
+ * affiche la valeur des timer pour mode confort 1 & 2
+ *
+ **/
+#ifdef ISR_TIMER
+#if (TIMER_INTERRUPT_DEBUG > 0)
+void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis)
+{
+	Serial.print(timerDelay / 1000);
+	Serial.print("s: Delta ms = ");
+	Serial.print(deltaMillis);
+	Serial.print(", ms = ");
+	Serial.println(currentMillis);
+}
+#endif
+#endif
+
+/*
+ *Sous programme d'interruption du timer 1
+ *
+ */
+#ifdef ISR_TIMER
+void doingSomethingConfort1()
+{
+#if (TIMER_INTERRUPT_DEBUG > 0)
+	static unsigned long previousMillis = startMillis;
+
+	unsigned long currentMillis = millis();
+	unsigned long deltaMillis = currentMillis - previousMillis;
+
+#endif
+	static bool toggle = false;
+	Serial.print("Numéro Timer: ");
+	Serial.println(ISR_Timer.getNumTimers());
+	if (toggle)
+	{
+		printStatus(0, TIMER_INTERVAL_300S - TIMER_INTERVAL_3S, deltaMillis, currentMillis);
+		ISR_Timer.changeInterval(0, TIMER_INTERVAL_3S);
+	}
+	else
+	{
+		printStatus(0, TIMER_INTERVAL_3S, deltaMillis, currentMillis);
+		ISR_Timer.changeInterval(0, (TIMER_INTERVAL_300S - TIMER_INTERVAL_3S));
+	}
+
+	previousMillis = currentMillis;
+	toggle = !toggle;
+}
+void doingSomethingConfort2()
+{
+#if (TIMER_INTERRUPT_DEBUG > 0)
+	static unsigned long previousMillis = startMillis;
+
+	unsigned long currentMillis = millis();
+	unsigned long deltaMillis = currentMillis - previousMillis;
+
+#endif
+	static bool toggle = false;
+	Serial.print("Numéro Timer: ");
+	Serial.println(ISR_Timer.getNumTimers());
+	if (toggle)
+	{
+		printStatus(0, TIMER_INTERVAL_300S - TIMER_INTERVAL_7S, deltaMillis, currentMillis);
+		ISR_Timer.changeInterval(0, TIMER_INTERVAL_7S);
+	}
+	else
+	{
+		printStatus(0, TIMER_INTERVAL_7S, deltaMillis, currentMillis);
+		ISR_Timer.changeInterval(0, (TIMER_INTERVAL_300S - TIMER_INTERVAL_7S));
+	}
+
+	previousMillis = currentMillis;
+	toggle = !toggle;
+}
+#endif
 
 /**
  *
@@ -852,84 +1109,5 @@ void onOTAEnd(bool success)
 		Serial.println("There was an error during OTA update!");
 	}
 	// <Add your own code here>
-}
-#endif
-
-/**
- * Déclenchement des timers
- *
- **/
-#ifdef ISR_TIMER
-void IRAM_ATTR TimerHandler()
-{
-	static bool toggle = false;
-	static bool started = false;
-	static int timeRun = 0;
-
-	ISR_Timer.run();
-
-	// Toggle LED every LED_TOGGLE_INTERVAL_MS = 2000ms = 2s
-	if (++timeRun == (LED_TOGGLE_INTERVAL_MS / HW_TIMER_INTERVAL_MS))
-	{
-		timeRun = 0;
-
-		if (!started)
-		{
-			started = true;
-			pinMode(LED_BUILTIN, OUTPUT);
-		}
-
-		// timer interrupt toggles pin LED_BUILTIN
-		digitalWrite(LED_BUILTIN, toggle);
-		toggle = !toggle;
-	}
-}
-#endif
-
-/**
- * affiche la valeur des timer pour mode confort 1 & 2
- *
- **/
-#if (TIMER_INTERRUPT_DEBUG > 0)
-void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis)
-{
-	Serial.print(timerDelay / 1000);
-	Serial.print("s: Delta ms = ");
-	Serial.print(deltaMillis);
-	Serial.print(", ms = ");
-	Serial.println(currentMillis);
-}
-#endif
-
-/*
- *Sous programme d'interruption du timer 1
- *
- */
-#ifdef ISR_TIMER
-void doingSomethingSec()
-{
-#if (TIMER_INTERRUPT_DEBUG > 0)
-	static unsigned long previousMillis = startMillis;
-
-	unsigned long currentMillis = millis();
-	unsigned long deltaMillis = currentMillis - previousMillis;
-
-	printStatus(0, TIMER_INTERVAL_3S, deltaMillis, currentMillis);
-
-	previousMillis = currentMillis;
-#endif
-
-	static bool toggle = false;
-
-	if (toggle)
-	{
-		ISR_Timer.changeInterval(0, TIMER_INTERVAL_3S);
-	}
-	else
-	{
-		ISR_Timer.changeInterval(0, (TIMER_INTERVAL_300S - TIMER_INTERVAL_3S));
-	}
-
-	toggle = !toggle;
 }
 #endif

@@ -12,12 +12,12 @@
 
 #ifdef CONNET_XIAOMI_11T
 // Parametres du dispositif dans Domoticz
-#define NAMEID "XIAOMI_11T"         // Nom du dispositif
+#define NAMEID "ESP TEST XIAOMI"         // Nom du dispositif
 #define LOCAL_IP 192, 168, 128, 210 // Adresse IP du radiateur dans config Domoticz
 #define IDXDomoticz 6               // Numéro IDX du radiateur dans config Domoticz
 #define IDXDS18B20 11               // Numéro IDX de la sonde de T° dans config Domoticz
 #define IDXACS712 19                // Numéro IDX de la mesure de courant dans config Domoticz
-#define MQTT_ID "XIAOMI_11TClient"  // Nom du client sur MQTT
+#define MQTT_ID "ESPTESTClient"  // Nom du client sur MQTT
 #endif
 
 #ifdef ESP50
