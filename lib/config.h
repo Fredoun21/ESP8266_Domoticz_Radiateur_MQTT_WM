@@ -5,8 +5,8 @@
 
 #define DEBUG // Active l'affichage du debugage sur la console
 // #undef DEBUG // Désactive l'affichage du debugage sur la console
-// #define MQTT // Active les fonctions MQTT
-#undef MQTT // Desactive les fonctions MQTT
+#define MQTT // Active les fonctions MQTT
+// #undef MQTT // Desactive les fonctions MQTT
 // #define OTA // Active Elegant OTA
 #undef OTA // Deséctive OTA
 #define CONNET_XIAOMI_11T
@@ -27,10 +27,10 @@
 #ifdef CONNET_XIAOMI_11T
 #define LOCAL_SSID "XIAOMI 11T"
 #define LOCAL_PASSWORD "52fnhqdknmgahst"
-#define LOCAL_HOST 192, 168, 128, 211
+#define LOCAL_HOST 192, 168, 113, 45
 #define LOCAL_PORT 8080
-#define LOCAL_GATEWAY 192, 168, 128, 212
 #define LOCAL_SUBNET 255, 255, 255, 0
+#define LOCAL_GATEWAY 192, 168, 113, 170
 #endif
 
 /*
@@ -52,12 +52,12 @@ CONFIGURATION MQTT
 #endif
 
 #ifdef CONNET_XIAOMI_11T
-#define MQTT_SERVER "192.168.128.211"
+#define MQTT_SERVER "192.168.113.210"
 #define MQTT_PORT "1883"
 #define MQTT_USER "domoticz"             // s'il a été configuré sur Mosquitto
 #define MQTT_PASSWORD "210804"                  // idem
-#define TOPIC_DOMOTICZ_IN "inTopic" //"domoticz/in"   // topic d'écriture  MQTT -> Domoticz
-#define TOPIC_DOMOTICZ_OUT "outTopic" //"domoticz/out" // topic de lecture Domoticz -> MQTT
+#define TOPIC_DOMOTICZ_IN "domoticz/in" //"domoticz/in"   // topic d'écriture  MQTT -> Domoticz
+#define TOPIC_DOMOTICZ_OUT "domoticz/out" //"domoticz/out" // topic de lecture Domoticz -> MQTT
 #endif
 #endif
 

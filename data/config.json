@@ -1,8 +1,8 @@
 {
-    "mqtt_server": "127.0.0.1",
+    "mqtt_server": "192.168.113.210",
     "mqtt_port": "1883",
-    "local_host": "192.168.128.210",
+    "local_host": "192.168.113.45",
     "local_port": "8080",
-    "local_gateway": "192.168.128.212",
+    "local_gateway": "192.168.113.210",
     "local_subnet": "255.255.255.0"
 }

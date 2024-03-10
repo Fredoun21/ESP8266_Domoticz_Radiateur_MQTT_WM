@@ -16,10 +16,17 @@ function offButton() {
 // 	xhttp.send();
 // }
 
+// function updateFilPilote(sValue1) {
+// 	var xhttp = new XMLHttpRequest();
+// 	console.log("updateFilPilote -> sValue1: ", sValue1);
+// 	xhttp.open("GET", "SVALUE1", sValue1, true);
+// 	xhttp.send();
+// }
+
 function updateFilPilote(sValue1) {
 	var xhttp = new XMLHttpRequest();
 	console.log("updateFilPilote -> sValue1: ", sValue1);
-	xhttp.open("GET", "SVALUE1", sValue1, true);
+	xhttp.open("GET", "SVALUE1="+sValue1, true);
 	xhttp.send();
 }
 

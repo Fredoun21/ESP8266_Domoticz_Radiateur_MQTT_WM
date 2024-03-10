@@ -400,67 +400,72 @@ void setup()
 #endif
 
 	//----------------------------------------------------------------- Server
-	// Envoi la page HTML
-	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/index.html", "text/html"); });
 
 	// Envoi du fichier CSS
 	server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/css/style.css", "text/json"); });
+				 { request->send(LittleFS, "/css/style.css", "text/css"); });
 
 	// Envoi du script JS
 	server.on("/script/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/script/script.js", "text/json"); });
+				 { request->send(LittleFS, "/script/script.js", "text/javascript"); });
 
 	// Envoi du script JS
 	server.on("/script/gpio.js", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/script/gpio.js", "text/json"); });
+				 { request->send(LittleFS, "/script/gpio.js", "text/javascript"); });
 
-	// Envoi la page HTML
+	// Envoi du fichier JSON
 	server.on("/data.json", HTTP_GET, [](AsyncWebServerRequest *request)
 				 { request->send(LittleFS, "/data.json", "text/json"); });
+
+	// Envoi du dossier images
+	server.on("/images/favicon-16x16.png", HTTP_GET, [](AsyncWebServerRequest *request)
+				 { request->send(LittleFS, "/images/favicon-16x16.png", "image/png"); });
+
+	// Envoi la page HTML
+	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+				 { request->send(LittleFS, "/index.html", "text/html"); });
 
 	// // Envoi la page HTML
 	// server.on("/lireTemperature", HTTP_GET, [](AsyncWebServerRequest *request)
 	// 			 { request->send(200, "test/plain"); });
 
-	server.on("/GET", HTTP_GET, [](AsyncWebServerRequest *request)
-				 // List all parameters
-				 {
-		int params = request->params();
-		Serial.println(params);
-		for (int i = 0; i < params; i++)
-		{
-			AsyncWebParameter *p = request->getParam(i);
-			if (p->isFile())
-			{ // p->isPost() is also true
-				Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
-			}
-			else if (p->isPost())
-			{
-				Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-			}
-			else
-				Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
-		};
-		String inputMessage;
-		String inputParam;
-		// GET input1 value on <ESP_IP>/get?input1=<inputMessage>
-		if (request->hasParam("SVALUE1"))
-		{
-			inputMessage = request->getParam("SVALUE1")->value();
-			inputParam = "SVALUE1";
-		}
+	// server.on("/GET", HTTP_GET, [](AsyncWebServerRequest *request)
+	// 			 // List all parameters
+	// 			 {
+	// 	int params = request->params();
+	// 	Serial.println(params);
+	// 	for (int i = 0; i < params; i++)
+	// 	{
+	// 		AsyncWebParameter *p = request->getParam(i);
+	// 		if (p->isFile())
+	// 		{ // p->isPost() is also true
+	// 			Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
+	// 		}
+	// 		else if (p->isPost())
+	// 		{
+	// 			Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
+	// 		}
+	// 		else
+	// 			Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
+	// 	};
+	// 	String inputMessage;
+	// 	String inputParam;
+	// 	// GET input1 value on <ESP_IP>/get?input1=<inputMessage>
+	// 	if (request->hasParam("SVALUE1"))
+	// 	{
+	// 		inputMessage = request->getParam("SVALUE1")->value();
+	// 		inputParam = "SVALUE1";
+	// 	}
 
-			// Check if GET parameter exists
-			if (request->hasParam("SVALUE1"))
-			{
-				AsyncWebParameter *p2 = request->getParam("SVALUE1");
-				Serial.printf("GET[%s]: %s\n", p2->name().c_str(), p2->value().c_str());
-			};
+	// 		// Check if GET parameter exists
+	// 		if (request->hasParam("SVALUE1"))
+	// 		{
+	// 			AsyncWebParameter *p2 = request->getParam("SVALUE1");
+	// 			Serial.printf("GET[%s]: %s\n", p2->name().c_str(), p2->value().c_str());
+	// 		};
 
-			// updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
-			request->send(200); });
+	// 		// updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
+	// 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	// server.on("/SVALUE1=0", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -469,32 +474,44 @@ void setup()
 	// 	request->send(200); });
 
 	// Execute la mise à jour du fil pilote
+	server.on("/SVALUE1=0", HTTP_GET, [](AsyncWebServerRequest *request)
+				 {
+		sendMqttToDomoticz(IDXDomoticz, "0", TOPIC_DOMOTICZ_IN);// Envoi MQTT état OFF du radiateur au server domoticz
+		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
+		request->send(200); });
+
+	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=10", HTTP_GET, [](AsyncWebServerRequest *request)
 				 {
+							sendMqttToDomoticz(IDXDomoticz, "10", TOPIC_DOMOTICZ_IN); // Envoi MQTT état HORS GEL du radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(10), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=20", HTTP_GET, [](AsyncWebServerRequest *request)
 				 {
+					sendMqttToDomoticz(IDXDomoticz, "20", TOPIC_DOMOTICZ_IN);// Envoi MQTT état ECO radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(20), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=30", HTTP_GET, [](AsyncWebServerRequest *request)
 				 {
+		sendMqttToDomoticz(IDXDomoticz, "30", TOPIC_DOMOTICZ_IN);// Envoi MQTT état CONFORT -2 radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(30), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=40", HTTP_GET, [](AsyncWebServerRequest *request)
 				 {
+		sendMqttToDomoticz(IDXDomoticz, "40", TOPIC_DOMOTICZ_IN);// Envoi MQTT état CONFORT -1 radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(40), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=100", HTTP_GET, [](AsyncWebServerRequest *request)
 				 {
+		sendMqttToDomoticz(IDXDomoticz, "100", TOPIC_DOMOTICZ_IN);// Envoi MQTT état CONFORT radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(100), 8);
 		request->send(200); });
 
@@ -793,25 +810,22 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 	Serial.print("Nombre de Timer disponibles: ");
 	Serial.println(ISR_Timer.getNumAvailableTimers());
 	ISR_Timer.disableAll();
+	Serial.print("Numéro Timer: ");
+	Serial.println(ISR_Timer.getNumTimers());
 
-	for (size_t i = 0; i < ISR_Timer.getNumAvailableTimers(); i++)
+	if (0 < ISR_Timer.getNumTimers())
 	{
-		Serial.println(i);
-		Serial.print("Numéro Timer: ");
-		Serial.println(ISR_Timer.getNumTimers());
-		if (ISR_Timer.getNumTimers() != -1)
+		for (uint8_t i = 0; i < ISR_Timer.getNumAvailableTimers(); i++)
 		{
-			ISR_Timer.deleteTimer(i);
+			if (0 < ISR_Timer.getNumTimers())
+			{
+				Serial.println(i);
+				Serial.print("Numéro de timer supprimé: ");
+				Serial.println(ISR_Timer.getNumTimers());
+				ISR_Timer.deleteTimer(i);
+			}
 		}
 	}
-
-	// Serial.print("Numéro Timer disponible: ");
-	// Serial.println(ISR_Timer.);
-	// Serial.print("Numéro Timer disponible: ");
-	// Serial.println(ISR_Timer.getNumAvailableTimers());
-	// Serial.print("Numéro Timer disponible: ");
-	// Serial.println(ISR_Timer.getNumAvailableTimers());
-
 	// Etat de 00 à 10: Radiateur sur Arrêt
 	// Etat de 11 à 20: Radiateur sur Hors Gel
 	// Etat de 21 à 30: Radiateur sur ECO
@@ -826,7 +840,7 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 #ifndef ISR_TIMER
 		confortStopTask();
 #endif
-		Serial.println(F("Radiateur sur Arret"));
+		Serial.println(F("Radiateur sur ARRÊT"));
 		message = "Pin ";
 		message += String(pinPlus);
 		message += " = HIGH / Pin  ";
@@ -841,7 +855,7 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 #ifndef ISR_TIMER
 		confortStopTask();
 #endif
-		Serial.println(F("Radiateur sur Hors gel"));
+		Serial.println(F("Radiateur sur HORS GEL"));
 		message = "Pin ";
 		message += String(pinPlus);
 		message += " = LOW / Pin ";
@@ -872,7 +886,7 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 #ifdef ISR_TIMER
 		ISR_Timer.setInterval(7000L, doingSomethingConfort2);
 #endif
-		Serial.println(F("Radiateur sur Confort 2"));
+		Serial.println(F("Radiateur sur CONFORT -2°C"));
 		// Absence de courant pendant 293s, puis présence pendant 7s
 	}
 	else if (40 <= svalue && svalue < 50)
@@ -884,7 +898,7 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 #ifdef ISR_TIMER
 		ISR_Timer.setInterval(3000L, doingSomethingConfort1);
 #endif
-		Serial.println(F("Radiateur sur Confort 1"));
+		Serial.println(F("Radiateur sur CONFORT -1°C"));
 		// Absence de courant pendant 297s, puis présence pendant 3s
 	}
 	else if (50 <= svalue && svalue <= 100)
@@ -894,7 +908,7 @@ void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx)
 #ifndef ISR_TIMER
 		confortStopTask();
 #endif
-		Serial.println(F("Radiateur sur Confort"));
+		Serial.println(F("Radiateur sur CONFORT"));
 		message = "Pin ";
 		message += String(pinPlus);
 		message += " = LOW / Pin ";
