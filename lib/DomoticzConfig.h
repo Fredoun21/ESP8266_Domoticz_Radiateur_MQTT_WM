@@ -2,13 +2,13 @@
  * CONFIGURATION DOMOTICZ
  **/
 
-#define CONNET_XIAOMI_11T
-#undef ESP50 // ESP test
-#undef ESP53 // ESP SDB
-#undef ESP54 // ESP Cuisine
-#undef ESP55 // ESP Auxence
-#undef ESP56 // ESP Romeo
-#undef ESP57 // ESP Maximilien
+#undef CONNET_XIAOMI_11T
+#undef ESP50  // ESP test
+#undef ESP53  // ESP SDB
+#undef ESP54  // ESP Cuisine
+#undef ESP55  // ESP Auxence
+#define ESP56 // ESP Romeo
+#undef ESP57  // ESP Maximilien
 
 #ifdef CONNET_XIAOMI_11T
 // Parametres du dispositif dans Domoticz
@@ -62,12 +62,12 @@
 
 #ifdef ESP56
 // Parametres du dispositif dans Domoticz
-#define NAMEID = "Romeo_Radiateur"; // Nom du dispositif
-#define LOCAL_IP 192, 168, 1, 56    // Adresse IP du radiateur dans config Domoticz
-#define IDXDomoticz 23              // Numéro IDX du radiateur dans config Domoticz
-#define IDXDS18B20 24               // Numéro IDX de la sonde de T° dans config Domoticz
-#define IDXACS712 25                // Numéro IDX de la mesure de courant dans config Domoticz
-#define MQTT_ID "ESP56Client"       // Nom du client sur MQTT
+#define NAMEID "Romeo_Radiateur" // Nom du dispositif
+#define LOCAL_IP 192, 168, 1, 56 // Adresse IP du radiateur dans config Domoticz
+#define IDXDomoticz 23           // Numéro IDX du radiateur dans config Domoticz
+#define IDXDS18B20 24            // Numéro IDX de la sonde de T° dans config Domoticz
+#define IDXACS712 25             // Numéro IDX de la mesure de courant dans config Domoticz
+#define MQTT_ID "ESP56Client"    // Nom du client sur MQTT
 #endif
 
 #ifdef ESP57

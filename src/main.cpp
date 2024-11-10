@@ -17,7 +17,8 @@
 // #include <ESPAsyncTCP.h> // Dependance avec ESPAsyncWebServer.h
 
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
-#warning						 // #define WEBSERVER_H Indispensable pour valider la compilation entre WiFiManager.h et ESPAsyncWebServer.h
+#warning				 // #define WEBSERVER_H Indispensable pour valider la compilation entre WiFiManager.h et ESPAsyncWebServer.h
+#undef WEBSERVER_H
 #define WEBSERVER_H
 #include <ESPAsyncWebServer.h> // https://github.com/me-no-dev/ESPAsyncWebServer
 // #include <ESP8266WebServer.h>
@@ -29,13 +30,14 @@
 #include <LittleFS.h>	  // https://github.com/esp8266/Arduino/tree/master/libraries/LittleFS
 #include <ArduinoJson.h>  //https://github.com/bblanchon/ArduinoJson
 #include <PubSubClient.h> //https://github.com/knolleary/pubsubclient
+
 #ifdef OTA
 #include <ElegantOTA.h> //https://github.com/ayushsharma82/ElegantOTA
 #endif
 
 #ifdef ISR_TIMER
 #include <ESP8266TimerInterrupt.h> //https://github.com/khoih-prog/ESP8266TimerInterrupt
-#include <ESP8266_ISR_Timer.h>	  // https://github.com/khoih-prog/ESP8266TimerInterrupt
+#include <ESP8266_ISR_Timer.h>	   // https://github.com/khoih-prog/ESP8266TimerInterrupt
 #endif
 
 // #include <OneWire.h>
@@ -47,19 +49,20 @@
 #undef LED_BUILTIN
 #define LED_BUILTIN 2
 #endif
-#define PIN_FILPILOTE_PLUS 12	 // N° de Pin fil pilote
+#define PIN_FILPILOTE_PLUS 12  // N° de Pin fil pilote
 #define PIN_FILPILOTE_MOINS 13 // N° de Pin fil pilote
-#define PIN_ACS712 A0			 // Mesure de courant
-#define PIN_ONE_WIRE_BUS 14	 // Mesure de température
+#define PIN_ACS712 A0		   // Mesure de courant
+#define PIN_ONE_WIRE_BUS 14	   // Mesure de température
 
 /*
 variable gestion de boucle
 */
-const int watchdog = 300000;				  // Fréquence d'envoi des données à Domoticz 5min
+const int watchdog = 10000;				 // Fréquence d'envoi des données à Domoticz 5min
 unsigned long previousMillis = millis(); // mémoire pour envoi des données
 boolean firstLoop = false;
 unsigned long i = 0;
 volatile uint32_t startMillis = 0; // mesure du temps des interruption timerISR
+
 #ifdef OTA
 long ota_progress_millis = 0;
 #endif
@@ -70,7 +73,7 @@ DallasTemperature DS18B20(&oneWire);
 
 #ifdef ISR_TIMER
 // Création tache tempo pour mode confort 1 et 2
-ESP8266Timer ITimer;			  // Init ESP8266 timer 1
+ESP8266Timer ITimer;		 // Init ESP8266 timer 1
 ESP8266_ISR_Timer ISR_Timer; // Init ESP8266_ISR_Timer
 #endif
 
@@ -100,11 +103,8 @@ AsyncWebServer server(80);
 
 //----------------------------------------------------------------- MQTT
 #ifdef MQTT
-
 WiFiClient espClient;
-
-// flag for saving data
-bool shouldSaveConfigMQTT = true;
+bool shouldSaveConfigMQTT = true;// flag for saving data
 PubSubClient clientMQTT(espClient);
 #endif
 
@@ -115,29 +115,36 @@ int value = 0;
 
 void callback(char *topic, byte *payload, unsigned int length);
 void reconnect(const char *id, const char *topic); // void reconnect();
+
 #ifdef MQTT
 void saveConfigCallback();
 void askMqttToDomoticz(int idx, String svalue, const char *topic);
 void sendMqttToDomoticz(int idx, String svalue, const char *topic);
 #endif
+
 void updateFilpilote(int pinPlus, int pinMoins, int svalue, int idx);
 void confortSetPin(int aPinHigh, int aPinLow, float aTempoHigh, float aTempoLow);
 void setPinConfort(int state);
+
 #ifndef ISR_TIMER
 void confortStopTask();
 #endif
+
 float retourSensor(DallasTemperature sensor);
 float valeurACS712(int pin);
+
 #ifdef OTA
 void onOTAStart();
 void onOTAProgress(size_t current, size_t final);
 void onOTAEnd(bool success);
 #endif
+
 #ifdef ISR_TIMER
 void IRAM_ATTR TimerHandler();
 void doingSomethingConfort1();
 void doingSomethingConfort2();
 #endif
+
 void printStatus(uint16_t index, unsigned long timerDelay, unsigned long deltaMillis, unsigned long currentMillis);
 
 void setup()
@@ -403,27 +410,27 @@ void setup()
 
 	// Envoi du fichier CSS
 	server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/css/style.css", "text/css"); });
+			  { request->send(LittleFS, "/css/style.css", "text/css"); });
 
 	// Envoi du script JS
 	server.on("/script/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/script/script.js", "text/javascript"); });
+			  { request->send(LittleFS, "/script/script.js", "text/javascript"); });
 
 	// Envoi du script JS
 	server.on("/script/gpio.js", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/script/gpio.js", "text/javascript"); });
+			  { request->send(LittleFS, "/script/gpio.js", "text/javascript"); });
 
 	// Envoi du fichier JSON
 	server.on("/data.json", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/data.json", "text/json"); });
+			  { request->send(LittleFS, "/data.json", "text/json"); });
 
 	// Envoi du dossier images
 	server.on("/images/favicon-16x16.png", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/images/favicon-16x16.png", "image/png"); });
+			  { request->send(LittleFS, "/images/favicon-16x16.png", "image/png"); });
 
 	// Envoi la page HTML
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-				 { request->send(LittleFS, "/index.html", "text/html"); });
+			  { request->send(LittleFS, "/index.html", "text/html"); });
 
 	// // Envoi la page HTML
 	// server.on("/lireTemperature", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -475,42 +482,42 @@ void setup()
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=0", HTTP_GET, [](AsyncWebServerRequest *request)
-				 {
+			  {
 		sendMqttToDomoticz(IDXDomoticz, "0", TOPIC_DOMOTICZ_IN);// Envoi MQTT état OFF du radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=10", HTTP_GET, [](AsyncWebServerRequest *request)
-				 {
+			  {
 							sendMqttToDomoticz(IDXDomoticz, "10", TOPIC_DOMOTICZ_IN); // Envoi MQTT état HORS GEL du radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(10), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=20", HTTP_GET, [](AsyncWebServerRequest *request)
-				 {
+			  {
 					sendMqttToDomoticz(IDXDomoticz, "20", TOPIC_DOMOTICZ_IN);// Envoi MQTT état ECO radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(20), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=30", HTTP_GET, [](AsyncWebServerRequest *request)
-				 {
+			  {
 		sendMqttToDomoticz(IDXDomoticz, "30", TOPIC_DOMOTICZ_IN);// Envoi MQTT état CONFORT -2 radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(30), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=40", HTTP_GET, [](AsyncWebServerRequest *request)
-				 {
+			  {
 		sendMqttToDomoticz(IDXDomoticz, "40", TOPIC_DOMOTICZ_IN);// Envoi MQTT état CONFORT -1 radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(40), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=100", HTTP_GET, [](AsyncWebServerRequest *request)
-				 {
+			  {
 		sendMqttToDomoticz(IDXDomoticz, "100", TOPIC_DOMOTICZ_IN);// Envoi MQTT état CONFORT radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(100), 8);
 		request->send(200); });
@@ -600,9 +607,9 @@ void callback(char *topic, byte *payload, unsigned int length)
 	DynamicJsonDocument jsonBuffer(1024);
 	String messageReceived = "";
 
-	Serial.print("Message arrive [");
-	Serial.print(topic);
-	Serial.print("] ");
+	// Serial.print("Message arrive [");
+	// Serial.print(topic);
+	// Serial.print("] ");
 
 	// decode payload message
 	for (unsigned int i = 0; i < length; i++)

@@ -5,12 +5,16 @@
 
 #define DEBUG // Active l'affichage du debugage sur la console
 // #undef DEBUG // Désactive l'affichage du debugage sur la console
+
 #define MQTT // Active les fonctions MQTT
 // #undef MQTT // Desactive les fonctions MQTT
+
 // #define OTA // Active Elegant OTA
-#undef OTA // Deséctive OTA
-#define CONNET_XIAOMI_11T
-// #undef CONNET_XIAOMI_11T
+#undef OTA // Désactive OTA
+
+// #define CONNET_XIAOMI_11T
+#undef CONNET_XIAOMI_11T
+
 #define ISR_TIMER
 // #undef ISR_TIMER
 
