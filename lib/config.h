@@ -1,16 +1,19 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-//----------------------------------------------------------------- DEBUG OPTION DE COMPILATION
+//----------------------------------------------------------------- DEBUG // OPTION DE COMPILATION
 
-#define DEBUG // Active l'affichage du debugage sur la console
-// #undef DEBUG // Désactive l'affichage du debugage sur la console
+// #define DEBUG // Active l'affichage du debugage sur la console
+#undef DEBUG // Désactive l'affichage du debugage sur la console
 
 #define MQTT // Active les fonctions MQTT
 // #undef MQTT // Desactive les fonctions MQTT
 
-// #define OTA // Active Elegant OTA
-#undef OTA // Désactive OTA
+// #define GETHTTP // Active les fonctions d'affichage HTTP
+#undef GETHTTP // Desactive les fonctions d'affichage HTTP
+
+#define OTA // Active Elegant OTA
+// #undef OTA // Désactive OTA
 
 // #define CONNET_XIAOMI_11T
 #undef CONNET_XIAOMI_11T
@@ -58,9 +61,9 @@ CONFIGURATION MQTT
 #ifdef CONNET_XIAOMI_11T
 #define MQTT_SERVER "192.168.113.210"
 #define MQTT_PORT "1883"
-#define MQTT_USER "domoticz"             // s'il a été configuré sur Mosquitto
-#define MQTT_PASSWORD "210804"                  // idem
-#define TOPIC_DOMOTICZ_IN "domoticz/in" //"domoticz/in"   // topic d'écriture  MQTT -> Domoticz
+#define MQTT_USER "domoticz"              // s'il a été configuré sur Mosquitto
+#define MQTT_PASSWORD "210804"            // idem
+#define TOPIC_DOMOTICZ_IN "domoticz/in"   //"domoticz/in"   // topic d'écriture  MQTT -> Domoticz
 #define TOPIC_DOMOTICZ_OUT "domoticz/out" //"domoticz/out" // topic de lecture Domoticz -> MQTT
 #endif
 #endif
@@ -90,6 +93,6 @@ CONFIGURATION TIMER ISR
 
 #define TIMER_INTERVAL_3S 3000L     // delais fil pilote passant pour  T° Confort -1°C
 #define TIMER_INTERVAL_7S 7000L     // delais fil pilote passant pour T° Confort -2°C
-#define TIMER_INTERVAL_300S 12000L //300000L // délais cycle total pout T° Confort -1 ou -2°C
+#define TIMER_INTERVAL_300S 300000L // 300000L // délais cycle total pout T° Confort -1 ou -2°C
 #endif
 #endif

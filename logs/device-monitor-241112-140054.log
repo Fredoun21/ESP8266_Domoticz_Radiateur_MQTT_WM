@@ -1,0 +1,758 @@
+14:00:54.913 > ;d␀l��<␀�l�|␃␄␄␄�␄d�␌b|��␃�␛�;�c�␌c��go�dgo���␌c␜p�d{l;dp�g�␘␃␌␄�␄l␄��␄␄␄c␄'�<␃�␄�␜�␄c��'g�␀$��$ ␃�␒␛'g␌$ ␃␇␃';�ۛg␌␄cl�␏l8�n�␐␂␄␄sĜܜ␜��␂␄#␌o�|␃␌�␄c��'g�␀␄␌l`␂�␒␛'g␌$ ␃␇␃';�ۛg␄␄cě`␃␇{��o␄␌#ē`␃�␃␌␄�Ǉ�p�l`␃��o�␎l��␃�␛�g�s��'|�␄d␌�␄l`␂␜b�␛␂␄�<␃;�␃$�g�␄�g�␀␄l`␃��{�l�d␓�␄␌␄�
+14:00:55.032 > SDK:2.2.2-dev(38a443e)/Core:3.1.2=30102000/lwIP:STABLE-2_1_3_RELEASE/glue:1.2-65-g06164fb/BearSSL:b024386
+14:00:55.039 > Port Série OK
+14:00:55.039 > 
+14:00:55.039 > 
+14:00:55.039 > Type de carte: PLATFORMIO_D1_MINI
+14:00:55.046 > ESP8266TimerInterrupt v1.6.0
+14:00:55.046 > CPU Frequency = 80 MHz
+14:00:55.046 > 
+14:00:55.046 > montage LittleFS...
+14:00:55.046 > 
+14:00:55.060 > totalBytes: 1024000 octets
+14:00:55.060 > usedBytes: 163840 octets
+14:00:55.066 > blockSize: 8192 octets
+14:00:55.066 > pageSize: 256 octets
+14:00:55.066 > maxOpenFiles: 5 octets
+14:00:55.066 > maxPathLength: 32 octets
+14:00:55.074 > 
+14:00:55.074 > File: config.json 50
+14:00:55.077 > File: css 0
+14:00:55.084 > File: data.json 0
+14:00:55.090 > File: images 0
+14:00:55.097 > File: index.html 3450
+14:00:55.101 > File: script 0
+14:00:55.105 > File: testHtml 0
+14:00:55.122 > File: style.css 6033
+14:00:55.129 > File: style_Test_Icones.css 3990
+14:00:55.144 > File: gpio.js 1326
+14:00:55.152 > File: script.js 6828
+14:00:55.152 > 
+14:00:55.152 > Total taille fichiers: 21677 octets
+14:00:55.154 > 
+14:00:55.154 > 
+14:00:55.154 > Lecture du fichier de configuration
+14:00:55.164 > 
+14:00:55.164 > Contenu du fichier: 
+14:00:55.164 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+14:00:55.170 > Ouverture fichier de configuration
+14:00:55.172 > Taille du fichier :50 octets
+14:00:55.172 > 
+14:00:55.172 > deserializeJson() en échec: InvalidInput, 3
+14:00:55.178 > 
+14:00:55.178 > *WM: Adding parameter
+14:00:55.181 > *WM: server
+14:00:55.182 > *WM: Adding parameter
+14:00:55.184 > *WM: port
+14:00:55.186 > *WM: 
+14:00:55.186 > *WM: AutoConnect
+14:00:55.186 > fpm close 1 
+14:00:55.189 > mode : sta(8c:ce:4e:d6:04:ab)
+14:00:55.192 > add if0
+14:00:55.271 > *WM: Connecting as wifi client...
+14:00:55.271 > *WM: Custom STA IP/GW/Subnet
+14:00:55.288 > *WM: 192.168.1.56
+14:00:55.288 > *WM: Status:
+14:00:55.291 > *WM: 0
+14:00:55.291 > *WM: Using last saved values, should be faster
+14:00:58.123 > scandone
+14:00:58.123 > state: 0 -> 2 (b0)
+14:00:58.123 > state: 2 -> 3 (0)
+14:00:58.144 > state: 3 -> 5 (10)
+14:00:58.144 > add 0
+14:00:58.144 > aid 1
+14:00:58.144 > cnt 
+14:00:58.227 > 
+14:00:58.227 > connected with Bbox-39156D4C, channel 1
+14:00:58.227 > ip:192.168.1.56,mask:255.255.255.0,gw:192.168.1.254
+14:00:58.227 > ip:192.168.1.56,mask:255.255.255.0,gw:192.168.1.254
+14:00:58.243 > *WM: Connection result: 
+14:00:58.249 > *WM: 3
+14:00:58.249 > *WM: IP Address:
+14:00:58.251 > *WM: 192.168.1.56
+14:00:58.251 > 	wifiManager: connection...yeey :)
+14:00:58.253 > 
+14:00:58.253 > Carte ESP Address MAC: 8C:CE:4E:D6:04:AB
+14:00:58.260 > Carte ESP Adresse IP: 192.168.1.56
+14:00:58.262 > The values in the file are: 
+14:00:58.264 > 	mqtt_server : 192.168.1.100
+14:00:58.267 > 	mqtt_port : 1883
+14:00:58.267 > Sauvegarde configuration
+14:00:58.269 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+14:00:58.281 > HTTP server setup.
+14:00:58.281 > HTTP server started.
+14:00:58.282 > Server ready!
+14:00:58.282 > 
+14:00:58.282 > Starting ITimer OK, millis() = 3331
+14:00:58.782 > reconnection domoticz/out
+14:00:58.782 > ESP56Client
+14:00:58.785 > domoticz/out
+14:00:58.785 > DVES_USER
+14:00:58.788 > 
+14:00:58.788 > 
+14:00:58.788 > Connexion au serveur MQTT... Status= OK
+14:00:58.817 > Subscribe to domoticz/out topic. Status= OK
+14:00:58.817 > {"idx":23,"command":"getdeviceinfo"} Published to domoticz/in. Status=OK
+14:00:58.845 > Temperature mesuree: 19.94
+14:00:58.853 > {"idx":24,"nvalue":0,"svalue":"19.94"} Published to domoticz/in. Status=OK
+14:00:58.862 > Entree ADC: 3.68
+14:00:58.862 > 
+14:00:58.862 >  Courant = 19.86A
+14:00:58.865 > {"idx":25,"nvalue":0,"svalue":"19.86"} Published to domoticz/in. Status=OK
+14:01:00.358 > Message recu: Connecté
+14:01:00.865 > Message recu: Connecté
+14:01:01.358 > Message recu: Connecté
+14:01:01.858 > Message recu: Connecté
+14:01:02.358 > Message recu: Offline
+14:01:02.858 > Message recu: {"idx":23,"command":"getdeviceinfo"}
+14:01:03.358 > Message recu: {"idx":24,"nvalue":0,"svalue":"19.94"}
+14:01:03.858 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.86"}
+14:01:04.374 > [String] '{
+14:01:04.374 > 	"Batter ... /192.168.1': Reallocating large String(143 -> 144 bytes)
+14:01:04.374 > [String] '{
+14:01:04.374 > 	"Batter ... lpil?etat=': Reallocating large String(159 -> 160 bytes)
+14:01:04.390 > [String] '{
+14:01:04.390 > 	"Batter ... en=123abCd': Reallocating large String(175 -> 176 bytes)
+14:01:04.394 > [String] '{
+14:01:04.394 > 	"Batter ... ://192.168': Reallocating large String(191 -> 192 bytes)
+14:01:04.403 > [String] '{
+14:01:04.403 > 	"Batter ... filpil?eta': Reallocating large String(207 -> 208 bytes)
+14:01:04.408 > [String] '{
+14:01:04.410 > 	"Batter ... oken=123ab': Reallocating large String(223 -> 224 bytes)
+14:01:04.417 > [String] '{
+14:01:04.417 > 	"Batter ... tp://192.1': Reallocating large String(239 -> 240 bytes)
+14:01:04.422 > [String] '{
+14:01:04.424 > 	"Batter ... 6/filpil?e': Reallocating large String(255 -> 256 bytes)
+14:01:04.431 > [String] '{
+14:01:04.431 > 	"Batter ... &token=123': Reallocating large String(271 -> 272 bytes)
+14:01:04.438 > [String] '{
+14:01:04.438 > 	"Batter ... http://192': Reallocating large String(287 -> 288 bytes)
+14:01:04.445 > [String] '{
+14:01:04.445 > 	"Batter ... .56/filpil': Reallocating large String(303 -> 304 bytes)
+14:01:04.452 > [String] '{
+14:01:04.452 > 	"Batter ... 50&token=1': Reallocating large String(319 -> 320 bytes)
+14:01:04.459 > [String] '{
+14:01:04.462 > 	"Batter ... e|",
+14:01:04.462 > 	"Lev': Reallocating large String(335 -> 336 bytes)
+14:01:04.466 > [String] '{
+14:01:04.466 > 	"Batter ... s" : "Off|': Reallocating large String(351 -> 352 bytes)
+14:01:04.473 > [String] '{
+14:01:04.476 > 	"Batter ... EL|ECO|CON': Reallocating large String(367 -> 368 bytes)
+14:01:04.480 > [String] '{
+14:01:04.480 > 	"Batter ... |CONFORT 1': Reallocating large String(383 -> 384 bytes)
+14:01:04.487 > [String] '{
+14:01:04.490 > 	"Batter ... RT",
+14:01:04.490 > 	"Lev': Reallocating large String(399 -> 400 bytes)
+14:01:04.494 > [String] '{
+14:01:04.494 > 	"Batter ... idden" : "': Reallocating large String(415 -> 416 bytes)
+14:01:04.504 > [String] '{
+14:01:04.504 > 	"Batter ... ,
+14:01:04.504 > 	"RSSI" ': Reallocating large String(431 -> 432 bytes)
+14:01:04.508 > [String] '{
+14:01:04.512 > 	"Batter ... 	"Selector': Reallocating large String(447 -> 448 bytes)
+14:01:04.517 > [String] '{
+14:01:04.517 > 	"Batter ...  : "1",
+14:01:04.519 > 	"': Reallocating large String(463 -> 464 bytes)
+14:01:04.522 > [String] '{
+14:01:04.525 > 	"Batter ... ption" : "': Reallocating large String(479 -> 480 bytes)
+14:01:04.531 > [String] '{
+14:01:04.531 > 	"Batter ... ge radiate': Reallocating large String(495 -> 496 bytes)
+14:01:04.536 > [String] '{
+14:01:04.539 > 	"Batter ... mbre Rom\u': Reallocating large String(511 -> 512 bytes)
+14:01:04.545 > [String] '{
+14:01:04.545 > 	"Batter ... ,
+14:01:04.547 > 	"dtype"': Reallocating large String(527 -> 528 bytes)
+14:01:04.553 > [String] '{
+14:01:04.553 > 	"Batter ... ght/Switch': Reallocating large String(543 -> 544 bytes)
+14:01:04.553 > [String] '{
+14:01:04.561 > 	"Batter ... wid" : "3"': Reallocating large String(559 -> 560 bytes)
+14:01:04.567 > [String] '{
+14:01:04.567 > 	"Batter ... " : "00014': Reallocating large String(575 -> 576 bytes)
+14:01:04.570 > [String] '{
+14:01:04.575 > 	"Batter ... 	"idx" : 2': Reallocating large String(591 -> 592 bytes)
+14:01:04.581 > [String] '{
+14:01:04.581 > 	"Batter ... ame" : "Ra': Reallocating large String(607 -> 608 bytes)
+14:01:04.584 > [String] '{
+14:01:04.589 > 	"Batter ... r Romeo",
+14:01:04.589 > ': Reallocating large String(623 -> 624 bytes)
+14:01:04.595 > [String] '{
+14:01:04.595 > 	"Batter ... ue" : 2,
+14:01:04.598 > 	': Reallocating large String(639 -> 640 bytes)
+14:01:04.603 > [String] '{
+14:01:04.603 > 	"Batter ... wid" : "3"': Reallocating large String(655 -> 656 bytes)
+14:01:04.609 > [String] '{
+14:01:04.609 > 	"Batter ... ype" : "Se': Reallocating large String(671 -> 672 bytes)
+14:01:04.617 > [String] '{
+14:01:04.617 > 	"Batter ...  Switch",
+14:01:04.619 > ': Reallocating large String(687 -> 688 bytes)
+14:01:04.623 > [String] '{
+14:01:04.626 > 	"Batter ... ue1" : "20': Reallocating large String(703 -> 704 bytes)
+14:01:04.631 > [String] '{
+14:01:04.631 > 	"Batter ... witchType"': Reallocating large String(719 -> 720 bytes)
+14:01:04.637 > [String] '{
+14:01:04.640 > 	"Batter ... lector",
+14:01:04.640 > 	': Reallocating large String(735 -> 736 bytes)
+14:01:04.644 > Message recu: {
+14:01:04.644 > 	"Battery" : 255,
+14:01:04.647 > 	"LastUpdate" : "2024-11-12 14:00:04",
+14:01:04.650 > 	"LevelActions" : "http://192.168.1.56/filpil?etat=0&token=123abCde|http://192.168.1.56/filpil?etat=20&token=123abCde|http://192.168.1.56/filpil?etat=30&token=123abCde|http://192.168.1.56/filpil?etat=40&token=123abCde|http://192.168.1.56/filpil?etat=50&token=123abCde|",
+14:01:04.676 > 	"LevelNames" : "Off|HORS GEL|ECO|CONFORT 2|CONFORT 1|CONFORT",
+14:01:04.680 > 	"LevelOffHidden" : "false",
+14:01:04.684 > 	"RSSI" : 12,
+14:01:04.684 > 	"SelectorStyle" : "1",
+14:01:04.685 > 	"description" : "Pilotage radiateur chambre Rom\u00e9o",
+14:01:04.692 > 	"dtype" : "Light/Switch",
+14:01:04.692 > 	"hwid" : "3",
+14:01:04.694 > 	"id" : "00014067",
+14:01:04.694 > 	"idx" : 23,
+14:01:04.695 > 	"name" : "Radiateur Romeo",
+14:01:04.699 > 	"nvalue" : 2,
+14:01:04.699 > 	"org_hwid" : "3",
+14:01:04.699 > 	"stype" : "Selector Switch",
+14:01:04.706 > 	"svalue1" : "20",
+14:01:04.706 > 	"switchType" : "Selector",
+14:01:04.709 > 	"unit" : 1
+14:01:04.709 > }
+14:01:04.709 > 
+14:01:04.709 > Mise a jour fil Pilote depuis DOMOTICZ: 
+14:01:04.714 > Nombre de Timer disponibles: 16
+14:01:04.716 > Numéro Timer: -1
+14:01:04.720 > Radiateur sur ECO
+14:01:04.720 > Pin 12 = HIGH / Pin 13 = HIGH
+14:01:05.212 > [String] '{
+14:01:05.212 > 	"Batter ...  : "14068"': Reallocating large String(143 -> 144 bytes)
+14:01:05.212 > [String] '{
+14:01:05.212 > 	"Batter ... x" : 24,
+14:01:05.212 > 	': Reallocating large String(159 -> 160 bytes)
+14:01:05.230 > [String] '{
+14:01:05.230 > 	"Batter ...  : "Romeo ': Reallocating large String(175 -> 176 bytes)
+14:01:05.236 > [String] '{
+14:01:05.237 > 	"Batter ... 
+14:01:05.237 > 	"nvalue"': Reallocating large String(191 -> 192 bytes)
+14:01:05.244 > [String] '{
+14:01:05.244 > 	"Batter ... 	"org_hwid': Reallocating large String(207 -> 208 bytes)
+14:01:05.250 > [String] '{
+14:01:05.251 > 	"Batter ... ",
+14:01:05.251 > 	"stype': Reallocating large String(223 -> 224 bytes)
+14:01:05.258 > [String] '{
+14:01:05.258 > 	"Batter ... aCrosse TX': Reallocating large String(239 -> 240 bytes)
+14:01:05.263 > [String] '{
+14:01:05.265 > 	"Batter ... svalue1" :': Reallocating large String(255 -> 256 bytes)
+14:01:05.272 > [String] '{
+14:01:05.272 > 	"Batter ... 4",
+14:01:05.274 > 	"unit': Reallocating large String(271 -> 272 bytes)
+14:01:05.276 > Message recu: {
+14:01:05.276 > 	"Battery" : 255,
+14:01:05.282 > 	"LastUpdate" : "2024-11-12 14:00:58",
+14:01:05.282 > 	"RSSI" : 12,
+14:01:05.282 > 	"description" : "",
+14:01:05.288 > 	"dtype" : "Temp",
+14:01:05.291 > 	"hwid" : "3",
+14:01:05.291 > 	"id" : "14068",
+14:01:05.292 > 	"idx" : 24,
+14:01:05.292 > 	"name" : "Romeo Temp",
+14:01:05.297 > 	"nvalue" : 0,
+14:01:05.297 > 	"org_hwid" : "3",
+14:01:05.299 > 	"stype" : "LaCrosse TX3",
+14:01:05.302 > 	"svalue1" : "19.94",
+14:01:05.302 > 	"unit" : 1
+14:01:05.305 > }
+14:01:05.305 > 
+14:01:05.800 > [String] '{
+14:01:05.801 > 	"Batter ... id" : "000': Reallocating large String(143 -> 144 bytes)
+14:01:05.806 > [String] '{
+14:01:05.806 > 	"Batter ... ,
+14:01:05.808 > 	"idx" :': Reallocating large String(159 -> 160 bytes)
+14:01:05.814 > [String] '{
+14:01:05.814 > 	"Batter ... "name" : "': Reallocating large String(175 -> 176 bytes)
+14:01:05.819 > [String] '{
+14:01:05.820 > 	"Batter ... Courant",
+14:01:05.820 > ': Reallocating large String(191 -> 192 bytes)
+14:01:05.827 > [String] '{
+14:01:05.827 > 	"Batter ... ue" : 0,
+14:01:05.830 > 	': Reallocating large String(207 -> 208 bytes)
+14:01:05.833 > [String] '{
+14:01:05.834 > 	"Batter ... wid" : "3"': Reallocating large String(223 -> 224 bytes)
+14:01:05.841 > [String] '{
+14:01:05.841 > 	"Batter ... ype" : "Cu': Reallocating large String(239 -> 240 bytes)
+14:01:05.847 > [String] '{
+14:01:05.848 > 	"Batter ... ,
+14:01:05.848 > 	"svalue': Reallocating large String(255 -> 256 bytes)
+14:01:05.855 > [String] '{
+14:01:05.855 > 	"Batter ... 19.86",
+14:01:05.858 > 	"': Reallocating large String(271 -> 272 bytes)
+14:01:05.863 > Message recu: {
+14:01:05.863 > 	"Battery" : 255,
+14:01:05.867 > 	"LastUpdate" : "2024-11-12 14:00:58",
+14:01:05.869 > 	"RSSI" : 12,
+14:01:05.869 > 	"description" : "",
+14:01:05.872 > 	"dtype" : "General",
+14:01:05.875 > 	"hwid" : "3",
+14:01:05.875 > 	"id" : "00082025",
+14:01:05.877 > 	"idx" : 25,
+14:01:05.877 > 	"name" : "Romeo Courant",
+14:01:05.881 > 	"nvalue" : 0,
+14:01:05.881 > 	"org_hwid" : "3",
+14:01:05.884 > 	"stype" : "Current",
+14:01:05.885 > 	"svalue1" : "19.86",
+14:01:05.885 > 	"unit" : 1
+14:01:05.889 > }
+14:01:05.889 > 
+14:01:08.145 > pm open,type:2 0
+14:01:13.388 > Message recu: {"idx":21,"nvalue":0,"svalue":"17.94"}
+14:01:13.889 > Message recu: {"idx":22,"nvalue":0,"svalue":"16.81"}
+14:01:14.396 > [String] '{
+14:01:14.397 > 	"Batter ...  : "14065"': Reallocating large String(143 -> 144 bytes)
+14:01:14.402 > [String] '{
+14:01:14.402 > 	"Batter ... x" : 21,
+14:01:14.405 > 	': Reallocating large String(159 -> 160 bytes)
+14:01:14.410 > [String] '{
+14:01:14.410 > 	"Batter ...  : "Auxenc': Reallocating large String(175 -> 176 bytes)
+14:01:14.415 > [String] '{
+14:01:14.417 > 	"Batter ... ",
+14:01:14.417 > 	"nvalu': Reallocating large String(191 -> 192 bytes)
+14:01:14.424 > [String] '{
+14:01:14.424 > 	"Batter ... ,
+14:01:14.427 > 	"org_hw': Reallocating large String(207 -> 208 bytes)
+14:01:14.429 > [String] '{
+14:01:14.431 > 	"Batter ... "3",
+14:01:14.431 > 	"sty': Reallocating large String(223 -> 224 bytes)
+14:01:14.438 > [String] '{
+14:01:14.438 > 	"Batter ... "LaCrosse ': Reallocating large String(239 -> 240 bytes)
+14:01:14.443 > [String] '{
+14:01:14.444 > 	"Batter ... 	"svalue1"': Reallocating large String(255 -> 256 bytes)
+14:01:14.452 > [String] '{
+14:01:14.452 > 	"Batter ... .94",
+14:01:14.455 > 	"un': Reallocating large String(271 -> 272 bytes)
+14:01:14.458 > Message recu: {
+14:01:14.458 > 	"Battery" : 255,
+14:01:14.463 > 	"LastUpdate" : "2024-11-12 14:01:12",
+14:01:14.465 > 	"RSSI" : 12,
+14:01:14.465 > 	"description" : "",
+14:01:14.469 > 	"dtype" : "Temp",
+14:01:14.471 > 	"hwid" : "3",
+14:01:14.471 > 	"id" : "14065",
+14:01:14.473 > 	"idx" : 21,
+14:01:14.473 > 	"name" : "Auxence Temp",
+14:01:14.477 > 	"nvalue" : 0,
+14:01:14.477 > 	"org_hwid" : "3",
+14:01:14.479 > 	"stype" : "LaCrosse TX3",
+14:01:14.483 > 	"svalue1" : "17.94",
+14:01:14.483 > 	"unit" : 1
+14:01:14.485 > }
+14:01:14.485 > 
+14:01:14.976 > [String] '{
+14:01:14.976 > 	"Batter ... id" : "000': Reallocating large String(143 -> 144 bytes)
+14:01:14.976 > [String] '{
+14:01:14.976 > 	"Batter ... ,
+14:01:14.976 > 	"idx" :': Reallocating large String(159 -> 160 bytes)
+14:01:14.993 > [String] '{
+14:01:14.993 > 	"Batter ... "name" : "': Reallocating large String(175 -> 176 bytes)
+14:01:15.000 > [String] '{
+14:01:15.000 > 	"Batter ... e Courant"': Reallocating large String(191 -> 192 bytes)
+14:01:15.005 > [String] '{
+14:01:15.005 > 	"Batter ... alue" : 0,': Reallocating large String(207 -> 208 bytes)
+14:01:15.014 > [String] '{
+14:01:15.014 > 	"Batter ... _hwid" : "': Reallocating large String(223 -> 224 bytes)
+14:01:15.021 > [String] '{
+14:01:15.021 > 	"Batter ... stype" : "': Reallocating large String(239 -> 240 bytes)
+14:01:15.028 > [String] '{
+14:01:15.028 > 	"Batter ... t",
+14:01:15.028 > 	"sval': Reallocating large String(255 -> 256 bytes)
+14:01:15.037 > [String] '{
+14:01:15.037 > 	"Batter ...  "16.81",
+14:01:15.040 > ': Reallocating large String(271 -> 272 bytes)
+14:01:15.045 > Message recu: {
+14:01:15.045 > 	"Battery" : 255,
+14:01:15.047 > 	"LastUpdate" : "2024-11-12 14:01:12",
+14:01:15.047 > 	"RSSI" : 12,
+14:01:15.047 > 	"description" : "",
+14:01:15.053 > 	"dtype" : "General",
+14:01:15.055 > 	"hwid" : "3",
+14:01:15.055 > 	"id" : "00082022",
+14:01:15.055 > 	"idx" : 22,
+14:01:15.055 > 	"name" : "Auxence Courant",
+14:01:15.061 > 	"nvalue" : 0,
+14:01:15.062 > 	"org_hwid" : "3",
+14:01:15.062 > 	"stype" : "Current",
+14:01:15.067 > 	"svalue1" : "16.81",
+14:01:15.067 > 	"unit" : 1
+14:01:15.069 > }
+14:01:15.069 > 
+14:01:17.067 > [String] '{
+14:01:17.067 > 	"Batter ... /192.168.1': Reallocating large String(143 -> 144 bytes)
+14:01:17.074 > [String] '{
+14:01:17.074 > 	"Batter ... lpil?etat=': Reallocating large String(159 -> 160 bytes)
+14:01:17.084 > [String] '{
+14:01:17.084 > 	"Batter ... en=123abCd': Reallocating large String(175 -> 176 bytes)
+14:01:17.089 > [String] '{
+14:01:17.089 > 	"Batter ... ://192.168': Reallocating large String(191 -> 192 bytes)
+14:01:17.097 > [String] '{
+14:01:17.097 > 	"Batter ... filpil?eta': Reallocating large String(207 -> 208 bytes)
+14:01:17.103 > [String] '{
+14:01:17.105 > 	"Batter ... oken=123ab': Reallocating large String(223 -> 224 bytes)
+14:01:17.112 > [String] '{
+14:01:17.112 > 	"Batter ... tp://192.1': Reallocating large String(239 -> 240 bytes)
+14:01:17.117 > [String] '{
+14:01:17.119 > 	"Batter ... 6/filpil?e': Reallocating large String(255 -> 256 bytes)
+14:01:17.126 > [String] '{
+14:01:17.126 > 	"Batter ... &token=123': Reallocating large String(271 -> 272 bytes)
+14:01:17.132 > [String] '{
+14:01:17.132 > 	"Batter ... http://192': Reallocating large String(287 -> 288 bytes)
+14:01:17.139 > [String] '{
+14:01:17.139 > 	"Batter ... .56/filpil': Reallocating large String(303 -> 304 bytes)
+14:01:17.147 > [String] '{
+14:01:17.147 > 	"Batter ... 50&token=1': Reallocating large String(319 -> 320 bytes)
+14:01:17.154 > [String] '{
+14:01:17.156 > 	"Batter ... e|",
+14:01:17.156 > 	"Lev': Reallocating large String(335 -> 336 bytes)
+14:01:17.161 > [String] '{
+14:01:17.161 > 	"Batter ... s" : "Off|': Reallocating large String(351 -> 352 bytes)
+14:01:17.167 > [String] '{
+14:01:17.170 > 	"Batter ... EL|ECO|CON': Reallocating large String(367 -> 368 bytes)
+14:01:17.174 > [String] '{
+14:01:17.174 > 	"Batter ... |CONFORT 1': Reallocating large String(383 -> 384 bytes)
+14:01:17.181 > [String] '{
+14:01:17.184 > 	"Batter ... RT",
+14:01:17.184 > 	"Lev': Reallocating large String(399 -> 400 bytes)
+14:01:17.188 > [String] '{
+14:01:17.188 > 	"Batter ... idden" : "': Reallocating large String(415 -> 416 bytes)
+14:01:17.198 > [String] '{
+14:01:17.198 > 	"Batter ... ,
+14:01:17.198 > 	"RSSI" ': Reallocating large String(431 -> 432 bytes)
+14:01:17.202 > [String] '{
+14:01:17.206 > 	"Batter ... 	"Selector': Reallocating large String(447 -> 448 bytes)
+14:01:17.209 > [String] '{
+14:01:17.209 > 	"Batter ...  : "1",
+14:01:17.214 > 	"': Reallocating large String(463 -> 464 bytes)
+14:01:17.216 > [String] '{
+14:01:17.220 > 	"Batter ... ption" : "': Reallocating large String(479 -> 480 bytes)
+14:01:17.226 > [String] '{
+14:01:17.226 > 	"Batter ... ge radiate': Reallocating large String(495 -> 496 bytes)
+14:01:17.228 > [String] '{
+14:01:17.234 > 	"Batter ... mbre Rom\u': Reallocating large String(511 -> 512 bytes)
+14:01:17.236 > [String] '{
+14:01:17.236 > 	"Batter ... ,
+14:01:17.242 > 	"dtype"': Reallocating large String(527 -> 528 bytes)
+14:01:17.248 > [String] '{
+14:01:17.248 > 	"Batter ... ght/Switch': Reallocating large String(543 -> 544 bytes)
+14:01:17.250 > [String] '{
+14:01:17.256 > 	"Batter ... wid" : "3"': Reallocating large String(559 -> 560 bytes)
+14:01:17.262 > [String] '{
+14:01:17.262 > 	"Batter ... " : "00014': Reallocating large String(575 -> 576 bytes)
+14:01:17.264 > [String] '{
+14:01:17.270 > 	"Batter ... 	"idx" : 2': Reallocating large String(591 -> 592 bytes)
+14:01:17.276 > [String] '{
+14:01:17.276 > 	"Batter ... ame" : "Ra': Reallocating large String(607 -> 608 bytes)
+14:01:17.276 > [String] '{
+14:01:17.283 > 	"Batter ... r Romeo",
+14:01:17.283 > ': Reallocating large String(623 -> 624 bytes)
+14:01:17.289 > [String] '{
+14:01:17.289 > 	"Batter ... ue" : 2,
+14:01:17.292 > 	': Reallocating large String(639 -> 640 bytes)
+14:01:17.297 > [String] '{
+14:01:17.297 > 	"Batter ... wid" : "3"': Reallocating large String(655 -> 656 bytes)
+14:01:17.303 > [String] '{
+14:01:17.303 > 	"Batter ... ype" : "Se': Reallocating large String(671 -> 672 bytes)
+14:01:17.311 > [String] '{
+14:01:17.311 > 	"Batter ...  Switch",
+14:01:17.313 > ': Reallocating large String(687 -> 688 bytes)
+14:01:17.317 > [String] '{
+14:01:17.320 > 	"Batter ... ue1" : "50': Reallocating large String(703 -> 704 bytes)
+14:01:17.325 > [String] '{
+14:01:17.325 > 	"Batter ... witchType"': Reallocating large String(719 -> 720 bytes)
+14:01:17.331 > [String] '{
+14:01:17.334 > 	"Batter ... lector",
+14:01:17.334 > 	': Reallocating large String(735 -> 736 bytes)
+14:01:17.339 > Message recu: {
+14:01:17.339 > 	"Battery" : 255,
+14:01:17.341 > 	"LastUpdate" : "2024-11-12 14:01:15",
+14:01:17.345 > 	"LevelActions" : "http://192.168.1.56/filpil?etat=0&token=123abCde|http://192.168.1.56/filpil?etat=20&token=123abCde|http://192.168.1.56/filpil?etat=30&token=123abCde|http://192.168.1.56/filpil?etat=40&token=123abCde|http://192.168.1.56/filpil?etat=50&token=123abCde|",
+14:01:17.368 > 	"LevelNames" : "Off|HORS GEL|ECO|CONFORT 2|CONFORT 1|CONFORT",
+14:01:17.374 > 	"LevelOffHidden" : "false",
+14:01:17.374 > 	"RSSI" : 12,
+14:01:17.374 > 	"SelectorStyle" : "1",
+14:01:17.381 > 	"description" : "Pilotage radiateur chambre Rom\u00e9o",
+14:01:17.387 > 	"dtype" : "Light/Switch",
+14:01:17.387 > 	"hwid" : "3",
+14:01:17.389 > 	"id" : "00014067",
+14:01:17.389 > 	"idx" : 23,
+14:01:17.389 > 	"name" : "Radiateur Romeo",
+14:01:17.395 > 	"nvalue" : 2,
+14:01:17.395 > 	"org_hwid" : "3",
+14:01:17.397 > 	"stype" : "Selector Switch",
+14:01:17.401 > 	"svalue1" : "50",
+14:01:17.401 > 	"switchType" : "Selector",
+14:01:17.403 > 	"unit" : 1
+14:01:17.403 > }
+14:01:17.403 > 
+14:01:17.403 > Mise a jour fil Pilote depuis DOMOTICZ: 
+14:01:17.408 > Nombre de Timer disponibles: 16
+14:01:17.410 > Numéro Timer: -1
+14:01:17.414 > Radiateur sur CONFORT
+14:01:17.414 > Pin 12 = LOW / Pin 13 = LOW
+14:01:22.907 > [String] '{"Time":"1 ... nt":1,"POW': Reallocating large String(143 -> 144 bytes)
+14:01:22.907 > [String] '{"Time":"1 ... FF","Wifi"': Reallocating large String(159 -> 160 bytes)
+14:01:22.923 > [String] '{"Time":"1 ... :1,"SSId":': Reallocating large String(175 -> 176 bytes)
+14:01:22.935 > [String] '{"Time":"1 ... 39156D4C",': Reallocating large String(191 -> 192 bytes)
+14:01:22.943 > [String] '{"Time":"1 ... ":"F4:17:B': Reallocating large String(207 -> 208 bytes)
+14:01:22.948 > [String] '{"Time":"1 ... 5:3C","Cha': Reallocating large String(223 -> 224 bytes)
+14:01:22.957 > [String] '{"Time":"1 ... 11,"RSSI":': Reallocating large String(239 -> 240 bytes)
+14:01:22.962 > [String] '{"Time":"1 ... nkCount":1': Reallocating large String(255 -> 256 bytes)
+14:01:22.971 > [String] '{"Time":"1 ... time":"0T0': Reallocating large String(271 -> 272 bytes)
+14:01:22.979 > Message recu: {"Time":"1970-01-01T01:35:19","Uptime":"0T01:35:18","UptimeSec":5718,"Heap":29,"SleepMode":"Dynamic","Sleep":50,"LoadAvg":19,"MqttCount":1,"POWER":"OFF","Wifi":{"AP":1,"SSId":"Bbox-39156D4C","BSSId":"F4:17:B8:86:C5:3C","Channel":11,"RSSI":84,"LinkCount":1,"Downtime":"0T00:00:08"}}
+14:01:25.000 > [String] '{
+14:01:25.000 > 	"Batter ... ",
+14:01:25.000 > 	"id" :': Reallocating large String(143 -> 144 bytes)
+14:01:25.005 > [String] '{
+14:01:25.005 > 	"Batter ... ",
+14:01:25.008 > 	"idx" ': Reallocating large String(159 -> 160 bytes)
+14:01:25.013 > [String] '{
+14:01:25.013 > 	"Batter ... 	"name" : ': Reallocating large String(175 -> 176 bytes)
+14:01:25.019 > [String] '{
+14:01:25.022 > 	"Batter ... n",
+14:01:25.022 > 	"nval': Reallocating large String(191 -> 192 bytes)
+14:01:25.027 > [String] '{
+14:01:25.027 > 	"Batter ... 0,
+14:01:25.030 > 	"org_h': Reallocating large String(207 -> 208 bytes)
+14:01:25.032 > [String] '{
+14:01:25.035 > 	"Batter ...  "10",
+14:01:25.035 > 	"s': Reallocating large String(223 -> 224 bytes)
+14:01:25.041 > [String] '{
+14:01:25.041 > 	"Batter ... : "BMP085 ': Reallocating large String(239 -> 240 bytes)
+14:01:25.047 > [String] '{
+14:01:25.050 > 	"Batter ... 	"svalue1"': Reallocating large String(255 -> 256 bytes)
+14:01:25.055 > [String] '{
+14:01:25.055 > 	"Batter ... .6",
+14:01:25.058 > 	"sva': Reallocating large String(271 -> 272 bytes)
+14:01:25.064 > [String] '{
+14:01:25.064 > 	"Batter ... : "1031.2"': Reallocating large String(287 -> 288 bytes)
+14:01:25.068 > [String] '{
+14:01:25.071 > 	"Batter ... alue3" : "': Reallocating large String(303 -> 304 bytes)
+14:01:25.077 > [String] '{
+14:01:25.077 > 	"Batter ... svalue4" :': Reallocating large String(319 -> 320 bytes)
+14:01:25.082 > [String] '{
+14:01:25.082 > 	"Batter ... .62",
+14:01:25.082 > 	"un': Reallocating large String(335 -> 336 bytes)
+14:01:25.091 > Message recu: {
+14:01:25.091 > 	"Battery" : 255,
+14:01:25.094 > 	"LastUpdate" : "2024-11-12 14:01:23",
+14:01:25.096 > 	"RSSI" : 12,
+14:01:25.100 > 	"description" : "",
+14:01:25.100 > 	"dtype" : "Temp + Baro",
+14:01:25.102 > 	"hwid" : "10",
+14:01:25.105 > 	"id" : "0001",
+14:01:25.105 > 	"idx" : 47,
+14:01:25.105 > 	"name" : "Maison",
+14:01:25.108 > 	"nvalue" : 0,
+14:01:25.110 > 	"org_hwid" : "10",
+14:01:25.110 > 	"stype" : "BMP085 I2C",
+14:01:25.111 > 	"svalue1" : "19.6",
+14:01:25.116 > 	"svalue2" : "1031.2",
+14:01:25.116 > 	"svalue3" : "2",
+14:01:25.119 > 	"svalue4" : "-487.62",
+14:01:25.122 > 	"unit" : 1
+14:01:25.122 > }
+14:01:25.122 > 
+14:01:27.615 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.00"}
+14:01:28.108 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28034475;0;0;1117;0"}
+14:01:28.608 > Message recu: {"idx":31,"nvalue":0,"svalue":"5"}
+14:01:29.115 > [String] '{
+14:01:29.122 > 	"Batter ...  : "14079"': Reallocating large String(143 -> 144 bytes)
+14:01:29.122 > [String] '{
+14:01:29.122 > 	"Batter ... x" : 41,
+14:01:29.130 > 	': Reallocating large String(159 -> 160 bytes)
+14:01:29.130 > [String] '{
+14:01:29.130 > 	"Batter ...  : "Garage': Reallocating large String(175 -> 176 bytes)
+14:01:29.137 > [String] '{
+14:01:29.144 > 	"Batter ... ,
+14:01:29.144 > 	"nvalue': Reallocating large String(191 -> 192 bytes)
+14:01:29.150 > [String] '{
+14:01:29.150 > 	"Batter ... 
+14:01:29.151 > 	"org_hwi': Reallocating large String(207 -> 208 bytes)
+14:01:29.151 > [String] '{
+14:01:29.158 > 	"Batter ... 3",
+14:01:29.158 > 	"styp': Reallocating large String(223 -> 224 bytes)
+14:01:29.164 > [String] '{
+14:01:29.164 > 	"Batter ... LaCrosse T': Reallocating large String(239 -> 240 bytes)
+14:01:29.165 > [String] '{
+14:01:29.172 > 	"Batter ... "svalue1" ': Reallocating large String(255 -> 256 bytes)
+14:01:29.174 > [String] '{
+14:01:29.174 > 	"Batter ... 00",
+14:01:29.179 > 	"uni': Reallocating large String(271 -> 272 bytes)
+14:01:29.185 > Message recu: {
+14:01:29.185 > 	"Battery" : 255,
+14:01:29.188 > 	"LastUpdate" : "2024-11-12 14:01:26",
+14:01:29.191 > 	"RSSI" : 12,
+14:01:29.191 > 	"description" : "",
+14:01:29.193 > 	"dtype" : "Temp",
+14:01:29.195 > 	"hwid" : "3",
+14:01:29.195 > 	"id" : "14079",
+14:01:29.199 > 	"idx" : 41,
+14:01:29.199 > 	"name" : "Garage Temp",
+14:01:29.202 > 	"nvalue" : 0,
+14:01:29.202 > 	"org_hwid" : "3",
+14:01:29.202 > 	"stype" : "LaCrosse TX3",
+14:01:29.207 > 	"svalue1" : "18.00",
+14:01:29.207 > 	"unit" : 1
+14:01:29.209 > }
+14:01:29.209 > 
+14:01:29.707 > [String] '{
+14:01:29.707 > 	"Batter ... "3",
+14:01:29.707 > 	"id"': Reallocating large String(143 -> 144 bytes)
+14:01:29.712 > [String] '{
+14:01:29.712 > 	"Batter ... 071",
+14:01:29.712 > 	"id': Reallocating large String(159 -> 160 bytes)
+14:01:29.720 > [String] '{
+14:01:29.720 > 	"Batter ... 3,
+14:01:29.722 > 	"name"': Reallocating large String(175 -> 176 bytes)
+14:01:29.722 > [String] '{
+14:01:29.727 > 	"Batter ... ison Compt': Reallocating large String(191 -> 192 bytes)
+14:01:29.733 > [String] '{
+14:01:29.733 > 	"Batter ... neral",
+14:01:29.737 > 	"': Reallocating large String(207 -> 208 bytes)
+14:01:29.740 > [String] '{
+14:01:29.742 > 	"Batter ... " : 0,
+14:01:29.742 > 	"o': Reallocating large String(223 -> 224 bytes)
+14:01:29.748 > [String] '{
+14:01:29.748 > 	"Batter ... d" : "3",
+14:01:29.750 > ': Reallocating large String(239 -> 240 bytes)
+14:01:29.754 > [String] '{
+14:01:29.756 > 	"Batter ... e" : "Ener': Reallocating large String(255 -> 256 bytes)
+14:01:29.761 > [String] '{
+14:01:29.761 > 	"Batter ... "svalue1" ': Reallocating large String(271 -> 272 bytes)
+14:01:29.769 > [String] '{
+14:01:29.769 > 	"Batter ... 78063",
+14:01:29.769 > 	"': Reallocating large String(287 -> 288 bytes)
+14:01:29.776 > [String] '{
+14:01:29.778 > 	"Batter ... 2" : "2803': Reallocating large String(303 -> 304 bytes)
+14:01:29.784 > [String] '{
+14:01:29.784 > 	"Batter ... 
+14:01:29.785 > 	"svalue3': Reallocating large String(319 -> 320 bytes)
+14:01:29.790 > [String] '{
+14:01:29.790 > 	"Batter ... ",
+14:01:29.790 > 	"svalu': Reallocating large String(335 -> 336 bytes)
+14:01:29.798 > [String] '{
+14:01:29.798 > 	"Batter ... "0",
+14:01:29.799 > 	"sva': Reallocating large String(351 -> 352 bytes)
+14:01:29.804 > [String] '{
+14:01:29.806 > 	"Batter ... : "1117",
+14:01:29.806 > ': Reallocating large String(367 -> 368 bytes)
+14:01:29.811 > [String] '{
+14:01:29.811 > 	"Batter ... ue6" : "0"': Reallocating large String(383 -> 384 bytes)
+14:01:29.820 > Message recu: {
+14:01:29.820 > 	"Battery" : 255,
+14:01:29.820 > 	"LastUpdate" : "2024-11-12 14:01:26",
+14:01:29.825 > 	"RSSI" : 12,
+14:01:29.825 > 	"description" : "",
+14:01:29.825 > 	"dtype" : "P1 Smart Meter",
+14:01:29.831 > 	"hwid" : "3",
+14:01:29.831 > 	"id" : "14071",
+14:01:29.834 > 	"idx" : 33,
+14:01:29.834 > 	"name" : "Maison Compteur General",
+14:01:29.834 > 	"nvalue" : 0,
+14:01:29.839 > 	"org_hwid" : "3",
+14:01:29.839 > 	"stype" : "Energy",
+14:01:29.841 > 	"svalue1" : "25778063",
+14:01:29.845 > 	"svalue2" : "28034475",
+14:01:29.847 > 	"svalue3" : "0",
+14:01:29.847 > 	"svalue4" : "0",
+14:01:29.850 > 	"svalue5" : "1117",
+14:01:29.850 > 	"svalue6" : "0",
+14:01:29.854 > 	"unit" : 1
+14:01:29.854 > }
+14:01:29.854 > 
+14:01:30.349 > [String] '{
+14:01:30.350 > 	"Batter ... id" : "000': Reallocating large String(143 -> 144 bytes)
+14:01:30.355 > [String] '{
+14:01:30.355 > 	"Batter ... ,
+14:01:30.358 > 	"idx" :': Reallocating large String(159 -> 160 bytes)
+14:01:30.361 > [String] '{
+14:01:30.361 > 	"Batter ... "name" : "': Reallocating large String(175 -> 176 bytes)
+14:01:30.369 > [String] '{
+14:01:30.372 > 	"Batter ...  Courant I': Reallocating large String(191 -> 192 bytes)
+14:01:30.377 > [String] '{
+14:01:30.377 > 	"Batter ... an\u00e9",': Reallocating large String(207 -> 208 bytes)
+14:01:30.383 > [String] '{
+14:01:30.386 > 	"Batter ... lue" : 0,
+14:01:30.386 > ': Reallocating large String(223 -> 224 bytes)
+14:01:30.387 > [String] '{
+14:01:30.387 > 	"Batter ... hwid" : "3': Reallocating large String(239 -> 240 bytes)
+14:01:30.397 > [String] '{
+14:01:30.399 > 	"Batter ... type" : "C': Reallocating large String(255 -> 256 bytes)
+14:01:30.403 > [String] '{
+14:01:30.403 > 	"Batter ... ",
+14:01:30.409 > 	"svalu': Reallocating large String(271 -> 272 bytes)
+14:01:30.414 > [String] '{
+14:01:30.414 > 	"Batter ... "5",
+14:01:30.417 > 	"uni': Reallocating large String(287 -> 288 bytes)
+14:01:30.420 > Message recu: {
+14:01:30.422 > 	"Battery" : 255,
+14:01:30.422 > 	"LastUpdate" : "2024-11-12 14:01:26",
+14:01:30.425 > 	"RSSI" : 12,
+14:01:30.428 > 	"description" : "",
+14:01:30.431 > 	"dtype" : "General",
+14:01:30.431 > 	"hwid" : "3",
+14:01:30.434 > 	"id" : "00082031",
+14:01:30.434 > 	"idx" : 31,
+14:01:30.435 > 	"name" : "Maison Courant Instantan\u00e9",
+14:01:30.439 > 	"nvalue" : 0,
+14:01:30.441 > 	"org_hwid" : "3",
+14:01:30.441 > 	"stype" : "Current",
+14:01:30.444 > 	"svalue1" : "5",
+14:01:30.444 > 	"unit" : 1
+14:01:30.446 > }
+14:01:30.446 > 
+14:01:54.950 > [String] '{
+14:01:54.950 > 	"Batter ... ",
+14:01:54.950 > 	"id" :': Reallocating large String(143 -> 144 bytes)
+14:01:54.956 > [String] '{
+14:01:54.956 > 	"Batter ... ",
+14:01:54.956 > 	"idx" ': Reallocating large String(159 -> 160 bytes)
+14:01:54.966 > [String] '{
+14:01:54.966 > 	"Batter ... 	"name" : ': Reallocating large String(175 -> 176 bytes)
+14:01:54.971 > [String] '{
+14:01:54.974 > 	"Batter ... n",
+14:01:54.974 > 	"nval': Reallocating large String(191 -> 192 bytes)
+14:01:54.980 > [String] '{
+14:01:54.980 > 	"Batter ... 0,
+14:01:54.982 > 	"org_h': Reallocating large String(207 -> 208 bytes)
+14:01:54.985 > [String] '{
+14:01:54.987 > 	"Batter ...  "10",
+14:01:54.987 > 	"s': Reallocating large String(223 -> 224 bytes)
+14:01:54.993 > [String] '{
+14:01:54.993 > 	"Batter ... : "BMP085 ': Reallocating large String(239 -> 240 bytes)
+14:01:54.998 > [String] '{
+14:01:55.001 > 	"Batter ... 	"svalue1"': Reallocating large String(255 -> 256 bytes)
+14:01:55.007 > [String] '{
+14:01:55.007 > 	"Batter ... .6",
+14:01:55.009 > 	"sva': Reallocating large String(271 -> 272 bytes)
+14:01:55.015 > [String] '{
+14:01:55.015 > 	"Batter ... : "1031.2"': Reallocating large String(287 -> 288 bytes)
+14:01:55.021 > [String] '{
+14:01:55.023 > 	"Batter ... alue3" : "': Reallocating large String(303 -> 304 bytes)
+14:01:55.029 > [String] '{
+14:01:55.029 > 	"Batter ... svalue4" :': Reallocating large String(319 -> 320 bytes)
+14:01:55.035 > [String] '{
+14:01:55.037 > 	"Batter ... .81",
+14:01:55.037 > 	"un': Reallocating large String(335 -> 336 bytes)
+14:01:55.041 > Message recu: {
+14:01:55.041 > 	"Battery" : 255,
+14:01:55.046 > 	"LastUpdate" : "2024-11-12 14:01:54",
+14:01:55.049 > 	"RSSI" : 12,
+14:01:55.051 > 	"description" : "",
+14:01:55.051 > 	"dtype" : "Temp + Baro",
+14:01:55.054 > 	"hwid" : "10",
+14:01:55.057 > 	"id" : "0001",
+14:01:55.057 > 	"idx" : 47,
+14:01:55.057 > 	"name" : "Maison",
+14:01:55.060 > 	"nvalue" : 0,
+14:01:55.063 > 	"org_hwid" : "10",
+14:01:55.063 > 	"stype" : "BMP085 I2C",
+14:01:55.065 > 	"svalue1" : "19.6",
+14:01:55.068 > 	"svalue2" : "1031.2",
+14:01:55.068 > 	"svalue3" : "2",
+14:01:55.071 > 	"svalue4" : "-486.81",
+14:01:55.074 > 	"unit" : 1
+14:01:55.074 > }
+14:01:55.074 > 

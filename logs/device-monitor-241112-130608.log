@@ -1,0 +1,630 @@
+13:06:08.609 > ;d␀d��|␀�l�|␃␄␄␌�␄d�␄#<��␃�␒�{�#�␄c��go�dgo���␌#␜p��ls${lp�o�␐␃␄␄�␌$␄��␄␌␌#␄g�|␃�␌�␜�␌c��on�␀lĎd`␃�␛␓go␄l`␃␏␃os���o␄␌#$�␇$x�g�␘␃␄␌;�ܜ�␜��␃␄c␄'�<␃␄�␌b��n'�␀␄␄l`␃�␓␛n'␌$ ␃␇␃';�ۛ'␌␄c�� ␃␎rۛg␄␄c�� ␃�␃␄␌Ď␜�␌�d`␃��g�␏l��␃�␛�o�;��o|�␌$␄�␄d`␃␜c�␛␃␌�|␃s�␃d�n�␌�n�␀␌$`␃��s�$�l␛�␌␄␌�
+13:06:08.717 > SDK:2.2.2-dev(38a443e)/Core:3.1.2=30102000/lwIP:STABLE-2_1_3_RELEASE/glue:1.2-65-g06164fb/BearSSL:b024386
+13:06:08.725 > Port Série OK
+13:06:08.725 > 
+13:06:08.725 > 
+13:06:08.725 > Type de carte: PLATFORMIO_D1_MINI
+13:06:08.726 > ESP8266TimerInterrupt v1.6.0
+13:06:08.726 > CPU Frequency = 80 MHz
+13:06:08.733 > 
+13:06:08.733 > montage LittleFS...
+13:06:08.736 > 
+13:06:08.736 > totalBytes: 1024000 octets
+13:06:08.737 > usedBytes: 16384 octets
+13:06:08.742 > blockSize: 8192 octets
+13:06:08.742 > pageSize: 256 octets
+13:06:08.742 > maxOpenFiles: 5 octets
+13:06:08.742 > maxPathLength: 32 octets
+13:06:08.742 > 
+13:06:08.742 > File: config.json 50
+13:06:08.749 > 
+13:06:08.749 > Total taille fichiers: 50 octets
+13:06:08.751 > 
+13:06:08.751 > 
+13:06:08.751 > Lecture du fichier de configuration
+13:06:08.755 > 
+13:06:08.758 > Contenu du fichier: 
+13:06:08.758 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+13:06:08.763 > Ouverture fichier de configuration
+13:06:08.765 > Taille du fichier :50 octets
+13:06:08.769 > 
+13:06:08.769 > deserializeJson() en échec: InvalidInput, 3
+13:06:08.769 > 
+13:06:08.769 > *WM: Adding parameter
+13:06:08.775 > *WM: server
+13:06:08.775 > *WM: Adding parameter
+13:06:08.777 > *WM: port
+13:06:08.779 > *WM: 
+13:06:08.779 > *WM: AutoConnect
+13:06:08.779 > fpm close 1 
+13:06:08.783 > mode : sta(8c:ce:4e:d6:04:ab)
+13:06:08.785 > add if0
+13:06:08.873 > *WM: Connecting as wifi client...
+13:06:08.879 > *WM: Custom STA IP/GW/Subnet
+13:06:08.880 > *WM: 192.168.1.56
+13:06:08.880 > *WM: Status:
+13:06:08.880 > *WM: 0
+13:06:08.880 > *WM: Using last saved values, should be faster
+13:06:11.723 > scandone
+13:06:11.723 > state: 0 -> 2 (b0)
+13:06:11.723 > state: 2 -> 3 (0)
+13:06:12.727 > state: 3 -> 0 (4)
+13:06:12.727 > reconnect
+13:06:15.568 > scandone
+13:06:15.568 > state: 0 -> 2 (b0)
+13:06:15.568 > state: 2 -> 3 (0)
+13:06:16.572 > state: 3 -> 0 (4)
+13:06:16.572 > reconnect
+13:06:19.414 > scandone
+13:06:19.415 > state: 0 -> 2 (b0)
+13:06:19.415 > state: 2 -> 3 (0)
+13:06:20.418 > state: 3 -> 0 (4)
+13:06:20.418 > reconnect
+13:06:23.258 > scandone
+13:06:23.258 > state: 0 -> 2 (b0)
+13:06:23.258 > state: 2 -> 3 (0)
+13:06:24.264 > state: 3 -> 0 (4)
+13:06:24.264 > reconnect
+13:06:27.105 > scandone
+13:06:27.105 > state: 0 -> 2 (b0)
+13:06:27.105 > state: 2 -> 3 (0)
+13:06:28.109 > state: 3 -> 0 (4)
+13:06:28.110 > reconnect
+13:06:31.090 > s$␀$ܟ|␀�d�|␃␌␄␄�␄$�␌b|��␃�␓�;�c�␄#��''�$'g���␄c␜x��d{lr$x�g�␘␃␄␌�␄l␄��␌␄␄c␄'�<␃�␌�␜�␄c��go�␀d��d`␃�␛␓o'␄l`␂␏␃os���n␄␌#$�␇$x�g�␘␃␌␌{����␜��␃␌c␄g�<␃␄�␄#��'g�␀␄␄l`␂�␓␛n'␌$ ␃␇␃n;���'␌␄c�� ␃␎;ۓg␄␄cě`␃�␃␄␌��␜�␄�l`␃��g�␏l��␃�␒�'��s��'<�␄d␌�␄l`␂␜b�␛␂␄�<␃;�␃$�g�␄�g�␀␄l`␂��;�l�d␓�␄␌␄�
+13:06:31.194 > SDK:2.2.2-dev(38a443e)/Core:3.1.2=30102000/lwIP:STABLE-2_1_3_RELEASE/glue:1.2-65-g06164fb/BearSSL:b024386
+13:06:31.210 > Port Série OK
+13:06:31.210 > 
+13:06:31.210 > 
+13:06:31.210 > Type de carte: PLATFORMIO_D1_MINI
+13:06:31.216 > ESP8266TimerInterrupt v1.6.0
+13:06:31.217 > CPU Frequency = 80 MHz
+13:06:31.217 > 
+13:06:31.217 > montage LittleFS...
+13:06:31.222 > 
+13:06:31.222 > totalBytes: 1024000 octets
+13:06:31.224 > usedBytes: 16384 octets
+13:06:31.227 > blockSize: 8192 octets
+13:06:31.227 > pageSize: 256 octets
+13:06:31.230 > maxOpenFiles: 5 octets
+13:06:31.231 > maxPathLength: 32 octets
+13:06:31.231 > 
+13:06:31.231 > File: config.json 50
+13:06:31.236 > 
+13:06:31.236 > Total taille fichiers: 50 octets
+13:06:31.238 > 
+13:06:31.238 > 
+13:06:31.238 > Lecture du fichier de configuration
+13:06:31.241 > 
+13:06:31.244 > Contenu du fichier: 
+13:06:31.244 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+13:06:31.250 > Ouverture fichier de configuration
+13:06:31.251 > Taille du fichier :50 octets
+13:06:31.254 > 
+13:06:31.254 > deserializeJson() en échec: InvalidInput, 3
+13:06:31.256 > 
+13:06:31.256 > *WM: Adding parameter
+13:06:31.256 > *WM: server
+13:06:31.256 > *WM: Adding parameter
+13:06:31.263 > *WM: port
+13:06:31.265 > *WM: 
+13:06:31.265 > *WM: AutoConnect
+13:06:31.265 > fpm close 1 
+13:06:31.268 > mode : sta(8c:ce:4e:d6:04:ab)
+13:06:31.271 > add if0
+13:06:31.363 > *WM: Connecting as wifi client...
+13:06:31.365 > *WM: Custom STA IP/GW/Subnet
+13:06:31.368 > *WM: 192.168.1.56
+13:06:31.368 > *WM: Status:
+13:06:31.370 > *WM: 0
+13:06:31.370 > *WM: Using last saved values, should be faster
+13:06:34.194 > scandone
+13:06:34.194 > state: 0 -> 2 (b0)
+13:06:34.194 > state: 2 -> 3 (0)
+13:06:35.209 > state: 3 -> 0 (4)
+13:06:35.213 > reconnect
+13:06:38.054 > scandone
+13:06:38.054 > state: 0 -> 2 (b0)
+13:06:38.054 > state: 2 -> 3 (0)
+13:06:39.055 > state: 3 -> 0 (4)
+13:06:39.055 > reconnect
+13:06:41.889 > scandone
+13:06:41.889 > state: 0 -> 2 (b0)
+13:06:41.889 > state: 2 -> 3 (0)
+13:06:42.901 > state: 3 -> 0 (4)
+13:06:42.901 > reconnect
+13:06:45.748 > scandone
+13:06:45.748 > state: 0 -> 2 (b0)
+13:06:45.748 > state: 2 -> 3 (0)
+13:06:46.749 > state: 3 -> 0 (4)
+13:06:46.749 > reconnect
+13:06:49.595 > scandone
+13:06:49.595 > state: 0 -> 2 (b0)
+13:06:49.595 > state: 2 -> 3 (0)
+13:06:50.596 > state: 3 -> 0 (4)
+13:06:50.596 > reconnect
+13:06:53.442 > scandone
+13:06:53.442 > state: 0 -> 2 (b0)
+13:06:53.442 > state: 2 -> 3 (0)
+13:06:54.446 > state: 3 -> 0 (4)
+13:06:54.446 > reconnect
+13:06:57.283 > scandone
+13:06:57.283 > state: 0 -> 2 (b0)
+13:06:57.283 > state: 2 -> 3 (0)
+13:06:58.290 > state: 3 -> 0 (4)
+13:06:58.290 > reconnect
+13:07:01.130 > scandone
+13:07:01.130 > state: 0 -> 2 (b0)
+13:07:01.130 > state: 2 -> 3 (0)
+13:07:02.123 > state: 3 -> 0 (4)
+13:07:02.123 > reconnect
+13:07:04.977 > scandone
+13:07:04.977 > state: 0 -> 2 (b0)
+13:07:04.977 > state: 2 -> 3 (0)
+13:07:05.978 > state: 3 -> 0 (4)
+13:07:05.978 > reconnect
+13:07:08.825 > scandone
+13:07:08.825 > state: 0 -> 2 (b0)
+13:07:08.825 > state: 2 -> 3 (0)
+13:07:09.825 > state: 3 -> 0 (4)
+13:07:09.825 > reconnect
+13:07:12.672 > scandone
+13:07:12.672 > state: 0 -> 2 (b0)
+13:07:12.672 > state: 2 -> 3 (0)
+13:07:13.673 > state: 3 -> 0 (4)
+13:07:13.673 > reconnect
+13:07:16.519 > scandone
+13:07:16.519 > state: 0 -> 2 (b0)
+13:07:16.519 > state: 2 -> 3 (0)
+13:07:17.520 > state: 3 -> 0 (4)
+13:07:17.520 > reconnect
+13:07:20.365 > scandone
+13:07:20.365 > state: 0 -> 2 (b0)
+13:07:20.365 > state: 2 -> 3 (0)
+13:07:21.368 > state: 3 -> 0 (4)
+13:07:21.368 > reconnect
+13:07:24.210 > scandone
+13:07:24.210 > state: 0 -> 2 (b0)
+13:07:24.210 > state: 2 -> 3 (0)
+13:07:25.215 > state: 3 -> 0 (4)
+13:07:25.215 > reconnect
+13:07:28.055 > scandone
+13:07:28.055 > state: 0 -> 2 (b0)
+13:07:28.055 > state: 2 -> 3 (0)
+13:07:29.056 > state: 3 -> 0 (4)
+13:07:29.061 > reconnect
+13:07:31.363 > *WM: Connection result: 
+13:07:31.363 > *WM: 255
+13:07:31.368 > scandone
+13:07:31.368 > del if0
+13:07:31.368 > usl
+13:07:31.368 > mode : softAP(8e:ce:4e:d6:04:ab)
+13:07:31.370 > add if1
+13:07:31.373 > dhcp server start:(ip:192.168.4.1,mask:255.255.255.0,gw:192.168.4.1)
+13:07:31.377 > bcn 100
+13:07:31.471 > *WM: 
+13:07:31.472 > *WM: Configuring access point... 
+13:07:31.472 > *WM: Romeo_Radiateur
+13:07:31.472 > *WM: password
+13:07:31.973 > *WM: AP IP address: 
+13:07:31.973 > *WM: 192.168.4.1
+13:07:31.975 > *WM: HTTP server started
+13:08:33.647 > add 1
+13:08:33.647 > aid 1
+13:08:33.647 > station: aa:b4:36:37:a1:60 join, AID = 1
+13:08:34.043 > *WM: Request redirected to captive portal
+13:08:34.080 > *WM: Handle root
+13:08:34.080 > [String] '<!DOCTYPE  ... ns</title>': Reallocating large String(168 -> 299 bytes)
+13:08:34.084 > [String] '<!DOCTYPE  ... }</script>': Reallocating large String(299 -> 987 bytes)
+13:08:34.094 > [String] '<!DOCTYPE  ... ;}</style>': Reallocating large String(987 -> 1067 bytes)
+13:08:34.098 > [String] '<!DOCTYPE  ... 0px;'><h1>': Reallocating large String(1071 -> 1086 bytes)
+13:08:34.107 > [String] '<!DOCTYPE  ... _Radiateur': Reallocating large String(1086 -> 1091 bytes)
+13:08:34.114 > [String] '<!DOCTYPE  ... ateur</h1>': Reallocating large String(1091 -> 1111 bytes)
+13:08:34.119 > [String] '<!DOCTYPE  ... nager</h3>': Reallocating large String(1111 -> 1401 bytes)
+13:08:34.125 > [String] '<!DOCTYPE  ... on></form>': Reallocating large String(1401 -> 1421 bytes)
+13:08:34.265 > *WM: Request redirected to captive portal
+13:08:34.910 > [String] 'User-Agent ... Chrome/130': Reallocating large String(143 -> 144 bytes)
+13:08:34.917 > [String] 'User-Agent ... 3.107 Mobi': Reallocating large String(159 -> 160 bytes)
+13:08:34.924 > *WM: Handle root
+13:08:34.924 > [String] '<!DOCTYPE  ... ns</title>': Reallocating large String(168 -> 299 bytes)
+13:08:34.937 > [String] '<!DOCTYPE  ... }</script>': Reallocating large String(299 -> 987 bytes)
+13:08:34.941 > [String] '<!DOCTYPE  ... ;}</style>': Reallocating large String(987 -> 1067 bytes)
+13:08:34.951 > [String] '<!DOCTYPE  ... 0px;'><h1>': Reallocating large String(1071 -> 1086 bytes)
+13:08:34.959 > [String] '<!DOCTYPE  ... _Radiateur': Reallocating large String(1086 -> 1091 bytes)
+13:08:34.965 > [String] '<!DOCTYPE  ... ateur</h1>': Reallocating large String(1091 -> 1111 bytes)
+13:08:34.974 > [String] '<!DOCTYPE  ... nager</h3>': Reallocating large String(1111 -> 1401 bytes)
+13:08:34.979 > [String] '<!DOCTYPE  ... on></form>': Reallocating large String(1401 -> 1421 bytes)
+13:08:35.104 > [String] 'User-Agent ... Chrome/130': Reallocating large String(143 -> 144 bytes)
+13:08:35.115 > [String] 'User-Agent ... 3.107 Mobi': Reallocating large String(159 -> 160 bytes)
+13:08:35.123 > [String] 'Content-Ty ... ngth: 59
+13:08:35.124 > ': Reallocating large String(129 -> 149 bytes)
+13:08:35.124 > [String] 'Content-Ty ... ngth: 59
+13:08:35.124 > ': Reallocating large String(149 -> 173 bytes)
+13:08:35.135 > [String] 'Content-Ty ... ep-alive
+13:08:35.139 > ': Reallocating large String(173 -> 199 bytes)
+13:08:35.140 > [String] 'HTTP/1.1 4 ... out=2000
+13:08:35.145 > ': Reallocating large String(223 -> 225 bytes)
+13:08:35.146 > *WM: Request redirected to captive portal
+13:08:35.175 > *WM: Request redirected to captive portal
+13:08:38.689 > [String] 'User-Agent ... Chrome/130': Reallocating large String(143 -> 144 bytes)
+13:08:38.689 > [String] 'User-Agent ... 3.107 Mobi': Reallocating large String(159 -> 160 bytes)
+13:08:38.704 > [String] '<!DOCTYPE  ... SP</title>': Reallocating large String(171 -> 302 bytes)
+13:08:38.710 > [String] '<!DOCTYPE  ... }</script>': Reallocating large String(302 -> 990 bytes)
+13:08:38.719 > [String] '<!DOCTYPE  ... ;}</style>': Reallocating large String(990 -> 1070 bytes)
+13:08:38.725 > mode : sta(8c:ce:4e:d6:04:ab) + softAP(8e:ce:4e:d6:04:ab)
+13:08:38.730 > ip:192.168.1.56,mask:255.255.255.0,gw:192.168.1.254
+13:08:38.736 > add if0
+13:08:41.114 > scandone
+13:08:41.115 > *WM: Scan done
+13:08:41.115 > *WM: DUP AP: Bbox-39156D4C
+13:08:41.118 > *WM: Bbox-39156D4C
+13:08:41.120 > *WM: -51
+13:08:41.120 > [String] '<!DOCTYPE  ... h:260px;'>': Reallocating large String(1070 -> 1163 bytes)
+13:08:41.128 > [String] '<!DOCTYPE  ... pan></div>': Reallocating large String(1163 -> 1168 bytes)
+13:08:41.134 > [String] '<!DOCTYPE  ... /div><br/>': Reallocating large String(1168 -> 1339 bytes)
+13:08:41.140 > [String] '<!DOCTYPE  ... ord'><br/>': Reallocating large String(1339 -> 1439 bytes)
+13:08:41.149 > [String] '<!DOCTYPE  ... 8.1.100' >': Reallocating large String(1439 -> 1523 bytes)
+13:08:41.156 > [String] '<!DOCTYPE  ... 83' ><br/>': Reallocating large String(1528 -> 1620 bytes)
+13:08:41.163 > [String] '<!DOCTYPE  ... 1.56' {c}>': Reallocating large String(1620 -> 1718 bytes)
+13:08:41.168 > [String] '<!DOCTYPE  ... .254' {c}>': Reallocating large String(1718 -> 1808 bytes)
+13:08:41.175 > [String] '<!DOCTYPE  ...  {c}><br/>': Reallocating large String(1813 -> 1860 bytes)
+13:08:41.187 > [String] '<!DOCTYPE  ... on></form>': Reallocating large String(1860 -> 1910 bytes)
+13:08:41.189 > [String] '<!DOCTYPE  ... </a></div>': Reallocating large String(1910 -> 1930 bytes)
+13:08:41.201 > *WM: Sent config page
+13:08:41.202 > [String] 'User-Agent ... Chrome/130': Reallocating large String(143 -> 144 bytes)
+13:08:41.208 > [String] 'User-Agent ... 3.107 Mobi': Reallocating large String(159 -> 160 bytes)
+13:08:41.217 > [String] '<!DOCTYPE  ... SP</title>': Reallocating large String(171 -> 302 bytes)
+13:08:41.223 > [String] '<!DOCTYPE  ... }</script>': Reallocating large String(302 -> 990 bytes)
+13:08:41.231 > [String] '<!DOCTYPE  ... ;}</style>': Reallocating large String(990 -> 1070 bytes)
+13:08:43.414 > scandone
+13:08:43.414 > *WM: Scan done
+13:08:43.414 > *WM: DUP AP: Bbox-39156D4C
+13:08:43.416 > *WM: Bbox-39156D4C
+13:08:43.418 > *WM: -43
+13:08:43.418 > [String] '<!DOCTYPE  ... h:260px;'>': Reallocating large String(1070 -> 1164 bytes)
+13:08:43.426 > [String] '<!DOCTYPE  ... pan></div>': Reallocating large String(1164 -> 1169 bytes)
+13:08:43.433 > [String] '<!DOCTYPE  ... /div><br/>': Reallocating large String(1169 -> 1340 bytes)
+13:08:43.439 > [String] '<!DOCTYPE  ... ord'><br/>': Reallocating large String(1340 -> 1440 bytes)
+13:08:43.449 > [String] '<!DOCTYPE  ... 8.1.100' >': Reallocating large String(1440 -> 1524 bytes)
+13:08:43.455 > [String] '<!DOCTYPE  ... 83' ><br/>': Reallocating large String(1529 -> 1621 bytes)
+13:08:43.462 > [String] '<!DOCTYPE  ... 1.56' {c}>': Reallocating large String(1621 -> 1719 bytes)
+13:08:43.468 > [String] '<!DOCTYPE  ... .254' {c}>': Reallocating large String(1719 -> 1809 bytes)
+13:08:43.476 > [String] '<!DOCTYPE  ...  {c}><br/>': Reallocating large String(1814 -> 1861 bytes)
+13:08:43.486 > [String] '<!DOCTYPE  ... on></form>': Reallocating large String(1861 -> 1911 bytes)
+13:08:43.489 > [String] '<!DOCTYPE  ... </a></div>': Reallocating large String(1911 -> 1931 bytes)
+13:08:43.544 > *WM: Sent config page
+13:08:43.548 > *WM: Request redirected to captive portal
+13:08:43.556 > [String] 'User-Agent ... Chrome/130': Reallocating large String(143 -> 144 bytes)
+13:08:43.563 > [String] 'User-Agent ... 3.107 Mobi': Reallocating large String(159 -> 160 bytes)
+13:08:43.571 > [String] '<!DOCTYPE  ... SP</title>': Reallocating large String(171 -> 302 bytes)
+13:08:43.580 > [String] '<!DOCTYPE  ... }</script>': Reallocating large String(302 -> 990 bytes)
+13:08:43.586 > [String] '<!DOCTYPE  ... ;}</style>': Reallocating large String(990 -> 1070 bytes)
+13:08:45.769 > scandone
+13:08:45.770 > *WM: Scan done
+13:08:45.770 > *WM: Bbox-39156D4C
+13:08:45.772 > *WM: -57
+13:08:45.772 > [String] '<!DOCTYPE  ... h:260px;'>': Reallocating large String(1070 -> 1163 bytes)
+13:08:45.777 > [String] '<!DOCTYPE  ... pan></div>': Reallocating large String(1163 -> 1168 bytes)
+13:08:45.786 > [String] '<!DOCTYPE  ... /div><br/>': Reallocating large String(1168 -> 1339 bytes)
+13:08:45.794 > [String] '<!DOCTYPE  ... ord'><br/>': Reallocating large String(1339 -> 1439 bytes)
+13:08:45.800 > [String] '<!DOCTYPE  ... 8.1.100' >': Reallocating large String(1439 -> 1523 bytes)
+13:08:45.808 > [String] '<!DOCTYPE  ... 83' ><br/>': Reallocating large String(1528 -> 1620 bytes)
+13:08:45.816 > [String] '<!DOCTYPE  ... 1.56' {c}>': Reallocating large String(1620 -> 1718 bytes)
+13:08:45.823 > [String] '<!DOCTYPE  ... .254' {c}>': Reallocating large String(1718 -> 1808 bytes)
+13:08:45.829 > [String] '<!DOCTYPE  ...  {c}><br/>': Reallocating large String(1813 -> 1860 bytes)
+13:08:45.835 > [String] '<!DOCTYPE  ... on></form>': Reallocating large String(1860 -> 1910 bytes)
+13:08:45.841 > [String] '<!DOCTYPE  ... </a></div>': Reallocating large String(1910 -> 1930 bytes)
+13:08:45.923 > *WM: Sent config page
+13:08:45.939 > *WM: Request redirected to captive portal
+13:08:46.008 > *WM: Request redirected to captive portal
+13:08:46.056 > *WM: Request redirected to captive portal
+13:08:47.439 > *WM: Request redirected to captive portal
+13:08:50.543 > [String] 'GET /wifis ... .255.255.0': Reallocating large String(143 -> 144 bytes)
+13:08:50.543 > [String] 'User-Agent ... Chrome/130': Reallocating large String(143 -> 144 bytes)
+13:08:50.543 > [String] 'User-Agent ... 3.107 Mobi': Reallocating large String(159 -> 160 bytes)
+13:08:50.562 > *WM: WiFi save
+13:08:50.565 > *WM: Parameter
+13:08:50.565 > *WM: server
+13:08:50.566 > *WM: 192.168.1.100
+13:08:50.566 > *WM: Parameter
+13:08:50.571 > *WM: port
+13:08:50.571 > *WM: 1883
+13:08:50.571 > *WM: static ip
+13:08:50.571 > *WM: 192.168.1.56
+13:08:50.576 > *WM: static gateway
+13:08:50.576 > *WM: 192.168.1.254
+13:08:50.579 > *WM: static netmask
+13:08:50.579 > *WM: 255.255.255.0
+13:08:50.581 > [String] '<!DOCTYPE  ... v}</title>': Reallocating large String(164 -> 178 bytes)
+13:08:50.590 > [String] '<!DOCTYPE  ... ed</title>': Reallocating large String(178 -> 309 bytes)
+13:08:50.593 > [String] '<!DOCTYPE  ... }</script>': Reallocating large String(309 -> 997 bytes)
+13:08:50.604 > [String] '<!DOCTYPE  ... ;}</style>': Reallocating large String(997 -> 1077 bytes)
+13:08:50.608 > [String] '<!DOCTYPE  ... h:260px;'>': Reallocating large String(1077 -> 1190 bytes)
+13:08:50.618 > [String] '<!DOCTYPE  ... gain</div>': Reallocating large String(1190 -> 1210 bytes)
+13:08:50.628 > *WM: Sent wifi save page
+13:08:51.625 > *WM: Connecting to new AP
+13:08:51.625 > *WM: Connecting as wifi client...
+13:08:51.625 > *WM: Custom STA IP/GW/Subnet
+13:08:51.632 > *WM: 192.168.1.56
+13:08:51.632 > *WM: Status:
+13:08:51.632 > *WM: 3
+13:08:51.729 > *WM: [ERROR] WiFi.begin res:
+13:08:51.745 > *WM: 7
+13:08:53.924 > scandone
+13:08:54.910 > state: 0 -> 2 (b0)
+13:08:54.917 > state: 2 -> 3 (0)
+13:08:55.917 > state: 3 -> 0 (4)
+13:08:55.917 > reconnect
+13:08:58.104 > scandone
+13:08:58.104 > state: 0 -> 2 (b0)
+13:08:58.104 > state: 2 -> 3 (0)
+13:08:59.105 > state: 3 -> 0 (4)
+13:08:59.105 > reconnect
+13:09:01.293 > scandone
+13:09:01.293 > state: 0 -> 2 (b0)
+13:09:01.293 > state: 2 -> 3 (0)
+13:09:01.308 > state: 3 -> 5 (10)
+13:09:01.308 > add 0
+13:09:01.308 > aid 7
+13:09:01.308 > cnt 
+13:09:01.813 > 
+13:09:01.814 > connected with Bbox-39156D4C, channel 1
+13:09:01.924 > ip:192.168.1.56,mask:255.255.255.0,gw:192.168.1.254
+13:09:01.924 > ip:192.168.1.56,mask:255.255.255.0,gw:192.168.1.254
+13:09:01.924 > *WM: Connection result: 
+13:09:01.924 > *WM: 3
+13:09:01.924 > station: aa:b4:36:37:a1:60 leave, AID = 1
+13:09:01.939 > rm 1
+13:09:01.939 > bcn 0
+13:09:01.939 > del if1
+13:09:01.941 > pm open,type:2 0
+13:09:01.941 > mode : sta(8c:ce:4e:d6:04:ab)
+13:09:02.141 > Devrait enregistrer la configuration
+13:09:02.141 > 	wifiManager: connection...yeey :)
+13:09:02.141 > 
+13:09:02.141 > Carte ESP Address MAC: 8C:CE:4E:D6:04:AB
+13:09:02.141 > Carte ESP Adresse IP: 192.168.1.56
+13:09:02.153 > The values in the file are: 
+13:09:02.154 > 	mqtt_server : 192.168.1.100
+13:09:02.154 > 	mqtt_port : 1883
+13:09:02.161 > Sauvegarde configuration
+13:09:02.161 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+13:09:02.166 > HTTP server setup.
+13:09:02.167 > HTTP server started.
+13:09:02.167 > Server ready!
+13:09:02.167 > 
+13:09:02.167 > Starting ITimer OK, millis() = 151042
+13:09:02.174 > reconnection domoticz/out
+13:09:02.175 > ESP56Client
+13:09:02.175 > domoticz/out
+13:09:02.180 > DVES_USER
+13:09:02.180 > 
+13:09:02.180 > 
+13:09:02.180 > Connexion au serveur MQTT... Status= OK
+13:09:03.209 > Subscribe to domoticz/out topic. Status= OK
+13:09:03.216 > {"idx":23,"command":"getdeviceinfo"} Published to domoticz/in. Status=OK
+13:09:03.238 > Temperature mesuree: 85.00
+13:09:03.245 > {"idx":24,"nvalue":0,"svalue":"85.00"} Published to domoticz/in. Status=OK
+13:09:03.251 > Entree ADC: 3.96
+13:09:03.251 > 
+13:09:03.251 >  Courant = 19.85A
+13:09:03.257 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:09:03.272 > Message recu: Connecté
+13:09:03.272 > Message recu: Connecté
+13:09:03.272 > Message recu: Connecté
+13:09:03.278 > Message recu: Connecté
+13:09:03.280 > Message recu: Offline
+13:09:03.280 > Message recu: {"idx":23,"command":"getdeviceinfo"}
+13:09:03.323 > Message recu: {"idx":24,"nvalue":0,"svalue":"85.00"}
+13:09:03.326 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:09:13.875 > Temperature mesuree: 20.25
+13:09:13.875 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:09:13.890 > Entree ADC: 4.00
+13:09:13.890 > 
+13:09:13.890 >  Courant = 19.84A
+13:09:13.890 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:09:13.897 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:09:13.905 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:09:23.244 > Temperature mesuree: 20.25
+13:09:23.246 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:09:23.250 > Entree ADC: 3.98
+13:09:23.250 > 
+13:09:23.250 >  Courant = 19.84A
+13:09:23.257 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:09:23.262 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:09:23.268 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:09:27.237 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.06"}
+13:09:27.300 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28033979;0;0;352;0"}
+13:09:27.306 > Message recu: {"idx":31,"nvalue":0,"svalue":"2"}
+13:09:33.231 > Temperature mesuree: 20.25
+13:09:33.231 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:09:33.247 > Entree ADC: 3.92
+13:09:33.247 > 
+13:09:33.247 >  Courant = 19.85A
+13:09:33.247 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:09:33.262 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:09:33.262 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:09:43.874 > Temperature mesuree: 20.25
+13:09:43.874 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:09:43.889 > Entree ADC: 3.96
+13:09:43.889 > 
+13:09:43.889 >  Courant = 19.85A
+13:09:43.889 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:09:43.889 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:09:43.905 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:09:53.874 > Temperature mesuree: 20.19
+13:09:53.874 > {"idx":24,"nvalue":0,"svalue":"20.19"} Published to domoticz/in. Status=OK
+13:09:53.889 > Entree ADC: 3.84
+13:09:53.889 > 
+13:09:53.889 >  Courant = 19.85A
+13:09:53.897 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:09:53.963 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.19"}
+13:09:54.017 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:09:57.161 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.25"}
+13:09:57.320 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28033982;0;0;980;0"}
+13:09:57.320 > Message recu: {"idx":31,"nvalue":0,"svalue":"4"}
+13:10:03.887 > Temperature mesuree: 20.19
+13:10:03.888 > {"idx":24,"nvalue":0,"svalue":"20.19"} Published to domoticz/in. Status=OK
+13:10:03.890 > Entree ADC: 3.80
+13:10:03.890 > 
+13:10:03.890 >  Courant = 19.85A
+13:10:03.890 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:10:03.904 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.19"}
+13:10:03.928 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:10:13.876 > Temperature mesuree: 20.19
+13:10:13.876 > {"idx":24,"nvalue":0,"svalue":"20.19"} Published to domoticz/in. Status=OK
+13:10:13.892 > Entree ADC: 3.96
+13:10:13.892 > 
+13:10:13.892 >  Courant = 19.85A
+13:10:13.892 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:10:13.907 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.19"}
+13:10:13.912 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:10:23.876 > Temperature mesuree: 20.19
+13:10:23.876 > {"idx":24,"nvalue":0,"svalue":"20.19"} Published to domoticz/in. Status=OK
+13:10:23.892 > Entree ADC: 4.00
+13:10:23.892 > 
+13:10:23.892 >  Courant = 19.84A
+13:10:23.892 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:10:23.906 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.19"}
+13:10:23.921 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:10:27.173 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.19"}
+13:10:27.217 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28033986;0;0;333;0"}
+13:10:27.231 > Message recu: {"idx":31,"nvalue":0,"svalue":"1"}
+13:10:33.876 > Temperature mesuree: 20.25
+13:10:33.876 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:10:33.892 > Entree ADC: 3.76
+13:10:33.892 > 
+13:10:33.892 >  Courant = 19.85A
+13:10:33.892 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:10:33.911 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:10:33.913 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:10:43.876 > Temperature mesuree: 20.25
+13:10:43.876 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:10:43.892 > Entree ADC: 3.98
+13:10:43.892 > 
+13:10:43.892 >  Courant = 19.84A
+13:10:43.892 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:10:43.907 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:10:43.916 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:10:45.154 > Message recu: {"idx":27,"nvalue":0,"svalue":"17.94"}
+13:10:45.285 > Message recu: {"idx":28,"nvalue":0,"svalue":"18.09"}
+13:10:45.642 > Message recu: {"idx":17,"nvalue":0,"svalue":"22.19"}
+13:10:45.694 > Message recu: {"idx":16,"nvalue":0,"svalue":"14.29"}
+13:10:53.892 > Temperature mesuree: 20.25
+13:10:53.892 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:10:53.892 > Entree ADC: 4.00
+13:10:53.892 > 
+13:10:53.892 >  Courant = 19.84A
+13:10:53.892 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:10:53.908 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:10:53.914 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:10:57.191 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.38"}
+13:10:57.287 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28033990;0;0;333;0"}
+13:10:57.293 > Message recu: {"idx":31,"nvalue":0,"svalue":"1"}
+13:11:03.892 > Temperature mesuree: 20.25
+13:11:03.892 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:11:03.892 > Entree ADC: 3.92
+13:11:03.892 > 
+13:11:03.892 >  Courant = 19.85A
+13:11:03.904 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:11:03.914 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:11:03.916 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:11:10.919 > Message recu: {"idx":21,"nvalue":0,"svalue":"18.13"}
+13:11:11.037 > Message recu: {"idx":22,"nvalue":0,"svalue":"16.52"}
+13:11:13.891 > Temperature mesuree: 20.25
+13:11:13.891 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:11:13.898 > Entree ADC: 4.00
+13:11:13.898 > 
+13:11:13.898 >  Courant = 19.84A
+13:11:13.905 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:11:13.914 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:11:13.921 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:11:23.256 > Temperature mesuree: 20.25
+13:11:23.256 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:11:23.264 > Entree ADC: 3.94
+13:11:23.264 > 
+13:11:23.264 >  Courant = 19.85A
+13:11:23.267 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:11:23.273 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:11:23.277 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:11:27.176 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.31"}
+13:11:27.290 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28033995;0;0;333;0"}
+13:11:27.330 > Message recu: {"idx":31,"nvalue":0,"svalue":"1"}
+13:11:33.893 > Temperature mesuree: 20.25
+13:11:33.893 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:11:33.893 > Entree ADC: 3.88
+13:11:33.893 > 
+13:11:33.893 >  Courant = 19.85A
+13:11:33.893 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:11:33.913 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:11:33.919 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:11:43.885 > Temperature mesuree: 20.25
+13:11:43.885 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:11:43.899 > Entree ADC: 4.00
+13:11:43.899 > 
+13:11:43.899 >  Courant = 19.84A
+13:11:43.899 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:11:43.917 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:11:43.921 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:11:53.893 > Temperature mesuree: 20.25
+13:11:53.893 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:11:53.893 > Entree ADC: 3.96
+13:11:53.893 > 
+13:11:53.893 >  Courant = 19.85A
+13:11:53.909 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:11:53.914 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:11:53.928 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:11:57.191 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.31"}
+13:11:57.274 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28033999;0;0;960;0"}
+13:11:57.377 > Message recu: {"idx":31,"nvalue":0,"svalue":"4"}
+13:12:03.893 > Temperature mesuree: 20.25
+13:12:03.893 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:12:03.893 > Entree ADC: 3.92
+13:12:03.893 > 
+13:12:03.893 >  Courant = 19.85A
+13:12:03.908 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:12:03.915 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:12:03.920 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:12:13.897 > Temperature mesuree: 20.25
+13:12:13.897 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:12:13.897 > Entree ADC: 3.96
+13:12:13.897 > 
+13:12:13.897 >  Courant = 19.85A
+13:12:13.897 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:12:13.916 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:12:13.941 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:12:23.900 > Temperature mesuree: 20.25
+13:12:23.900 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:12:23.907 > Entree ADC: 4.00
+13:12:23.907 > 
+13:12:23.907 >  Courant = 19.84A
+13:12:23.907 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:12:23.941 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:12:23.970 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:12:28.451 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.31"}
+13:12:33.260 > Temperature mesuree: 20.25
+13:12:33.260 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:12:33.267 > Entree ADC: 4.00
+13:12:33.267 > 
+13:12:33.267 >  Courant = 19.84A
+13:12:33.274 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:12:33.316 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:12:33.352 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:12:43.899 > Temperature mesuree: 20.25
+13:12:43.899 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:12:43.899 > Entree ADC: 3.98
+13:12:43.899 > 
+13:12:43.899 >  Courant = 19.84A
+13:12:43.913 > {"idx":25,"nvalue":0,"svalue":"19.84"} Published to domoticz/in. Status=OK
+13:12:43.917 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:12:43.936 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.84"}
+13:12:53.256 > Temperature mesuree: 20.25
+13:12:53.256 > {"idx":24,"nvalue":0,"svalue":"20.25"} Published to domoticz/in. Status=OK
+13:12:53.271 > Entree ADC: 3.92
+13:12:53.271 > 
+13:12:53.271 >  Courant = 19.85A
+13:12:53.271 > {"idx":25,"nvalue":0,"svalue":"19.85"} Published to domoticz/in. Status=OK
+13:12:53.271 > Message recu: {"idx":24,"nvalue":0,"svalue":"20.25"}
+13:12:53.287 > Message recu: {"idx":25,"nvalue":0,"svalue":"19.85"}
+13:12:57.175 > Message recu: {"idx":41,"nvalue":0,"svalue":"18.25"}
+13:12:57.283 > Message recu: {"idx":33,"nvalue":0,"svalue":"25778063;28034002;0;0;372;0"}
+13:12:57.283 > Message recu: {"idx":31,"nvalue":0,"svalue":"2"}

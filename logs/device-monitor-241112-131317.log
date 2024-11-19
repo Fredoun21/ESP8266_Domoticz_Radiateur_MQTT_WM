@@ -1,0 +1,339 @@
+13:13:17.442 > r$␀dܟ|␀�d�|␃␌␌␄�␌$�␌c|��␃�␛�r�c�␌c��on�lo'���␄#␜p��ls$;dp�o�␐␃␌␄�␄l␄��␌␄␄c␄'�|␂�␄�␜�␄#��''�␀$��l`␂�␛␛go␄d`␃␇␃';�ۛg␌␄cl�␏l8�'�␐␃␄␄sĜܜ␜��␃␌b␄g�<␃␄�␄#��n'�␀␄␄l`␃�␓␒o'␄l`␃␏␃os���o␄␄bě`␃␇;��o␄␌#ē`␃�␃␌␌��␜��␃l`␃��g�␏l��␃�␓�'�;��o|�␌$␄�␌$`␃␜c�␛␃␄�|␃s�␃d�o�␌�o�␀␌l`␃��;�l�d␛�␄␌␌�
+13:13:17.559 > SDK:2.2.2-dev(38a443e)/Core:3.1.2=30102000/lwIP:STABLE-2_1_3_RELEASE/glue:1.2-65-g06164fb/BearSSL:b024386
+13:13:17.567 > Port Série OK
+13:13:17.567 > 
+13:13:17.567 > 
+13:13:17.567 > Type de carte: PLATFORMIO_D1_MINI
+13:13:17.573 > ESP8266TimerInterrupt v1.6.0
+13:13:17.573 > CPU Frequency = 80 MHz
+13:13:17.604 > 
+13:13:17.604 > montage LittleFS...
+13:13:17.604 > 
+13:13:17.608 > totalBytes: 1024000 octets
+13:13:17.608 > usedBytes: 16384 octets
+13:13:17.609 > blockSize: 8192 octets
+13:13:17.609 > pageSize: 256 octets
+13:13:17.609 > maxOpenFiles: 5 octets
+13:13:17.615 > maxPathLength: 32 octets
+13:13:17.618 > 
+13:13:17.618 > File: config.json 50
+13:13:17.622 > 
+13:13:17.622 > Total taille fichiers: 50 octets
+13:13:17.623 > 
+13:13:17.623 > 
+13:13:17.623 > Lecture du fichier de configuration
+13:13:17.623 > 
+13:13:17.623 > Contenu du fichier: 
+13:13:17.629 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+13:13:17.632 > Ouverture fichier de configuration
+13:13:17.635 > Taille du fichier :50 octets
+13:13:17.637 > 
+13:13:17.637 > deserializeJson() en échec: InvalidInput, 3
+13:13:17.643 > 
+13:13:17.643 > *WM: Adding parameter
+13:13:17.646 > *WM: server
+13:13:17.646 > *WM: Adding parameter
+13:13:17.649 > *WM: port
+13:13:17.649 > *WM: 
+13:13:17.649 > *WM: AutoConnect
+13:13:17.652 > fpm close 1 
+13:13:17.652 > mode : sta(8c:ce:4e:d6:04:ab)
+13:13:17.656 > add if0
+13:13:17.747 > *WM: Connecting as wifi client...
+13:13:17.750 > *WM: Custom STA IP/GW/Subnet
+13:13:17.753 > *WM: 192.168.1.56
+13:13:17.753 > *WM: Status:
+13:13:17.755 > *WM: 0
+13:13:17.755 > *WM: Using last saved values, should be faster
+13:13:20.580 > scandone
+13:13:20.580 > state: 0 -> 2 (b0)
+13:13:20.580 > state: 2 -> 3 (0)
+13:13:21.597 > state: 3 -> 0 (4)
+13:13:21.597 > reconnect
+13:13:24.427 > scandone
+13:13:24.427 > state: 0 -> 2 (b0)
+13:13:24.427 > state: 2 -> 3 (0)
+13:13:25.443 > state: 3 -> 0 (4)
+13:13:25.443 > reconnect
+13:13:28.281 > scandone
+13:13:28.281 > state: 0 -> 2 (b0)
+13:13:28.281 > state: 2 -> 3 (0)
+13:13:29.282 > state: 3 -> 0 (4)
+13:13:29.282 > reconnect
+13:13:32.129 > scandone
+13:13:32.129 > state: 0 -> 2 (b0)
+13:13:32.129 > state: 2 -> 3 (0)
+13:13:33.129 > state: 3 -> 0 (4)
+13:13:33.129 > reconnect
+13:13:35.979 > scandone
+13:13:35.979 > state: 0 -> 2 (b0)
+13:13:35.979 > state: 2 -> 3 (0)
+13:13:36.983 > state: 3 -> 0 (4)
+13:13:36.983 > reconnect
+13:13:39.825 > scandone
+13:13:39.825 > state: 0 -> 2 (b0)
+13:13:39.825 > state: 2 -> 3 (0)
+13:13:40.825 > state: 3 -> 0 (4)
+13:13:40.825 > reconnect
+13:13:43.671 > scandone
+13:13:43.671 > state: 0 -> 2 (b0)
+13:13:43.671 > state: 2 -> 3 (0)
+13:13:44.675 > state: 3 -> 0 (4)
+13:13:44.675 > reconnect
+13:13:47.514 > scandone
+13:13:47.514 > state: 0 -> 2 (b0)
+13:13:47.514 > state: 2 -> 3 (0)
+13:13:48.521 > state: 3 -> 0 (4)
+13:13:48.521 > reconnect
+13:13:51.362 > scandone
+13:13:51.362 > state: 0 -> 2 (b0)
+13:13:51.362 > state: 2 -> 3 (0)
+13:13:52.367 > state: 3 -> 0 (4)
+13:13:52.367 > reconnect
+13:13:55.209 > scandone
+13:13:55.209 > state: 0 -> 2 (b0)
+13:13:55.209 > state: 2 -> 3 (0)
+13:13:56.209 > state: 3 -> 0 (4)
+13:13:56.209 > reconnect
+13:13:59.047 > scandone
+13:13:59.047 > state: 0 -> 2 (b0)
+13:13:59.047 > state: 2 -> 3 (0)
+13:14:00.047 > state: 3 -> 0 (4)
+13:14:00.047 > reconnect
+13:14:02.895 > scandone
+13:14:02.895 > state: 0 -> 2 (b0)
+13:14:02.895 > state: 2 -> 3 (0)
+13:14:03.895 > state: 3 -> 0 (4)
+13:14:03.895 > reconnect
+13:14:06.749 > scandone
+13:14:06.749 > state: 0 -> 2 (b0)
+13:14:06.749 > state: 2 -> 3 (0)
+13:14:07.749 > state: 3 -> 0 (4)
+13:14:07.749 > reconnect
+13:14:10.596 > scandone
+13:14:10.596 > state: 0 -> 2 (b0)
+13:14:10.596 > state: 2 -> 3 (0)
+13:14:11.596 > state: 3 -> 0 (4)
+13:14:11.596 > reconnect
+13:14:14.428 > scandone
+13:14:14.443 > state: 0 -> 2 (b0)
+13:14:14.443 > state: 2 -> 3 (0)
+13:14:15.444 > state: 3 -> 0 (4)
+13:14:15.444 > reconnect
+13:14:17.749 > *WM: Connection result: 
+13:14:17.749 > *WM: 255
+13:14:17.749 > scandone
+13:14:17.749 > del if0
+13:14:17.749 > usl
+13:14:17.749 > mode : softAP(8e:ce:4e:d6:04:ab)
+13:14:17.749 > add if1
+13:14:17.749 > dhcp server start:(ip:192.168.4.1,mask:255.255.255.0,gw:192.168.4.1)
+13:14:17.763 > bcn 100
+13:14:17.847 > *WM: 
+13:14:17.847 > *WM: Configuring access point... 
+13:14:17.847 > *WM: Romeo_Radiateur
+13:14:17.847 > *WM: password
+13:14:18.347 > *WM: AP IP address: 
+13:14:18.347 > *WM: 192.168.4.1
+13:14:18.347 > *WM: HTTP server started
+13:16:17.848 > wifiManager: problème de connection -> ESP reset
+13:16:20.848 > 
+13:16:20.848 >  ets Jan  8 2013,rst cause:2, boot mode:(3,6)
+13:16:20.848 > 
+13:16:20.848 > load 0x4010f000, len 3424, room 16 
+13:16:20.864 > tail 0
+13:16:20.864 > chksum 0x2e
+13:16:20.864 > load 0x3fff20b8, len 40, room 8 
+13:16:20.869 > tail 0
+13:16:20.869 > chksum 0x2b
+13:16:20.871 > csum 0x2b
+13:16:20.871 > v000632c0
+13:16:20.874 > ~ld
+13:16:20.930 > ��␃�␛�'�s��'<�␄d␌�␄d`␃␜c�␛␃␄�|␃{�␃$�o�␌�g�␀␄l`␃��;�d�$␛�␄␄␌�
+13:16:20.945 > SDK:2.2.2-dev(38a443e)/Core:3.1.2=30102000/lwIP:STABLE-2_1_3_RELEASE/glue:1.2-65-g06164fb/BearSSL:b024386
+13:16:20.945 > Port Série OK
+13:16:20.945 > 
+13:16:20.945 > 
+13:16:20.945 > Type de carte: PLATFORMIO_D1_MINI
+13:16:20.960 > ESP8266TimerInterrupt v1.6.0
+13:16:20.961 > CPU Frequency = 80 MHz
+13:16:20.990 > 
+13:16:20.990 > montage LittleFS...
+13:16:20.990 > 
+13:16:20.992 > totalBytes: 1024000 octets
+13:16:20.992 > usedBytes: 16384 octets
+13:16:20.993 > blockSize: 8192 octets
+13:16:20.993 > pageSize: 256 octets
+13:16:20.993 > maxOpenFiles: 5 octets
+13:16:21.001 > maxPathLength: 32 octets
+13:16:21.003 > 
+13:16:21.003 > File: config.json 50
+13:16:21.006 > 
+13:16:21.006 > Total taille fichiers: 50 octets
+13:16:21.009 > 
+13:16:21.009 > 
+13:16:21.009 > Lecture du fichier de configuration
+13:16:21.010 > 
+13:16:21.010 > Contenu du fichier: 
+13:16:21.015 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+13:16:21.017 > Ouverture fichier de configuration
+13:16:21.020 > Taille du fichier :50 octets
+13:16:21.023 > 
+13:16:21.023 > deserializeJson() en échec: InvalidInput, 3
+13:16:21.029 > 
+13:16:21.029 > *WM: Adding parameter
+13:16:21.031 > *WM: server
+13:16:21.031 > *WM: Adding parameter
+13:16:21.034 > *WM: port
+13:16:21.034 > *WM: 
+13:16:21.034 > *WM: AutoConnect
+13:16:21.037 > fpm close 1 
+13:16:21.037 > mode : sta(8c:ce:4e:d6:04:ab)
+13:16:21.041 > add if0
+13:16:21.131 > *WM: Connecting as wifi client...
+13:16:21.131 > *WM: Custom STA IP/GW/Subnet
+13:16:21.131 > *WM: 192.168.1.56
+13:16:21.131 > *WM: Status:
+13:16:21.131 > *WM: 0
+13:16:21.131 > *WM: Using last saved values, should be faster
+13:16:23.978 > scandone
+13:16:23.978 > state: 0 -> 2 (b0)
+13:16:23.978 > state: 2 -> 3 (0)
+13:16:24.978 > state: 3 -> 0 (4)
+13:16:24.978 > reconnect
+13:16:27.824 > scandone
+13:16:27.824 > state: 0 -> 2 (b0)
+13:16:27.824 > state: 2 -> 3 (0)
+13:16:28.827 > state: 3 -> 0 (4)
+13:16:28.828 > reconnect
+13:16:31.670 > scandone
+13:16:31.670 > state: 0 -> 2 (b0)
+13:16:31.670 > state: 2 -> 3 (0)
+13:16:32.674 > state: 3 -> 0 (4)
+13:16:32.674 > reconnect
+13:16:35.516 > scandone
+13:16:35.516 > state: 0 -> 2 (b0)
+13:16:35.516 > state: 2 -> 3 (0)
+13:16:36.520 > state: 3 -> 0 (4)
+13:16:36.520 > reconnect
+13:16:39.364 > scandone
+13:16:39.364 > state: 0 -> 2 (b0)
+13:16:39.370 > state: 2 -> 3 (0)
+13:16:40.372 > state: 3 -> 0 (4)
+13:16:40.372 > reconnect
+13:16:43.211 > scandone
+13:16:43.215 > state: 0 -> 2 (b0)
+13:16:43.215 > state: 2 -> 3 (0)
+13:16:44.218 > state: 3 -> 0 (4)
+13:16:44.218 > reconnect
+13:16:47.059 > scandone
+13:16:47.059 > state: 0 -> 2 (b0)
+13:16:47.059 > state: 2 -> 3 (0)
+13:16:48.059 > state: 3 -> 0 (4)
+13:16:48.059 > reconnect
+13:16:50.897 > scandone
+13:16:50.897 > state: 0 -> 2 (b0)
+13:16:50.912 > state: 2 -> 3 (0)
+13:16:51.913 > state: 3 -> 0 (4)
+13:16:51.913 > reconnect
+13:16:54.745 > scandone
+13:16:54.745 > state: 0 -> 2 (b0)
+13:16:54.745 > state: 2 -> 3 (0)
+13:16:55.760 > state: 3 -> 0 (4)
+13:16:55.760 > reconnect
+13:16:58.599 > scandone
+13:16:58.599 > state: 0 -> 2 (b0)
+13:16:58.599 > state: 2 -> 3 (0)
+13:16:59.599 > state: 3 -> 0 (4)
+13:16:59.599 > reconnect
+13:17:02.437 > scandone
+13:17:02.437 > state: 0 -> 2 (b0)
+13:17:02.437 > state: 2 -> 3 (0)
+13:17:03.446 > state: 3 -> 0 (4)
+13:17:03.446 > reconnect
+13:17:06.293 > scandone
+13:17:06.293 > state: 0 -> 2 (b0)
+13:17:06.293 > state: 2 -> 3 (0)
+13:17:07.299 > state: 3 -> 0 (4)
+13:17:07.299 > reconnect
+13:17:10.140 > scandone
+13:17:10.140 > state: 0 -> 2 (b0)
+13:17:10.140 > state: 2 -> 3 (0)
+13:17:11.146 > state: 3 -> 0 (4)
+13:17:11.146 > reconnect
+13:17:13.988 > scandone
+13:17:13.988 > state: 0 -> 2 (b0)
+13:17:13.988 > state: 2 -> 3 (0)
+13:17:14.990 > state: 3 -> 0 (4)
+13:17:14.990 > reconnect
+13:17:17.834 > scandone
+13:17:17.834 > state: 0 -> 2 (b0)
+13:17:17.834 > state: 2 -> 3 (0)
+13:17:18.834 > state: 3 -> 0 (4)
+13:17:18.834 > reconnect
+13:17:21.133 > *WM: Connection result: 
+13:17:21.133 > *WM: 255
+13:17:21.133 > scandone
+13:17:21.133 > del if0
+13:17:21.133 > usl
+13:17:21.133 > mode : softAP(8e:ce:4e:d6:04:ab)
+13:17:21.140 > add if1
+13:17:21.140 > dhcp server start:(ip:192.168.4.1,mask:255.255.255.0,gw:192.168.4.1)
+13:17:21.147 > bcn 100
+13:17:21.241 > *WM: 
+13:17:21.241 > *WM: Configuring access point... 
+13:17:21.244 > *WM: Romeo_Radiateur
+13:17:21.245 > *WM: password
+13:17:21.729 > *WM: AP IP address: 
+13:17:21.729 > *WM: 192.168.4.1
+13:17:21.745 > *WM: HTTP server started
+13:17:24.431 > ;d␀l��<␀�l�|␃␌␄␄�␄d�␌#<��␃�␒�{�#�␌c��go�lo'���␄#␜8��$;ds$x�'�␘␃␄␌�␄l␌��␌␄␄c␄'�<␃�␌�␜�␄c��go�␀l��d`␃�␛␛go␄d`␃␇␃g{���o␄␄#$�␇$x�g�␘␃␄␌;����␜��␃␄c␄'�<␃␄�␌b��o'�␀␄␄l`␃�␓␒o'␌l ␃␎␃nr���'␌␌c��`␂␎rۛg␄␄c�� ␃�␃␄␌��␜��␃l`␃��o�␎l��␃�␒�'��{��'<�␄d␌�␄l`␃␜c�␛␃␌�<␂;�␃l�'�␄�'�␀␄d`␃��s�d�l␛�␌␄␄�
+13:17:24.549 > SDK:2.2.2-dev(38a443e)/Core:3.1.2=30102000/lwIP:STABLE-2_1_3_RELEASE/glue:1.2-65-g06164fb/BearSSL:b024386
+13:17:24.556 > Port Série OK
+13:17:24.556 > 
+13:17:24.556 > 
+13:17:24.556 > Type de carte: PLATFORMIO_D1_MINI
+13:17:24.564 > ESP8266TimerInterrupt v1.6.0
+13:17:24.570 > CPU Frequency = 80 MHz
+13:17:24.591 > 
+13:17:24.591 > montage LittleFS...
+13:17:24.591 > 
+13:17:24.599 > totalBytes: 1024000 octets
+13:17:24.599 > usedBytes: 16384 octets
+13:17:24.599 > blockSize: 8192 octets
+13:17:24.605 > pageSize: 256 octets
+13:17:24.605 > maxOpenFiles: 5 octets
+13:17:24.608 > maxPathLength: 32 octets
+13:17:24.608 > 
+13:17:24.608 > File: config.json 50
+13:17:24.613 > 
+13:17:24.613 > Total taille fichiers: 50 octets
+13:17:24.613 > 
+13:17:24.613 > 
+13:17:24.613 > Lecture du fichier de configuration
+13:17:24.618 > 
+13:17:24.618 > Contenu du fichier: 
+13:17:24.621 > {"mqtt_server":"192.168.1.100","mqtt_port":"1883"}
+13:17:24.622 > Ouverture fichier de configuration
+13:17:24.627 > Taille du fichier :50 octets
+13:17:24.629 > 
+13:17:24.629 > deserializeJson() en échec: InvalidInput, 3
+13:17:24.633 > 
+13:17:24.633 > *WM: Adding parameter
+13:17:24.633 > *WM: server
+13:17:24.633 > *WM: Adding parameter
+13:17:24.641 > *WM: port
+13:17:24.641 > *WM: 
+13:17:24.641 > *WM: AutoConnect
+13:17:24.642 > fpm close 1 
+13:17:24.642 > mode : sta(8c:ce:4e:d6:04:ab)
+13:17:24.647 > add if0
+13:17:24.729 > *WM: Connecting as wifi client...
+13:17:24.729 > *WM: Custom STA IP/GW/Subnet
+13:17:24.729 > *WM: 192.168.1.56
+13:17:24.729 > *WM: Status:
+13:17:24.745 > *WM: 0
+13:17:24.745 > *WM: Using last saved values, should be faster
+13:17:27.571 > scandone
+13:17:27.587 > state: 0 -> 2 (b0)
+13:17:27.591 > state: 2 -> 3 (0)

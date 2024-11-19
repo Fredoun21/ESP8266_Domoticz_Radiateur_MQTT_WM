@@ -1,0 +1,94 @@
+13:55:49.179 > sl␀$ܟ|␀�l�|␃␌␄␌�␄l�␄#|ǃ␃�␛�;�c�␄c��go�lo'���␄c␜x��d{l;dp�o�␐␂␄␄�␄d␌��␌␄␄c␄'�<␃�␌�␜�␌c��on�␀l��l`␂�␛␓o'␌l ␃␇␃n;�ۛ'␌␄cl�␏l8�'�␘␃␄␌;�ܜ�␜��␃␄c␄'�<␃␄�␄#��'g�␀␄␌$ ␃�␛␛go␄d`␃␇␃g{���o␄␌#ē`␃␇s��'␌␌c��`␃�␃␄␄��␜␒r␄d`␃��g�␏l��␃�␛�o�{��'<�␄d␌�␌$ ␃␜c�␛␃␌�|␂r�␃l�g�␄�g�␀␄l`␃��{�$�l␒�␌␄␄�
+13:55:49.291 > SDK:2.2.2-dev(38a443e)/Core:3.1.2=30102000/lwIP:STABLE-2_1_3_RELEASE/glue:1.2-65-g06164fb/BearSSL:b024386
+13:55:49.305 > Port Série OK
+13:55:49.305 > 
+13:55:49.305 > 
+13:55:49.305 > Type de carte: PLATFORMIO_D1_MINI
+13:55:49.305 > ESP8266TimerInterrupt v1.6.0
+13:55:49.313 > CPU Frequency = 80 MHz
+13:55:49.313 > 
+13:55:49.313 > montage LittleFS...
+13:55:49.316 > 
+13:55:49.316 > totalBytes: 1024000 octets
+13:55:49.318 > usedBytes: 16384 octets
+13:55:49.320 > blockSize: 8192 octets
+13:55:49.320 > pageSize: 256 octets
+13:55:49.320 > maxOpenFiles: 5 octets
+13:55:49.326 > maxPathLength: 32 octets
+13:55:49.326 > 
+13:55:49.326 > File: config.json 50
+13:55:49.330 > 
+13:55:49.330 > Total taille fichiers: 50 octets
+13:55:49.332 > 
+13:55:49.332 > *WM: 
+13:55:49.334 > *WM: AutoConnect
+13:55:49.334 > fpm close 1 
+13:55:49.334 > mode : sta(8c:ce:4e:d6:04:ab)
+13:55:49.337 > add if0
+13:55:49.430 > *WM: Connecting as wifi client...
+13:55:49.430 > *WM: Custom STA IP/GW/Subnet
+13:55:49.437 > *WM: 192.168.1.56
+13:55:49.437 > *WM: Status:
+13:55:49.437 > *WM: 0
+13:55:49.437 > *WM: Using last saved values, should be faster
+13:55:52.277 > scandone
+13:55:52.277 > state: 0 -> 2 (b0)
+13:55:52.277 > state: 2 -> 3 (0)
+13:55:53.277 > state: 3 -> 0 (4)
+13:55:53.277 > reconnect
+13:55:56.124 > scandone
+13:55:56.124 > state: 0 -> 2 (b0)
+13:55:56.124 > state: 2 -> 3 (0)
+13:55:57.124 > state: 3 -> 0 (4)
+13:55:57.124 > reconnect
+13:55:59.972 > scandone
+13:55:59.973 > state: 0 -> 2 (b0)
+13:55:59.973 > state: 2 -> 3 (0)
+13:56:00.976 > state: 3 -> 0 (4)
+13:56:00.976 > reconnect
+13:56:03.818 > scandone
+13:56:03.818 > state: 0 -> 2 (b0)
+13:56:03.818 > state: 2 -> 3 (0)
+13:56:04.822 > state: 3 -> 0 (4)
+13:56:04.822 > reconnect
+13:56:07.664 > scandone
+13:56:07.664 > state: 0 -> 2 (b0)
+13:56:07.664 > state: 2 -> 3 (0)
+13:56:08.668 > state: 3 -> 0 (4)
+13:56:08.668 > reconnect
+13:56:11.510 > scandone
+13:56:11.510 > state: 0 -> 2 (b0)
+13:56:11.510 > state: 2 -> 3 (0)
+13:56:12.513 > state: 3 -> 0 (4)
+13:56:12.514 > reconnect
+13:56:15.342 > scandone
+13:56:15.342 > state: 0 -> 2 (b0)
+13:56:15.342 > state: 2 -> 3 (0)
+13:56:16.357 > state: 3 -> 0 (4)
+13:56:16.357 > reconnect
+13:56:19.188 > scandone
+13:56:19.188 > state: 0 -> 2 (b0)
+13:56:19.188 > state: 2 -> 3 (0)
+13:56:19.216 > state: 3 -> 5 (10)
+13:56:19.217 > add 0
+13:56:19.217 > aid 1
+13:56:19.217 > cnt 
+13:56:19.250 > 
+13:56:19.250 > connected with Bbox-39156D4C, channel 1
+13:56:19.250 > ip:192.168.1.56,mask:255.255.255.0,gw:192.168.1.254
+13:56:19.250 > ip:192.168.1.56,mask:255.255.255.0,gw:192.168.1.254
+13:56:19.261 > *WM: Connection result: 
+13:56:19.263 > *WM: 3
+13:56:19.263 > *WM: IP Address:
+13:56:19.264 > *WM: 192.168.1.56
+13:56:19.264 > 	wifiManager: connection...yeey :)
+13:56:19.264 > 
+13:56:19.264 > Carte ESP Address MAC: 8C:CE:4E:D6:04:AB
+13:56:19.274 > Carte ESP Adresse IP: 192.168.1.56
+13:56:19.277 > 
+13:56:19.277 > HTTP server setup.
+13:56:19.277 > HTTP server started.
+13:56:19.280 > Server ready!
+13:56:19.281 > 
+13:56:19.281 > Starting ITimer OK, millis() = 30058
+13:56:29.217 > pm open,type:2 0

@@ -1,7 +1,7 @@
 
 /**
  *   Projet pilotge de radiateur par fil pilote avec interface web, domoticz, MQTT
- *   ESP8266 + DS12B20 + LED + MQTT + Home-Assistant
+ *   ESP8266 + DS18B20 + LED + MQTT + Home-Assistant
  *   Projets DIY (https://www.projetsdiy.fr) - Mai 2016
  *   Licence : MIT
  **/
@@ -14,7 +14,7 @@
 
 #include <ESP8266WiFi.h> //https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
 #include <ESP8266mDNS.h> // https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266mDNS
-// #include <ESPAsyncTCP.h> // Dependance avec ESPAsyncWebServer.h
+#include <ESPAsyncTCP.h> // Dependance avec ESPAsyncWebServer.h
 
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
 #warning				 // #define WEBSERVER_H Indispensable pour valider la compilation entre WiFiManager.h et ESPAsyncWebServer.h
@@ -26,9 +26,15 @@
 // #include <DNSServer.h>
 
 // this needs to be first, or it all crashes and burns...
+
+#ifdef GETHTTP
 #include "FS.h"
-#include <LittleFS.h>	  // https://github.com/esp8266/Arduino/tree/master/libraries/LittleFS
-#include <ArduinoJson.h>  //https://github.com/bblanchon/ArduinoJson
+#include <LittleFS.h> // https://github.com/esp8266/Arduino/tree/master/libraries/LittleFS
+#endif
+
+#include <ArduinoJson.h> //https://github.com/bblanchon/ArduinoJson
+
+#warning				  // Ne pas oublié de mettre MQTT_MAX_PACKET_SIZE = 2048 dans PubSubClient.h
 #include <PubSubClient.h> //https://github.com/knolleary/pubsubclient
 
 #ifdef OTA
@@ -57,7 +63,7 @@
 /*
 variable gestion de boucle
 */
-const int watchdog = 10000;				 // Fréquence d'envoi des données à Domoticz 5min
+const int watchdog = 60000;				 // Fréquence d'envoi des données à Domoticz 5 min
 unsigned long previousMillis = millis(); // mémoire pour envoi des données
 boolean firstLoop = false;
 unsigned long i = 0;
@@ -104,7 +110,7 @@ AsyncWebServer server(80);
 //----------------------------------------------------------------- MQTT
 #ifdef MQTT
 WiFiClient espClient;
-bool shouldSaveConfigMQTT = true;// flag for saving data
+bool shouldSaveConfigMQTT = true; // flag for saving data
 PubSubClient clientMQTT(espClient);
 #endif
 
@@ -130,7 +136,7 @@ void setPinConfort(int state);
 void confortStopTask();
 #endif
 
-float retourSensor(DallasTemperature sensor);
+float valeurDS18B20(DallasTemperature sensor);
 float valeurACS712(int pin);
 
 #ifdef OTA
@@ -151,9 +157,11 @@ void setup()
 {
 	//----------------------------------------------------------------- Serial
 	Serial.begin(115200);
+#ifdef DEBUG
 	while (!Serial)
 	{
 	};
+#endif
 	Serial.println("Port Série OK\n");
 
 	Serial.print(F("\nType de carte: "));
@@ -174,7 +182,8 @@ void setup()
 	// Start DS18b20
 	DS18B20.begin();
 
-	//----------------------------------------------------------------- SPIFFS
+//----------------------------------------------------------------- SPIFFS
+#ifdef GETHTTP
 
 	// LittleFS.format(); // clean FS, for testing
 
@@ -325,6 +334,7 @@ void setup()
 		}
 	}
 #endif
+#endif
 	// Fin de lecture SPIFFS
 
 	//----------------------------------------------------------------- WIFI
@@ -349,9 +359,9 @@ void setup()
 	// utile pour que tout se réessaye ou s'endorme en quelques secondes
 	wifiManager.setTimeout(120);
 
-	// Rechet SSID et passe et essaie de se connecter
+	// Recherche SSID et passe et essaie de se connecter
 	// s'il ne le connecte pas, il démarre un point d'accès avec le nom spécifié
-	// ici "autoconnectap"
+	// ici "autoconnect AP"
 	// et entre dans une boucle de blocage en attente de configuration
 	if (!wifiManager.autoConnect(NAMEID, WM_PASSWORD))
 	{
@@ -371,6 +381,7 @@ void setup()
 
 //----------------------------------------------------------------- Save Parametres dans CONFIG.JSON
 #ifdef MQTT
+#ifdef GETHTTP
 	// read updated parameters
 	strcpy(mqtt_server, custom_mqtt_server.getValue());
 	strcpy(mqtt_port, custom_mqtt_port.getValue());
@@ -399,6 +410,7 @@ void setup()
 		configFile.close();
 		// end save
 	}
+#endif
 
 	//----------------------------------------------------------------- MQTT
 	clientMQTT.setServer(MQTT_SERVER, String(MQTT_PORT).toInt());
@@ -407,6 +419,11 @@ void setup()
 #endif
 
 	//----------------------------------------------------------------- Server
+#ifdef GETHTTP
+
+	// Envoi la page HTML
+	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+			  { request->send(LittleFS, "/index.html", "text/html"); });
 
 	// Envoi du fichier CSS
 	server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -420,66 +437,21 @@ void setup()
 	server.on("/script/gpio.js", HTTP_GET, [](AsyncWebServerRequest *request)
 			  { request->send(LittleFS, "/script/gpio.js", "text/javascript"); });
 
-	// Envoi du fichier JSON
-	server.on("/data.json", HTTP_GET, [](AsyncWebServerRequest *request)
-			  { request->send(LittleFS, "/data.json", "text/json"); });
-
 	// Envoi du dossier images
 	server.on("/images/favicon-16x16.png", HTTP_GET, [](AsyncWebServerRequest *request)
 			  { request->send(LittleFS, "/images/favicon-16x16.png", "image/png"); });
 
 	// Envoi la page HTML
-	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-			  { request->send(LittleFS, "/index.html", "text/html"); });
-
-	// // Envoi la page HTML
 	// server.on("/lireTemperature", HTTP_GET, [](AsyncWebServerRequest *request)
-	// 			 { request->send(200, "test/plain"); });
+	// 		  { String temperature = String (valeurDS18B20(DS18B20));
+	// 		  request->send(200, "test/plain", temperature); });
 
-	// server.on("/GET", HTTP_GET, [](AsyncWebServerRequest *request)
-	// 			 // List all parameters
-	// 			 {
-	// 	int params = request->params();
-	// 	Serial.println(params);
-	// 	for (int i = 0; i < params; i++)
-	// 	{
-	// 		AsyncWebParameter *p = request->getParam(i);
-	// 		if (p->isFile())
-	// 		{ // p->isPost() is also true
-	// 			Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
-	// 		}
-	// 		else if (p->isPost())
-	// 		{
-	// 			Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-	// 		}
-	// 		else
-	// 			Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
-	// 	};
-	// 	String inputMessage;
-	// 	String inputParam;
-	// 	// GET input1 value on <ESP_IP>/get?input1=<inputMessage>
-	// 	if (request->hasParam("SVALUE1"))
-	// 	{
-	// 		inputMessage = request->getParam("SVALUE1")->value();
-	// 		inputParam = "SVALUE1";
-	// 	}
+	// Envoi du fichier JSON
+	server.on("/data/config.json", HTTP_GET, [](AsyncWebServerRequest *request)
+			  { request->send(LittleFS, "/data.json", "text/json"); });
+#endif
 
-	// 		// Check if GET parameter exists
-	// 		if (request->hasParam("SVALUE1"))
-	// 		{
-	// 			AsyncWebParameter *p2 = request->getParam("SVALUE1");
-	// 			Serial.printf("GET[%s]: %s\n", p2->name().c_str(), p2->value().c_str());
-	// 		};
-
-	// 		// updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
-	// 		request->send(200); });
-
-	// Execute la mise à jour du fil pilote
-	// server.on("/SVALUE1=0", HTTP_GET, [](AsyncWebServerRequest *request)
-	// 			 {
-	// 	updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(0), 8);
-	// 	request->send(200); });
-
+#ifdef MQTT
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=0", HTTP_GET, [](AsyncWebServerRequest *request)
 			  {
@@ -490,14 +462,14 @@ void setup()
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=10", HTTP_GET, [](AsyncWebServerRequest *request)
 			  {
-							sendMqttToDomoticz(IDXDomoticz, "10", TOPIC_DOMOTICZ_IN); // Envoi MQTT état HORS GEL du radiateur au server domoticz
+		sendMqttToDomoticz(IDXDomoticz, "10", TOPIC_DOMOTICZ_IN); // Envoi MQTT état HORS GEL du radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(10), 8);
 		request->send(200); });
 
 	// Execute la mise à jour du fil pilote
 	server.on("/SVALUE1=20", HTTP_GET, [](AsyncWebServerRequest *request)
 			  {
-					sendMqttToDomoticz(IDXDomoticz, "20", TOPIC_DOMOTICZ_IN);// Envoi MQTT état ECO radiateur au server domoticz
+		sendMqttToDomoticz(IDXDomoticz, "20", TOPIC_DOMOTICZ_IN);// Envoi MQTT état ECO radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(20), 8);
 		request->send(200); });
 
@@ -521,6 +493,7 @@ void setup()
 		sendMqttToDomoticz(IDXDomoticz, "100", TOPIC_DOMOTICZ_IN);// Envoi MQTT état CONFORT radiateur au server domoticz
 		updateFilpilote(PIN_FILPILOTE_PLUS, PIN_FILPILOTE_MOINS, int(100), 8);
 		request->send(200); });
+#endif
 
 	//----------------------------------------------------------------- Elegant OTA
 #ifdef OTA
@@ -532,6 +505,7 @@ void setup()
 #endif
 
 	Serial.println("\nHTTP server setup.\nHTTP server started.\nServer ready!\n");
+
 	server.begin();
 
 	//----------------------------------------------------------------- INTERRUPT
@@ -550,7 +524,6 @@ void loop()
 {
 	//----------------------------------------------------------------- Elegant OTA
 #ifdef OTA
-	server.handleClient();
 	ElegantOTA.loop();
 	delay(500);
 #endif
@@ -579,10 +552,10 @@ void loop()
 		}
 
 		// Envoi MQTT température du DS18B20
-		sendMqttToDomoticz(IDXDS18B20, String(retourSensor(DS18B20)), TOPIC_DOMOTICZ_IN);
+		sendMqttToDomoticz(IDXDS18B20, String(valeurDS18B20(DS18B20)), TOPIC_DOMOTICZ_IN);
 
 		// Envoi MQTT mesure de courant du AC712
-		sendMqttToDomoticz(IDXACS712, String(valeurACS712(PIN_ACS712)), TOPIC_DOMOTICZ_IN);
+		// sendMqttToDomoticz(IDXACS712, String(valeurACS712(PIN_ACS712)), TOPIC_DOMOTICZ_IN);
 	}
 #endif
 }
@@ -604,7 +577,7 @@ void saveConfigCallback()
  **/
 void callback(char *topic, byte *payload, unsigned int length)
 {
-	DynamicJsonDocument jsonBuffer(1024);
+	DynamicJsonDocument jsonBuffer(2048);
 	String messageReceived = "";
 
 	// Serial.print("Message arrive [");
@@ -616,9 +589,11 @@ void callback(char *topic, byte *payload, unsigned int length)
 	{
 		messageReceived += ((char)payload[i]);
 	}
+	#ifdef DEBUG
 	// display incoming message
 	Serial.print("Message recu: ");
 	Serial.println(messageReceived);
+	#endif
 
 	// if domoticz message
 	if (strcmp(topic, TOPIC_DOMOTICZ_OUT) == 0)
@@ -632,12 +607,13 @@ void callback(char *topic, byte *payload, unsigned int length)
 		}
 
 		int idx = jsonBuffer["idx"];
-		int nvalue = jsonBuffer["nvalue"];
-		float svalue = jsonBuffer["svalue"];
 		float svalue1 = jsonBuffer["svalue1"];
-		const char *name = jsonBuffer["name"];
 
 #ifdef DEBUG
+		int nvalue = jsonBuffer["nvalue"];
+		float svalue = jsonBuffer["svalue"];
+		const char *name = jsonBuffer["name"];
+
 		Serial.printf("\nIDX: %i, name: %s, nVALUE: %i, sVALUE: %f, sVALUE1: %i\n", idx, name, nvalue, float(svalue), int(svalue1));
 #endif
 		if (idx == IDXDomoticz)
@@ -665,9 +641,7 @@ void reconnect(const char *id, const char *topic)
 	{
 		Serial.print("Connexion au serveur MQTT... Status= ");
 		// Attempt to connect
-		// if (clientMQTT.connect("ESP53_client", "_LOGIN_", "_PASSWORD_"))
 		if (clientMQTT.connect(MQTT_ID, MQTT_USER, MQTT_PASSWORD))
-		// if (clientMQTT.connect(id, MQTT_USER, MQTT_PASSWORD))
 		{
 			Serial.println("OK");
 			// suscribe to MQTT topics
@@ -707,7 +681,7 @@ void sendMqttToDomoticz(int idx, String svalue, const char *topic)
 {
 	char msgToPublish[MQTT_MAX_PACKET_SIZE];
 
-	DynamicJsonDocument doc(1024);
+	DynamicJsonDocument doc(2048);
 	doc["idx"] = idx;
 	doc["nvalue"] = 0;
 	doc["svalue"] = svalue;
@@ -734,7 +708,7 @@ void askMqttToDomoticz(int idx, String svalue, const char *topic)
 {
 	char msgToPublish[MQTT_MAX_PACKET_SIZE];
 
-	DynamicJsonDocument doc(1024);
+	DynamicJsonDocument doc(2048);
 	doc["idx"] = idx;
 	doc["command"] = svalue;
 	serializeJson(doc, msgToPublish);
@@ -750,11 +724,11 @@ void askMqttToDomoticz(int idx, String svalue, const char *topic)
 #endif
 
 /**
- * retourSensor
+ * valeurDS18B20
  * Renvoie la température du DS18B20 en float
  *
  **/
-float retourSensor(DallasTemperature sensor)
+float valeurDS18B20(DallasTemperature sensor)
 {
 	// call sensors.requestTemperatures() to issue a global temperature
 	// request to all devices on the bus
@@ -786,7 +760,7 @@ float valeurACS712(int pin)
 	int valeur;
 	float moyenne = 0;
 
-	int nbr_lectures = 50;
+	int nbr_lectures = 5;
 	for (int i = 0; i < nbr_lectures; i++)
 	{
 		valeur = analogRead(pin);
